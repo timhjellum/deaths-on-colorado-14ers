@@ -68,7 +68,7 @@
   }
   .card{
     width:100%;
-    max-width:420px;
+    max-width:480px;
     background:var(--paper-raised);
     border:1px solid var(--line);
     border-radius:var(--radius-m);
@@ -93,7 +93,11 @@
     font-weight:600;
     margin-bottom:6px;
   }
-  input[type="email"]{
+  input[type="email"],
+  input[type="text"],
+  input[type="number"],
+  select,
+  textarea{
     width:100%;
     padding:10px 12px;
     font-family:var(--font-body);
@@ -103,10 +107,19 @@
     border:1px solid var(--line-strong);
     border-radius:var(--radius-s);
   }
-  input[type="email"]:focus{
+  textarea{ resize:vertical; }
+  input[type="email"]:focus,
+  input[type="text"]:focus,
+  input[type="number"]:focus,
+  select:focus,
+  textarea:focus{
     outline:2px solid var(--sky);
     outline-offset:1px;
   }
+  .field{ margin-top:16px; }
+  .field:first-of-type{ margin-top:0; }
+  .row{ display:flex; gap:12px; }
+  .row .field{ flex:1; margin-top:16px; }
   button{
     width:100%;
     margin-top:16px;
@@ -171,10 +184,65 @@
   <div id="loggedInView" style="display:none;">
     <h1>You're signed in</h1>
     <p class="sub">Signed in as <span class="signed-in-email" id="userEmail"></span></p>
-    <div class="placeholder">
-      The incident submission form goes here next — this first version just confirms
-      that login is working end to end.
-    </div>
+
+    <form id="incidentForm">
+      <div class="field">
+        <label for="mountain">Mountain</label>
+        <input type="text" id="mountain" placeholder="e.g. Longs Peak" required>
+      </div>
+
+      <div class="row">
+        <div class="field">
+          <label for="year">Year</label>
+          <input type="number" id="year" placeholder="e.g. 2019" min="1800" max="2100" required>
+        </div>
+        <div class="field">
+          <label for="month">Month (optional)</label>
+          <input type="number" id="month" min="1" max="12" placeholder="1–12">
+        </div>
+        <div class="field">
+          <label for="day">Day (optional)</label>
+          <input type="number" id="day" min="1" max="31" placeholder="1–31">
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="cause">Cause</label>
+        <input type="text" id="cause" placeholder="e.g. Fall, Altitude sickness, Lightning" required>
+      </div>
+
+      <div class="field">
+        <label for="climberName">Climber's name (optional)</label>
+        <input type="text" id="climberName" placeholder="Leave blank if unknown">
+      </div>
+
+      <div class="row">
+        <div class="field">
+          <label for="gender">Gender (optional)</label>
+          <select id="gender">
+            <option value="">Unknown</option>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="age">Age (optional)</label>
+          <input type="text" id="age" placeholder="e.g. 34">
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="details">Additional details (optional)</label>
+        <textarea id="details" rows="4" placeholder="Route, conditions, sourcing — anything else worth noting."></textarea>
+      </div>
+
+      <button type="submit" id="submitIncident">Submit for review</button>
+      <div class="msg" id="formMsg"></div>
+    </form>
+
+    <p class="sub" style="margin-top:16px;">Submissions are reviewed before anything is published — this doesn't go live automatically.</p>
+
     <button id="signOut">Sign out</button>
   </div>
 
@@ -193,26 +261,45 @@
   const userEmailEl = document.getElementById('userEmail');
   const signOutBtn = document.getElementById('signOut');
 
-  function showMsg(text, kind){
-    loginMsg.textContent = text;
-    loginMsg.className = 'msg show ' + kind;
+  const incidentForm = document.getElementById('incidentForm');
+  const submitBtn = document.getElementById('submitIncident');
+  const formMsg = document.getElementById('formMsg');
+  const mountainInput = document.getElementById('mountain');
+  const yearInput = document.getElementById('year');
+  const monthInput = document.getElementById('month');
+  const dayInput = document.getElementById('day');
+  const causeInput = document.getElementById('cause');
+  const climberNameInput = document.getElementById('climberName');
+  const genderInput = document.getElementById('gender');
+  const ageInput = document.getElementById('age');
+  const detailsInput = document.getElementById('details');
+
+  // Filled in once we know who's signed in — the insert below uses this
+  // rather than trusting anything the form itself could claim.
+  let currentUser = null;
+
+  function showMsg(el, text, kind){
+    el.textContent = text;
+    el.className = 'msg show ' + kind;
   }
 
   function showLoggedIn(session){
     loginView.style.display = 'none';
     loggedInView.style.display = 'block';
     userEmailEl.textContent = session.user.email;
+    currentUser = session.user;
   }
 
   function showLoggedOut(){
     loginView.style.display = 'block';
     loggedInView.style.display = 'none';
+    currentUser = null;
   }
 
   sendLinkBtn.addEventListener('click', async () => {
     const email = emailInput.value.trim();
     if (!email){
-      showMsg('Enter an email address first.', 'error');
+      showMsg(loginMsg, 'Enter an email address first.', 'error');
       return;
     }
     sendLinkBtn.disabled = true;
@@ -229,15 +316,62 @@
     sendLinkBtn.textContent = 'Send me a login link';
 
     if (error){
-      showMsg('Something went wrong: ' + error.message, 'error');
+      showMsg(loginMsg, 'Something went wrong: ' + error.message, 'error');
     } else {
-      showMsg('Check your inbox — click the link there to come back here signed in.', 'success');
+      showMsg(loginMsg, 'Check your inbox — click the link there to come back here signed in.', 'success');
     }
   });
 
   signOutBtn.addEventListener('click', async () => {
     await client.auth.signOut();
     showLoggedOut();
+  });
+
+  incidentForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    if (!currentUser){
+      showMsg(formMsg, 'You need to be signed in to submit — try refreshing the page.', 'error');
+      return;
+    }
+
+    const mountain = mountainInput.value.trim();
+    const year = yearInput.value.trim();
+    const cause = causeInput.value.trim();
+
+    if (!mountain || !year || !cause){
+      showMsg(formMsg, 'Mountain, year, and cause are required.', 'error');
+      return;
+    }
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Submitting…';
+
+    // Every row is tagged with the signed-in user's own id. The database's
+    // row-level security policy double-checks this matches whoever is
+    // actually authenticated — the app can't get this wrong even if it tried.
+    const { error } = await client.from('incidents').insert({
+      mountain,
+      year: Number(year),
+      month: monthInput.value ? Number(monthInput.value) : null,
+      day: dayInput.value ? Number(dayInput.value) : null,
+      cause,
+      climber_name: climberNameInput.value.trim() || null,
+      gender: genderInput.value || null,
+      age: ageInput.value.trim() || null,
+      incident_details: detailsInput.value.trim() || null,
+      submitted_by: currentUser.id
+    });
+
+    submitBtn.disabled = false;
+    submitBtn.textContent = 'Submit for review';
+
+    if (error){
+      showMsg(formMsg, 'Something went wrong: ' + error.message, 'error');
+    } else {
+      showMsg(formMsg, 'Thanks — your submission is in for review.', 'success');
+      incidentForm.reset();
+    }
   });
 
   // Supabase's JS library automatically reads the login info out of the URL

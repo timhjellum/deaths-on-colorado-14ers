@@ -1,4 +1,6 @@
-**Edit a file, create a new file, and clone from Bitbucket in under 2 minutes**
+**Deaths on Colorado Fourteeners (14ers)**
+
+[![Netlify Status](https://api.netlify.com/api/v1/badges/c6752b5a-72f9-4191-bf02-1a716b976121/deploy-status)](https://app.netlify.com/projects/deaths-on-colorados-fourteeners/deploys)
 
 When you're done, you can delete the content in this README and update the file with details for others getting started with your repository.
 
