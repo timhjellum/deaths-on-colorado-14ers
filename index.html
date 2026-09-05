@@ -560,6 +560,72 @@
   var MONTH_NAMES = ["January","February","March","April","May","June",
     "July","August","September","October","November","December"];
 
+  // All named peaks on the map: [id, label, range, x, y, hasDeaths]
+  var PEAKS = [
+    ["capitol","Capitol Peak","Elk Range",273.5,366.5,true],
+    ["snowmass","Snowmass Mountain","Elk Range",277,375.5,true],
+    ["maroon-bells","Maroon Bells","Elk Range",295.5,389.25,true],
+    ["pyramid","Pyramid Peak","Elk Range",303,390.5,false],
+    ["conundrum","Conundrum Peak","Elk Range",321,405,false],
+    ["castle","Castle Peak","Elk Range",321,411,false],
+
+    ["holy-cross","Mount of the Holy Cross","Sawatch Range",405.5,275,false],
+    ["massive","Mount Massive","Sawatch Range",407.5,355,false],
+    ["elbert","Mount Elbert","Sawatch Range",412.5,376.5,false],
+    ["la-plata","La Plata Peak","Sawatch Range",406.5,402.5,false],
+    ["oxford","Mount Oxford","Sawatch Range",438.5,418.5,false],
+    ["harvard","Mount Harvard","Sawatch Range",430.5,420.5,true],
+    ["huron","Huron Peak","Sawatch Range",414.5,426,false],
+    ["missouri","Missouri Mountain","Sawatch Range",428,427.5,true],
+    ["belford","Mount Belford","Sawatch Range",442,432.5,false],
+    ["columbia","Mount Columbia","Sawatch Range",447.5,439,false],
+    ["yale","Mount Yale","Sawatch Range",441,455,true],
+    ["princeton","Mount Princeton","Sawatch Range",458.5,483,true],
+    ["antero","Mount Antero","Sawatch Range",457.5,504.5,true],
+    ["tabeguache","Tabeguache Peak","Sawatch Range",456,517.5,false],
+    ["shavano","Mount Shavano","Sawatch Range",461,522,false],
+
+    ["pikes-peak","Pikes Peak","Front Range",727.5,455,false],
+    ["longs","Longs Peak","Front Range",597.5,50,true],
+    ["torreys","Torreys Peak","Front Range",547.5,220,true],
+    ["grays","Grays Peak","Front Range",550,230,false],
+    ["evans","Mount Evans","Front Range",592.5,240,true],
+    ["bierstadt","Mount Bierstadt","Front Range",582.5,242.5,false],
+
+    ["kit-carson","Kit Carson Peak","Sangre de Cristo Range",600,702.5,true],
+    ["humboldt","Humboldt Peak","Sangre de Cristo Range",612.5,702.5,false],
+    ["challenger","Challenger Point","Sangre de Cristo Range",587.5,702.5,true],
+    ["crestone-peak","Crestone Peak","Sangre de Cristo Range",600,710,true],
+    ["crestone-needle","Crestone Needle","Sangre de Cristo Range",612.5,715,true],
+    ["ellingwood","Ellingwood Point","Sangre de Cristo Range",620,815,false],
+    ["lindsey","Mount Lindsey","Sangre de Cristo Range",640,815,false],
+    ["little-bear","Little Bear Peak","Sangre de Cristo Range",648,838,true],
+    ["blanca","Blanca Peak","Sangre de Cristo Range",632.5,822.5,true],
+    ["culebra","Culebra Peak","Sangre de Cristo Range",690,952.5,false],
+
+    ["san-luis","San Luis Peak","San Juan Range",307.5,702.5,false],
+    ["uncompahgre","Uncompahgre Peak","San Juan Range",190,680,false],
+    ["wetterhorn","Wetterhorn Peak","San Juan Range",177.5,682.5,false],
+    ["sneffels","Mount Sneffels","San Juan Range",112.5,697.5,false],
+    ["redcloud","Redcloud Peak","San Juan Range",197.5,715,false],
+    ["sunshine","Sunshine Peak","San Juan Range",200,722.5,false],
+    ["handies","Handies Peak","San Juan Range",180,725,false],
+    ["wilson-peak","Wilson Peak","San Juan Range",72.5,740,false],
+    ["el-diente","El Diente Peak","San Juan Range",62.5,745,true],
+    ["mount-wilson","Mount Wilson","San Juan Range",75,750,false],
+    ["north-eolus","North Eolus","San Juan Range",147.5,805,false],
+    ["sunlight","Sunlight Peak","San Juan Range",160,805,false],
+    ["eolus","Mount Eolus","San Juan Range",142.5,812.5,false],
+    ["windom","Windom Peak","San Juan Range",162.5,815,true],
+
+    ["quandary","Quandary Peak","Tenmile-Mosquito Range",487.5,295,true],
+    ["lincoln","Mount Lincoln","Tenmile-Mosquito Range",495,307.5,false],
+    ["cameron","Mount Cameron","Tenmile-Mosquito Range",486,310,false],
+    ["democrat","Mount Democrat","Tenmile-Mosquito Range",477.5,312.5,false],
+    ["bross","Mount Bross","Tenmile-Mosquito Range",490,320,false],
+    ["sherman","Mount Sherman","Tenmile-Mosquito Range",473.5,342.5,false]
+  ];
+
   async function loadStaticRecords(){
     // Historical/curated records, self-hosted alongside this page.
     try {
