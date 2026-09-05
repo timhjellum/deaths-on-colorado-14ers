@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Colorado 14er Deaths</title>
+<meta name="robots" content="noindex">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Public+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+
+<!--
+  STEP 1 — fill these in from Supabase: Project Settings -> API
+  The anon key is meant to be public; it goes right here in the browser.
+-->
+<script>
+  const SUPABASE_URL = "upwnwylhlykrxokvcuhu.supabase.co.";
+  const SUPABASE_ANON_KEY = "sb_publishable_c3m71XRj9-VBcnoml2tjVw_2pW4rndB";
+</script>
+
+<style>
+  :root{
+    --ink:#23261F;
+    --ink-soft:#5B5F52;
+    --paper:#EFECE3;
+    --paper-raised:#F7F5EE;
+    --sky:#1C7DBE;
+    --sky-ink:#0E5C8E;
+    --rust:#B0532A;
+    --moss:#5B6E4F;
+    --line:#C9C3B4;
+    --line-strong:#A69E89;
+    --shadow: 0 1px 0 rgba(35,38,31,0.06);
+    --radius-s:3px;
+    --radius-m:6px;
+    --font-display:'Newsreader', Georgia, 'Iowan Old Style', serif;
+    --font-body:'Public Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --font-mono:'IBM Plex Mono', 'SFMono-Regular', Consolas, monospace;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --ink:#E8E4D8;
+      --ink-soft:#A6A190;
+      --paper:#1B1D18;
+      --paper-raised:#232720;
+      --sky:#3E90C9;
+      --sky-ink:#8FC4E8;
+      --rust:#D9773F;
+      --moss:#86A06E;
+      --line:#3A3D33;
+      --line-strong:#4C5044;
+      --shadow: 0 1px 0 rgba(0,0,0,0.3);
+    }
+  }
+
+  *{ box-sizing:border-box; }
+  body{
+    margin:0;
+    min-height:100vh;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--font-body);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:24px;
+  }
+  .card{
+    width:100%;
+    max-width:420px;
+    background:var(--paper-raised);
+    border:1px solid var(--line);
+    border-radius:var(--radius-m);
+    box-shadow:var(--shadow);
+    padding:32px;
+  }
+  h1{
+    font-family:var(--font-display);
+    font-size:1.5rem;
+    font-weight:600;
+    margin:0 0 4px;
+  }
+  .sub{
+    color:var(--ink-soft);
+    font-size:0.9rem;
+    margin:0 0 24px;
+    line-height:1.5;
+  }
+  label{
+    display:block;
+    font-size:0.85rem;
+    font-weight:600;
+    margin-bottom:6px;
+  }
+  input[type="email"]{
+    width:100%;
+    padding:10px 12px;
+    font-family:var(--font-body);
+    font-size:0.95rem;
+    color:var(--ink);
+    background:var(--paper);
+    border:1px solid var(--line-strong);
+    border-radius:var(--radius-s);
+  }
+  input[type="email"]:focus{
+    outline:2px solid var(--sky);
+    outline-offset:1px;
+  }
+  button{
+    width:100%;
+    margin-top:16px;
+    padding:11px 12px;
+    font-family:var(--font-body);
+    font-size:0.95rem;
+    font-weight:600;
+    color:#fff;
+    background:var(--sky);
+    border:none;
+    border-radius:var(--radius-s);
+    cursor:pointer;
+  }
+  button:hover{ background:var(--sky-ink); }
+  button:disabled{ opacity:0.6; cursor:default; }
+  .msg{
+    margin-top:16px;
+    font-size:0.88rem;
+    line-height:1.5;
+    padding:10px 12px;
+    border-radius:var(--radius-s);
+    display:none;
+  }
+  .msg.show{ display:block; }
+  .msg.info{ background:rgba(28,125,190,0.12); color:var(--sky-ink); }
+  .msg.error{ background:rgba(176,83,42,0.12); color:var(--rust); }
+  .msg.success{ background:rgba(91,110,79,0.12); color:var(--moss); }
+  .signed-in-email{ font-family:var(--font-mono); font-size:0.85rem; }
+  #signOut{
+    background:transparent;
+    color:var(--ink-soft);
+    border:1px solid var(--line-strong);
+    margin-top:24px;
+  }
+  #signOut:hover{ background:var(--paper); color:var(--ink); }
+  .placeholder{
+    margin-top:24px;
+    padding:16px;
+    border:1px dashed var(--line-strong);
+    border-radius:var(--radius-s);
+    color:var(--ink-soft);
+    font-size:0.88rem;
+    line-height:1.5;
+  }
+</style>
+</head>
+<body>
+
+<div class="card">
+
+  <!-- Shown when nobody is logged in -->
+  <div id="loginView">
+    <h1>Report an Incident</h1>
+    <p class="sub">Enter your email and we'll send you a one-time link to sign in. No password needed.</p>
+    <label for="email">Email address</label>
+    <input type="email" id="email" placeholder="you@example.com" autocomplete="email">
+    <button id="sendLink">Send me a login link</button>
+    <div class="msg" id="loginMsg"></div>
+  </div>
+
+  <!-- Shown after they click the magic link and land back here -->
+  <div id="loggedInView" style="display:none;">
+    <h1>You're signed in</h1>
+    <p class="sub">Signed in as <span class="signed-in-email" id="userEmail"></span></p>
+    <div class="placeholder">
+      The incident submission form goes here next — this first version just confirms
+      that login is working end to end.
+    </div>
+    <button id="signOut">Sign out</button>
+  </div>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/supabase/2.45.4/supabase.min.js"></script>
+<script>
+  const { createClient } = supabase;
+  const client = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+  const loginView = document.getElementById('loginView');
+  const loggedInView = document.getElementById('loggedInView');
+  const emailInput = document.getElementById('email');
+  const sendLinkBtn = document.getElementById('sendLink');
+  const loginMsg = document.getElementById('loginMsg');
+  const userEmailEl = document.getElementById('userEmail');
+  const signOutBtn = document.getElementById('signOut');
+
+  function showMsg(text, kind){
+    loginMsg.textContent = text;
+    loginMsg.className = 'msg show ' + kind;
+  }
+
+  function showLoggedIn(session){
+    loginView.style.display = 'none';
+    loggedInView.style.display = 'block';
+    userEmailEl.textContent = session.user.email;
+  }
+
+  function showLoggedOut(){
+    loginView.style.display = 'block';
+    loggedInView.style.display = 'none';
+  }
+
+  sendLinkBtn.addEventListener('click', async () => {
+    const email = emailInput.value.trim();
+    if (!email){
+      showMsg('Enter an email address first.', 'error');
+      return;
+    }
+    sendLinkBtn.disabled = true;
+    sendLinkBtn.textContent = 'Sending…';
+
+    const { error } = await client.auth.signInWithOtp({
+      email,
+      options: {
+        emailRedirectTo: window.location.origin + '/submit.html'
+      }
+    });
+
+    sendLinkBtn.disabled = false;
+    sendLinkBtn.textContent = 'Send me a login link';
+
+    if (error){
+      showMsg('Something went wrong: ' + error.message, 'error');
+    } else {
+      showMsg('Check your inbox — click the link there to come back here signed in.', 'success');
+    }
+  });
+
+  signOutBtn.addEventListener('click', async () => {
+    await client.auth.signOut();
+    showLoggedOut();
+  });
+
+  // Supabase's JS library automatically reads the login info out of the URL
+  // when you land back here from the emailed link, then fires this event.
+  client.auth.onAuthStateChange((event, session) => {
+    if (session){
+      showLoggedIn(session);
+    } else {
+      showLoggedOut();
+    }
+  });
+
+  // Also check on page load in case a session already exists (e.g. you
+  // refresh the page after signing in).
+  client.auth.getSession().then(({ data: { session } }) => {
+    if (session){
+      showLoggedIn(session);
+    }
+  });
+</script>
+
+</body>
+</html>

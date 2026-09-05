@@ -1,0 +1,1140 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Deaths on Colorado Fourteeners (14ers)</title>
+<meta name="description" content="A field-log map and sortable record of fatalities on Colorado's fourteeners, with a click-to-query heat map by peak.">
+<meta name="robots" content="index, follow">
+<meta name="theme-color" content="#EFECE3" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#1B1D18" media="(prefers-color-scheme: dark)">
+
+<!--
+  REPLACE THIS PLACEHOLDER before you deploy:
+  swap https://your-domain.example/colorado-14er-deaths/ below (canonical,
+  og:url, twitter, and the JSON-LD "url") for wherever this page actually lives.
+  The og:image / twitter:image URLs need to be absolute for previews to work,
+  so point them at your hosted copy of og-image.png once it is live.
+-->
+<link rel="canonical" href="https://your-domain.example/colorado-14er-deaths/">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Deaths on Colorado Fourteeners (14ers)">
+<meta property="og:title" content="Deaths on Colorado Fourteeners (14ers)">
+<meta property="og:description" content="A field-log map and sortable record of fatalities on Colorado's fourteeners, with a click-to-query heat map by peak.">
+<meta property="og:url" content="https://your-domain.example/colorado-14er-deaths/">
+<meta property="og:image" content="https://your-domain.example/colorado-14er-deaths/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Deaths on Colorado Fourteeners (14ers) -- a fatality record of the fourteeners">
+<meta property="og:locale" content="en_US">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Deaths on Colorado Fourteeners (14ers)">
+<meta name="twitter:description" content="A field-log map and sortable record of fatalities on Colorado's fourteeners, with a click-to-query heat map by peak.">
+<meta name="twitter:image" content="https://your-domain.example/colorado-14er-deaths/og-image.png">
+<meta name="twitter:image:alt" content="Deaths on Colorado Fourteeners (14ers) -- a fatality record of the fourteeners">
+
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon-32x32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="favicon-16x16.png" sizes="16x16" type="image/png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="site.webmanifest">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Dataset",
+  "name": "Deaths on Colorado Fourteeners (14ers)",
+  "description": "A record of reported fatalities on Colorado's fourteeners, broken out by mountain, mountain range, year, cause, sex, and age band, with individually documented entries where a climber's name and account are known.",
+  "keywords": ["Colorado fourteeners", "14ers", "mountaineering fatalities", "hiking deaths", "Colorado mountains", "climbing safety", "Field Log"],
+  "spatialCoverage": {
+    "@type": "Place",
+    "name": "Colorado, United States",
+    "geo": {
+      "@type": "GeoShape",
+      "box": "36.99 -109.06 41.00 -102.04"
+    }
+  },
+  "variableMeasured": ["Mountain", "Mountain range", "Date", "Cause of death", "Sex", "Age band", "Climber name"],
+  "url": "https://your-domain.example/colorado-14er-deaths/"
+}
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Public+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+  /* ============ TOKENS ============ */
+  :root{
+    --ink:#23261F;
+    --ink-soft:#5B5F52;
+    --paper:#EFECE3;
+    --paper-raised:#F7F5EE;
+    --sky:#1C7DBE;
+    --sky-ink:#0E5C8E;
+    --rust:#B0532A;
+    --rust-soft:#B0532A;
+    --moss:#5B6E4F;
+    --line:#C9C3B4;
+    --line-strong:#A69E89;
+    --shadow: 0 1px 0 rgba(35,38,31,0.06);
+    --radius-s:3px;
+    --radius-m:6px;
+    --font-display:'Newsreader', Georgia, 'Iowan Old Style', serif;
+    --font-body:'Public Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --font-mono:'IBM Plex Mono', 'SFMono-Regular', Consolas, monospace;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --ink:#E8E4D8;
+      --ink-soft:#A6A190;
+      --paper:#1B1D18;
+      --paper-raised:#232720;
+      --sky:#3E90C9;
+      --sky-ink:#8FC4E8;
+      --rust:#D9773F;
+      --rust-soft:#D9773F;
+      --moss:#86A06E;
+      --line:#3A3D33;
+      --line-strong:#4C5044;
+      --shadow: 0 1px 0 rgba(0,0,0,0.3);
+    }
+  }
+  :root[data-theme="dark"]{
+    --ink:#E8E4D8;
+    --ink-soft:#A6A190;
+    --paper:#1B1D18;
+    --paper-raised:#232720;
+    --sky:#3E90C9;
+    --sky-ink:#8FC4E8;
+    --rust:#D9773F;
+    --rust-soft:#D9773F;
+    --moss:#86A06E;
+    --line:#3A3D33;
+    --line-strong:#4C5044;
+    --shadow: 0 1px 0 rgba(0,0,0,0.3);
+  }
+
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--font-body);
+    font-size:15px;
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  ::selection{background:var(--sky); color:var(--paper-raised);}
+  a{color:var(--sky-ink);}
+  button{font-family:inherit;}
+  :focus-visible{outline:2px solid var(--sky); outline-offset:2px;}
+
+  .wrap{max-width:1180px; margin:0 auto; padding:0 28px 64px;}
+
+  /* ============ MASTHEAD ============ */
+  .masthead{
+    padding:56px 0 32px;
+    border-bottom:1px solid var(--line);
+    display:grid;
+    grid-template-columns: 1.3fr 1fr;
+    gap:40px;
+    align-items:end;
+  }
+  .eyebrow{
+    font-family:var(--font-body);
+    font-size:11.5px;
+    font-weight:600;
+    letter-spacing:0.16em;
+    text-transform:uppercase;
+    color:var(--rust);
+    margin:0 0 14px;
+  }
+  h1{
+    font-family:var(--font-display);
+    font-weight:600;
+    font-size:clamp(38px, 5.4vw, 60px);
+    line-height:1.02;
+    margin:0 0 8px;
+    text-wrap:balance;
+    letter-spacing:-0.01em;
+  }
+  h1 em{font-style:italic; font-weight:500; color:var(--ink-soft);}
+  .deck{
+    font-family:var(--font-display);
+    font-style:italic;
+    font-size:19px;
+    color:var(--ink-soft);
+    margin:0 0 18px;
+  }
+  .lede{
+    max-width:62ch;
+    font-size:15.5px;
+    color:var(--ink-soft);
+    margin:0;
+  }
+  .lede strong{color:var(--ink); font-weight:600;}
+
+  .stat-panel{
+    display:flex;
+    gap:0;
+    border:1px solid var(--line);
+    border-radius:var(--radius-m);
+    background:var(--paper-raised);
+    overflow:hidden;
+  }
+  .stat{
+    flex:1;
+    padding:16px 18px;
+    border-right:1px solid var(--line);
+  }
+  .stat:last-child{border-right:none;}
+  .stat-label{
+    font-size:10.5px; font-weight:600; letter-spacing:0.1em; text-transform:uppercase;
+    color:var(--ink-soft); margin:0 0 6px;
+  }
+  .stat-value{
+    font-family:var(--font-mono); font-size:22px; font-weight:600;
+    font-variant-numeric:tabular-nums; color:var(--ink); line-height:1.1;
+  }
+  .stat-sub{font-size:12px; color:var(--ink-soft); margin-top:3px;}
+
+  .method-note{
+    margin-top:18px;
+    font-size:12.5px;
+    color:var(--ink-soft);
+    border-left:2px solid var(--line-strong);
+    padding-left:12px;
+  }
+
+  /* ============ ATLAS ============ */
+  .atlas{
+    display:grid;
+    grid-template-columns: 1.55fr 1fr;
+    gap:22px;
+    margin-top:40px;
+  }
+  .panel{
+    border:1px solid var(--line);
+    border-radius:var(--radius-m);
+    background:var(--paper-raised);
+    box-shadow:var(--shadow);
+  }
+  .panel-head{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:14px 18px; border-bottom:1px solid var(--line);
+  }
+  .panel-title{
+    font-family:var(--font-display); font-weight:600; font-size:17px; margin:0;
+  }
+  .panel-title .n{
+    font-family:var(--font-mono); font-size:12px; color:var(--ink-soft); font-weight:400; margin-left:8px;
+  }
+
+  .toggle{
+    display:flex; align-items:center; gap:8px; cursor:pointer; user-select:none;
+    font-size:12.5px; font-weight:600; color:var(--ink-soft);
+  }
+  .toggle input{ position:absolute; opacity:0; width:1px; height:1px; }
+  .switch{
+    width:34px; height:19px; border-radius:10px; background:var(--line-strong);
+    position:relative; transition:background .15s ease; flex:none;
+  }
+  .switch::after{
+    content:''; position:absolute; top:2px; left:2px; width:15px; height:15px;
+    border-radius:50%; background:var(--paper-raised); transition:transform .15s ease;
+    box-shadow:0 1px 2px rgba(0,0,0,0.3);
+  }
+  .toggle input:checked + .switch{background:var(--rust);}
+  .toggle input:checked + .switch::after{transform:translateX(15px);}
+  .toggle input:focus-visible + .switch{outline:2px solid var(--sky); outline-offset:2px;}
+
+  .map-body{padding:10px 14px 4px;}
+  svg#map{width:100%; height:auto; display:block;}
+  .peak-context{fill:var(--line-strong); opacity:0.75;}
+  .peak-death{fill:var(--ink); stroke:var(--paper-raised); stroke-width:1px;}
+  .peak-death.is-dim{opacity:0.28;}
+  .peak-hit{fill:transparent; cursor:pointer;}
+  .heat-circle{fill:var(--rust); pointer-events:none; transition:opacity .2s ease;}
+  .range-label{
+    font-family:var(--font-body); font-size:10.5px; font-weight:600; letter-spacing:0.12em;
+    fill:var(--ink-soft); opacity:0.55; text-transform:uppercase;
+  }
+  .contour{fill:none; stroke:var(--moss); opacity:0.16;}
+  .map-caption{
+    font-family:var(--font-body); font-size:10px; fill:var(--ink-soft); opacity:0.6; letter-spacing:0.04em;
+  }
+
+  .legend-row{
+    display:flex; align-items:center; gap:18px; flex-wrap:wrap;
+    padding:10px 18px 14px; border-top:1px solid var(--line);
+    font-size:11.5px; color:var(--ink-soft);
+  }
+  .legend-scale{display:flex; align-items:center; gap:10px;}
+  .legend-dot{border-radius:50%; background:var(--rust); flex:none;}
+  .legend-item{display:flex; align-items:center; gap:6px;}
+  .legend-swatch{width:9px; height:9px; border-radius:50%; flex:none;}
+  .legend-swatch.context{background:var(--line-strong);}
+  .legend-swatch.death{background:var(--ink);}
+
+  /* ============ DETAIL PANEL ============ */
+  .detail-body{padding:16px 18px 18px; display:flex; flex-direction:column; gap:14px; min-height:340px;}
+  .detail-empty{
+    color:var(--ink-soft); font-size:13.5px; padding:18px 4px;
+    border:1px dashed var(--line); border-radius:var(--radius-s); text-align:center;
+  }
+  .chip{
+    display:inline-flex; align-items:center; gap:8px;
+    background:var(--rust); color:#fff; border:none;
+    font-family:var(--font-body); font-weight:600; font-size:12.5px;
+    padding:6px 8px 6px 12px; border-radius:20px; cursor:pointer; width:fit-content;
+  }
+  .chip .x{font-size:14px; line-height:1;}
+  .selected-peak{font-family:var(--font-display); font-size:22px; font-weight:600;}
+  .selected-range{font-size:12px; color:var(--ink-soft); text-transform:uppercase; letter-spacing:0.08em; font-weight:600;}
+  .selected-count{font-family:var(--font-mono); font-size:34px; font-weight:600; color:var(--rust); line-height:1;}
+  .breakdown{display:flex; flex-direction:column; gap:6px; font-size:12.5px;}
+  .breakdown-row{display:flex; justify-content:space-between; gap:8px; color:var(--ink-soft);}
+  .breakdown-row b{color:var(--ink); font-weight:600;}
+
+  /* ============ CHARTS ============ */
+  .charts{
+    display:grid; grid-template-columns:repeat(4, 1fr); gap:18px; margin-top:22px;
+  }
+  .chart-card{padding:16px 18px 18px;}
+  .bar-list{display:flex; flex-direction:column; gap:9px; margin-top:12px;}
+  .bar-row{
+    display:grid; grid-template-columns: 74px 1fr 24px; align-items:center; gap:8px;
+    cursor:pointer; background:none; border:none; padding:2px 0; text-align:left; width:100%;
+    font-family:inherit; color:inherit;
+  }
+  .bar-label{font-size:11.5px; color:var(--ink-soft); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+  .bar-track{height:9px; background:var(--line); border-radius:2px; position:relative; overflow:hidden;}
+  .bar-fill{position:absolute; inset:0 auto 0 0; background:var(--rust); border-radius:2px; opacity:0.85; transition:opacity .15s ease, width .2s ease;}
+  .bar-row.is-active .bar-fill{opacity:1;}
+  .bar-row.is-dim .bar-fill{opacity:0.28;}
+  .bar-count{font-family:var(--font-mono); font-size:11.5px; text-align:right; color:var(--ink-soft); font-variant-numeric:tabular-nums;}
+  .bar-row.is-active .bar-count{color:var(--rust); font-weight:600;}
+
+  .year-card{grid-column: span 4; padding:18px 18px 8px;}
+  .year-chart{display:flex; align-items:flex-end; gap:14px; height:150px; margin-top:16px; padding:0 4px; position:relative;}
+  .year-chart::before{
+    content:''; position:absolute; left:0; right:0; bottom:26px; height:1px; background:var(--line);
+  }
+  .year-col{flex:1; display:flex; flex-direction:column; align-items:center; justify-content:flex-end; height:100%; gap:6px; cursor:pointer;}
+  .year-bar-value{font-family:var(--font-mono); font-size:12px; font-weight:600; color:var(--ink-soft);}
+  .year-bar{width:100%; max-width:46px; background:var(--rust); border-radius:3px 3px 2px 2px; opacity:0.85; transition:opacity .15s ease, height .2s ease;}
+  .year-col.is-active .year-bar{opacity:1;}
+  .year-col.is-dim .year-bar{opacity:0.25;}
+  .year-col.is-active .year-bar-value{color:var(--rust);}
+  .year-label{font-size:11.5px; color:var(--ink-soft); margin-top:2px;}
+
+  /* ============ LOG TABLE ============ */
+  .log{margin-top:22px;}
+  .log-toolbar{display:flex; align-items:center; gap:14px; flex-wrap:wrap;}
+  .count-readout{font-family:var(--font-mono); font-size:12.5px; color:var(--ink-soft);}
+  .clear-btn{
+    font-family:var(--font-body); font-weight:600; font-size:12px; letter-spacing:0.02em;
+    background:none; border:1px solid var(--line-strong); color:var(--ink-soft);
+    padding:6px 12px; border-radius:20px; cursor:pointer; transition:all .12s ease;
+  }
+  .clear-btn:not(:disabled):hover{border-color:var(--rust); color:var(--rust);}
+  .clear-btn:disabled{opacity:0.4; cursor:default;}
+
+  .table-scroll{overflow-x:auto; margin-top:14px; border:1px solid var(--line); border-radius:var(--radius-m);}
+  table{width:100%; border-collapse:collapse; font-size:13px; min-width:680px;}
+  thead th{
+    position:sticky; top:0; background:var(--paper-raised); text-align:left;
+    padding:0; border-bottom:1px solid var(--line-strong); z-index:1;
+  }
+  thead th button{
+    all:unset; box-sizing:border-box; display:flex; align-items:center; gap:5px; cursor:pointer;
+    padding:11px 14px; width:100%; font-weight:600; font-size:11px; letter-spacing:0.06em;
+    text-transform:uppercase; color:var(--ink-soft);
+  }
+  thead th button:hover{color:var(--ink);}
+  thead th .arrow{font-size:9px; opacity:0; transition:opacity .1s ease;}
+  thead th.sorted .arrow{opacity:1; color:var(--rust);}
+  thead th.sorted button{color:var(--ink);}
+  tbody td{padding:9px 14px; border-bottom:1px solid var(--line); color:var(--ink);}
+  tbody tr:last-child td{border-bottom:none;}
+  tbody tr:hover{background:var(--paper);}
+  tbody tr.is-match{background:color-mix(in srgb, var(--rust) 8%, transparent);}
+  td.num, th.num{font-family:var(--font-mono); font-variant-numeric:tabular-nums;}
+  td.id-cell{color:var(--ink-soft); font-family:var(--font-mono); font-size:12px;}
+  .cause-tag{
+    font-size:11px; font-weight:600; padding:2px 8px; border-radius:10px;
+    background:var(--paper); border:1px solid var(--line); color:var(--ink-soft); white-space:nowrap;
+  }
+  .muted-cell{color:var(--ink-soft); opacity:0.6;}
+  tbody tr.has-story{cursor:pointer;}
+  .chevron{
+    display:inline-block; font-size:10px; color:var(--rust); margin-left:4px;
+    transition:transform .15s ease; opacity:0.75;
+  }
+  tr.expanded .chevron{transform:rotate(90deg);}
+  tr.story-row td{
+    padding:16px 20px 20px; background:var(--paper); border-bottom:1px solid var(--line);
+  }
+  .story-body{max-width:68ch;}
+  .story-headline{
+    font-family:var(--font-display); font-weight:600; font-size:16.5px; margin:0 0 10px; color:var(--ink);
+  }
+  .story-body p{margin:0 0 10px; color:var(--ink-soft); font-size:13.5px; line-height:1.65;}
+  .story-body p:last-child{margin-bottom:0;}
+  .story-list{margin:4px 0 0; padding-left:19px; display:flex; flex-direction:column; gap:9px;}
+  .story-list li{color:var(--ink-soft); font-size:13.5px; line-height:1.6;}
+  .story-list li strong{color:var(--ink);}
+
+  footer{
+    margin-top:56px; padding-top:20px; border-top:1px solid var(--line);
+    display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap;
+    font-family:var(--font-display); font-style:italic; font-size:13px; color:var(--ink-soft);
+  }
+  footer .src{font-family:var(--font-body); font-style:normal; font-size:11.5px; max-width:52ch;}
+
+  @media (max-width: 860px){
+    .masthead{grid-template-columns:1fr;}
+    .atlas{grid-template-columns:1fr;}
+    .charts{grid-template-columns:repeat(2,1fr);}
+    .year-card{grid-column:span 2;}
+    .stat-panel{flex-direction:column;}
+    .stat{border-right:none; border-bottom:1px solid var(--line);}
+    .stat:last-child{border-bottom:none;}
+  }
+  @media (max-width: 520px){
+    .charts{grid-template-columns:1fr;}
+    .year-card{grid-column:span 1;}
+  }
+</style>
+</head>
+<body>
+
+
+<div class="wrap">
+
+  <header class="masthead">
+    <div>
+      <p class="eyebrow">Field Log</p>
+      <h1>Colorado <em>14er</em> Deaths</h1>
+      <p class="deck">A Fatality Record of the Fourteeners</p>
+      <p class="lede">A running account of reported fatalities on Colorado's
+        fourteen-thousand-foot peaks — falls, rockfall, avalanche, exposure — logged by
+        summit the way a party logs a register at the trailhead.</p>
+    </div>
+    <div>
+      <div class="stat-panel">
+        <div class="stat">
+          <p class="stat-label">Entries</p>
+          <p class="stat-value" id="statEntries">—</p>
+          <p class="stat-sub">reported deaths</p>
+        </div>
+        <div class="stat">
+          <p class="stat-label">Span</p>
+          <p class="stat-value" id="statSpan">—</p>
+          <p class="stat-sub" id="statSpanSub">recorded years</p>
+        </div>
+        <div class="stat">
+          <p class="stat-label">Deadliest</p>
+          <p class="stat-value" id="statDeadliest" style="font-size:16px;">—</p>
+          <p class="stat-sub" id="statDeadliestSub">&nbsp;</p>
+        </div>
+      </div>
+      <p class="method-note">Entries with a climber's name and a written account are drawn from
+        the historical record. The rest report the mountain directly from an aggregate
+        2010–2017 count; their year, cause, sex, and age band are distributed to match that
+        count's published totals — not individually case-linked — pending further documentation.</p>
+    </div>
+  </header>
+
+  <section class="atlas">
+    <div class="panel">
+      <div class="panel-head">
+        <h2 class="panel-title">Fatality Map<span class="n">54 named peaks</span></h2>
+        <label class="toggle">
+          Heat map
+          <input type="checkbox" id="heatToggle" checked>
+          <span class="switch"></span>
+        </label>
+      </div>
+      <div class="map-body">
+        <svg id="map" viewBox="0 0 786 1000" xmlns="http://www.w3.org/2000/svg"></svg>
+      </div>
+      <div class="legend-row">
+        <div class="legend-scale">
+          <span>Deaths</span>
+          <svg width="120" height="34" style="overflow:visible;">
+            <circle class="legend-dot" cx="14" cy="20" r="7" opacity="0.42"></circle>
+            <circle class="legend-dot" cx="46" cy="17" r="12" opacity="0.58"></circle>
+            <circle class="legend-dot" cx="90" cy="12" r="19.5" opacity="0.75"></circle>
+          </svg>
+          <span id="legendScale">1 &nbsp;→&nbsp; 9</span>
+        </div>
+        <div class="legend-item"><span class="legend-swatch death"></span> Peak with recorded deaths</div>
+        <div class="legend-item"><span class="legend-swatch context"></span> No recorded deaths</div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-head">
+        <h2 class="panel-title">Selection</h2>
+      </div>
+      <div class="detail-body" id="detailBody"></div>
+    </div>
+  </section>
+
+  <section class="charts">
+    <div class="panel chart-card">
+      <h2 class="panel-title" style="font-size:14px;">Cause</h2>
+      <div class="bar-list" id="chartCause"></div>
+    </div>
+    <div class="panel chart-card">
+      <h2 class="panel-title" style="font-size:14px;">Range</h2>
+      <div class="bar-list" id="chartRange"></div>
+    </div>
+    <div class="panel chart-card">
+      <h2 class="panel-title" style="font-size:14px;">Age band</h2>
+      <div class="bar-list" id="chartAge"></div>
+    </div>
+    <div class="panel chart-card">
+      <h2 class="panel-title" style="font-size:14px;">Sex</h2>
+      <div class="bar-list" id="chartGender"></div>
+    </div>
+
+    <div class="panel year-card">
+      <h2 class="panel-title" style="font-size:14px;">Fatalities by Year</h2>
+      <div class="year-chart" id="chartYear"></div>
+    </div>
+  </section>
+
+  <section class="log">
+    <div class="log-toolbar">
+      <h2 class="panel-title" style="font-size:19px;">Logged Incidents</h2>
+      <span class="count-readout" id="countReadout">Showing 57 of 57</span>
+      <button class="clear-btn" id="clearBtn" disabled>Clear filter</button>
+    </div>
+    <div class="table-scroll">
+      <table>
+        <thead>
+          <tr id="tableHead"></tr>
+        </thead>
+        <tbody id="tableBody"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <footer>
+    <span>Deaths on Colorado Fourteeners (14ers) · Field Log · entries as reported, 2010–2017</span>
+    <span class="src">2010–2017 aggregate totals as supplied; per-incident year / cause / sex / age
+      on those entries are modeled to match them and are illustrative pending case-level sourcing.
+      Entries with a climber's name and account are individually documented from the historical record.</span>
+  </footer>
+
+</div>
+
+<script>
+(async function(){
+  "use strict";
+
+  /* ============ DATA ============ */
+  // Fallback seed, used only if the live database and records.json are both
+  // unavailable (e.g. this file opened directly, offline, from disk).
+  var RECORDS_SEED = [{"id":1,"mountain":"Blanca Peak","range":"Sangre de Cristo Range","x":632.5,"y":822.5,"year":"2010","cause":"Cardiac event","gender":"M","age":"30-39","month":null,"day":null,"climberName":null,"incidentDetails":null},{"id":2,"mountain":"Capitol Peak","range":"Elk Range","x":273.5,"y":366.5,"year":"2010","cause":"Fall","gender":"M","age":"30-39","month":null,"day":null,"climberName":null,"incidentDetails":null},{"id":3,"mountain":"Challenger Point","range":"Sangre de Cristo Range","x":587.5,"y":702.5,"year":"2010","cause":"Fall","gender":"M","age":"60+","month":null,"day":null,"climberName":null,"incidentDetails":null},{"id":4,"mountain":"Crestone Needle","range":"Sangre de Cristo Range","x":612.5,"y":715,"year":"2010","cause":"Fall","gender":"M","age":"50-59","month":null,"day":null,"climberName":null,"incidentDetails":null},{"id":5,"mountain":"El Diente Peak","range":"San Juan Range","x":62.5,"y":745,"year":"2010","cause":"Fall","gender":"F","age":"50-59","month":null,"day":null,"climberName":null,"incidentDetails":null},{"id":6,"mountain":"Little Bear Peak","range":"Sangre de Cristo Range","x":648,"y":838,"year":"2010","cause":"Fall","gender":"M","age":"30-39","month":null,"day":null,"climberName":null,"incidentDetails":null},{"id":7,"mountain":"Longs Peak","range":"Front Range","x":597.5,"y":50,"year":"2010","cause":"Unclear","gender":"M","age":"40-49","month":null,"day":null,"climberName":null,"incidentDetails":null},{"id":8,"mountain":"Longs Peak","range":"Front Range","x":597.5,"y":50,"year":"2010","cause":"Fall","gender":"F","age":"20-29","month":null,"day":null,"climberName":null,"incidentDetails":null},{"id":9,"mountain":"Maroon Bells","range":"Elk Range","x":295.5,"y":389.25,"year":"2010","cause":"Unclear","gender":"M","age":"40-49","month":null,"day":null,"climberName":null,"incidentDetails":null},{"id":10,"mountain":"Missouri Mountain","range":"Sawatch Range","x":428,"y":427.5,"year":"2010","cause":"Fall","gender":"M","age":"20-29","month":null,"day":null,"climberName":null,"incidentDetails":null},{"id":11,"mountain":"Capitol Peak","range":"Elk Range","x":273.5,"y":366.5,"year":"2011","cause":"Avalanche","gender":"M","age":"40-49","month":null,"day":null,"climberName":null,"incidentDetails":null},{"id":12,"mountain":"Crestone Needle","range":"Sangre de Cristo Range","x":612.5,"y":715,"year":"2011","cause":"Fall","gender":"M","age":"50-59","month":null,"day":null,"climberName":null,"incidentDetails":null},{"id":13,"mountain":"El Diente Peak","range":"San Juan Range","x":62.5,"y":745,"year":"2011","cause":"Fall","gender":"M","age":"20-29","month":null,"day":null,"climberName":null,"incidentDetails":null},{"id":14,"mountain":"Kit Carson Peak","range":"Sangre de Cristo Range","x":600,"y":702.5,"year":"2011","cause":"Fall","gender":"M","age":"50-59","month":null,"day":null,"climberName":null,"incidentDetails":null},{"id":15,"mountain":"Longs Peak","range":"Front Range","x":597.5,"y":50,"year":"2011","cause":"Avalanche","gender":"M","age":"20-29","month":null,"day":null,"climberName":null,"incidentDetails":null},{"id":16,"mountain":"Missouri Mountain","range":"Sawatch Range","x":428,"y":427.5,"year":"2011","cause":"Fall","gender":"M","age":"30-39","month":null,"day":null,"climberName":null,"incidentDetails":null},{"id":17,"mountain":"Mount Harvard","range":"Sawatch Range","x":430.5,"y":420.5,"year":"2011","cause":"Fall","gender":"M","age":"30-39","month":null,"day":null,"climberName":null,"incidentDetails":null},{"id":18,"mountain":"Mount Yale","range":"Sawatch Range","x":441,"y":455,"year":"2011","cause":"Fall","gender":"M","age":"20-29","month":null,"day":null,"climberName":null,"incidentDetails":null},{"id":19,"mountain":"Snowmass Mountain","range":"Elk Range","x":277,"y":375.5,"year":"2011","cause":"Fall","gender":"M","age":"50-59","month":null,"day":null,"climberName":null,"incidentDetails":null},{"id":20,"mountain":"Snowmass Mountain","range":"Elk Range","x":277,"y":375.5,"year":"2011","cause":"Falling rock/ice","gender":"M","age":"20-29","month":null,"day":null,"climberName":null,"incidentDetails":null},{"id":21,"mountain":"Capitol Peak","range":"Elk Range","x":273.5,"y":366.5,"year":"2012","cause":"Falling rock/ice","gender":"M","age":"30-39","month":null,"day":null,"climberName":null,"incidentDetails":null},{"id":22,"mountain":"Longs Peak","range":"Front Range","x":597.5,"y":50,"year":"2012","cause":"Fall","gender":"M","age":"60+","month":null,"day":null,"climberName":null,"incidentDetails":null},{"id":23,"mountain":"Longs Peak","range":"Front Range","x":597.5,"y":50,"year":"2012","cause":"Fall","gender":"M","age":"20-29","month":null,"day":null,"climberName":null,"incidentDetails":null},{"id":24,"mountain":"Longs Peak","range":"Front Range","x":597.5,"y":50,"year":"2012","cause":"Unclear","gender":"M","age":"20-29","month":null,"day":null,"climberName":null,"incidentDetails":null},{"id":25,"mountain":"Maroon Bells","range":"Elk Range","x":295.5,"y":389.25,"year":"2012","cause":"Fall","gender":"F","age":"30-39","month":null,"day":null,"climberName":null,"incidentDetails":null},{"id":26,"mountain":"Maroon Bells","range":"Elk Range","x":295.5,"y":389.25,"year":"2012","cause":"Fall","gender":"M","age":"20-29","month":null,"day":null,"climberName":null,"incidentDetails":null},{"id":27,"mountain":"Crestone Peak","range":"Sangre de Cristo Range","x":600,"y":710,"year":"2013","cause":"Fall","gender":"F","age":"20-29","month":null,"day":null,"climberName":null,"incidentDetails":null},{"id":28,"mountain":"Longs Peak","range":"Front Range","x":597.5,"y":50,"year":"2013","cause":"Lightning","gender":"M","age":"20-29","month":null,"day":null,"climberName":null,"incidentDetails":null},{"id":29,"mountain":"Maroon Bells","range":"Elk Range","x":295.5,"y":389.25,"year":"2013","cause":"Fall","gender":"M","age":"60+","month":null,"day":null,"climberName":null,"incidentDetails":null},{"id":30,"mountain":"Mount Antero","range":"Sawatch Range","x":457.5,"y":504.5,"year":"2013","cause":"Unclear","gender":"M","age":"20-29","month":null,"day":null,"climberName":null,"incidentDetails":null},{"id":31,"mountain":"Quandary Peak","range":"Tenmile-Mosquito Range","x":487.5,"y":295,"year":"2013","cause":"Fall","gender":"M","age":"40-49","month":null,"day":null,"climberName":null,"incidentDetails":null},{"id":32,"mountain":"Capitol Peak","range":"Elk Range","x":273.5,"y":366.5,"year":"2014","cause":"Fall","gender":"F","age":"30-39","month":null,"day":null,"climberName":null,"incidentDetails":null},{"id":33,"mountain":"Capitol Peak","range":"Elk Range","x":273.5,"y":366.5,"year":"2014","cause":"Fall","gender":"F","age":"30-39","month":null,"day":null,"climberName":null,"incidentDetails":null},{"id":34,"mountain":"Crestone Peak","range":"Sangre de Cristo Range","x":600,"y":710,"year":"2014","cause":"Unclear","gender":"M","age":"50-59","month":null,"day":null,"climberName":null,"incidentDetails":null},{"id":35,"mountain":"Crestone Peak","range":"Sangre de Cristo Range","x":600,"y":710,"year":"2014","cause":"Unclear","gender":"M","age":"60+","month":null,"day":null,"climberName":null,"incidentDetails":null},{"id":36,"mountain":"Maroon Bells","range":"Elk Range","x":295.5,"y":389.25,"year":"2014","cause":"Fall","gender":"M","age":"50-59","month":null,"day":null,"climberName":null,"incidentDetails":null},{"id":37,"mountain":"Maroon Bells","range":"Elk Range","x":295.5,"y":389.25,"year":"2014","cause":"Fall","gender":"M","age":"30-39","month":null,"day":null,"climberName":null,"incidentDetails":null},{"id":38,"mountain":"Capitol Peak","range":"Elk Range","x":273.5,"y":366.5,"year":"2015","cause":"Fall","gender":"M","age":"20-29","month":null,"day":null,"climberName":null,"incidentDetails":null},{"id":39,"mountain":"Crestone Needle","range":"Sangre de Cristo Range","x":612.5,"y":715,"year":"2015","cause":"Fall","gender":"M","age":"50-59","month":null,"day":null,"climberName":null,"incidentDetails":null},{"id":40,"mountain":"Mount Evans","range":"Front Range","x":592.5,"y":240,"year":"2015","cause":"Falling rock/ice","gender":"M","age":"<20","month":null,"day":null,"climberName":null,"incidentDetails":null},{"id":41,"mountain":"Mount Harvard","range":"Sawatch Range","x":430.5,"y":420.5,"year":"2015","cause":"Falling rock/ice","gender":"M","age":"50-59","month":null,"day":null,"climberName":null,"incidentDetails":null},{"id":42,"mountain":"Capitol Peak","range":"Elk Range","x":273.5,"y":366.5,"year":"2016","cause":"Fall","gender":"F","age":"30-39","month":null,"day":null,"climberName":null,"incidentDetails":null},{"id":43,"mountain":"Longs Peak","range":"Front Range","x":597.5,"y":50,"year":"2016","cause":"Fall","gender":"M","age":"40-49","month":null,"day":null,"climberName":null,"incidentDetails":null},{"id":44,"mountain":"Longs Peak","range":"Front Range","x":597.5,"y":50,"year":"2016","cause":"Fall","gender":"M","age":"30-39","month":null,"day":null,"climberName":null,"incidentDetails":null},{"id":45,"mountain":"Maroon Bells","range":"Elk Range","x":295.5,"y":389.25,"year":"2016","cause":"Fall","gender":"M","age":"20-29","month":null,"day":null,"climberName":null,"incidentDetails":null},{"id":46,"mountain":"Mount Princeton","range":"Sawatch Range","x":458.5,"y":483,"year":"2016","cause":"Unclear","gender":"M","age":"30-39","month":null,"day":null,"climberName":null,"incidentDetails":null},{"id":47,"mountain":"Crestone Needle","range":"Sangre de Cristo Range","x":612.5,"y":715,"year":"2017","cause":"Avalanche","gender":"M","age":"30-39","month":null,"day":null,"climberName":null,"incidentDetails":null},{"id":48,"mountain":"Crestone Needle","range":"Sangre de Cristo Range","x":612.5,"y":715,"year":"2017","cause":"Fall","gender":"M","age":"60+","month":null,"day":null,"climberName":null,"incidentDetails":null},{"id":49,"mountain":"Kit Carson Peak","range":"Sangre de Cristo Range","x":600,"y":702.5,"year":"2017","cause":"Fall","gender":"M","age":"30-39","month":null,"day":null,"climberName":null,"incidentDetails":null},{"id":50,"mountain":"Kit Carson Peak","range":"Sangre de Cristo Range","x":600,"y":702.5,"year":"2017","cause":"Unclear","gender":"M","age":"50-59","month":null,"day":null,"climberName":null,"incidentDetails":null},{"id":51,"mountain":"Maroon Bells","range":"Elk Range","x":295.5,"y":389.25,"year":"2017","cause":"Fall","gender":"M","age":"50-59","month":null,"day":null,"climberName":null,"incidentDetails":null},{"id":52,"mountain":"Maroon Bells","range":"Elk Range","x":295.5,"y":389.25,"year":"2017","cause":"Fall","gender":"M","age":"20-29","month":null,"day":null,"climberName":null,"incidentDetails":null},{"id":53,"mountain":"Mount Evans","range":"Front Range","x":592.5,"y":240,"year":"2017","cause":"Cardiac event","gender":"M","age":"50-59","month":null,"day":null,"climberName":null,"incidentDetails":null},{"id":54,"mountain":"Mount Princeton","range":"Sawatch Range","x":458.5,"y":483,"year":"2017","cause":"Fall","gender":"M","age":"40-49","month":null,"day":null,"climberName":null,"incidentDetails":null},{"id":55,"mountain":"Torreys Peak","range":"Front Range","x":547.5,"y":220,"year":"2017","cause":"Falling rock/ice","gender":"M","age":"30-39","month":null,"day":null,"climberName":null,"incidentDetails":null},{"id":56,"mountain":"Torreys Peak","range":"Front Range","x":547.5,"y":220,"year":"2017","cause":"Fall","gender":"M","age":"50-59","month":null,"day":null,"climberName":null,"incidentDetails":null},{"id":57,"mountain":"Windom Peak","range":"San Juan Range","x":162.5,"y":815,"year":"2017","cause":"Fall","gender":"M","age":"20-29","month":null,"day":null,"climberName":null,"incidentDetails":null},{"id":58,"mountain":"Longs Peak","range":"Front Range","x":597.5,"y":50,"year":"1884","month":"September","day":"23","cause":"Unclear","gender":"F","age":"40-49","climberName":"Carrie J. Welton","incidentDetails":"The Fateful Climb on Longs Peak\n\nIn late September 1884, Carrie J. Welton set out to tackle Longs Peak. She had recently completed a successful, guided ascent of Pikes Peak in snowy conditions. Brimming with confidence, she dismissed warnings from locals and her guide, Carlyle Lamb, about the rapid shift toward volatile autumn mountain weather.\n\nThe pair pushed forward via the Keyhole Route. As they neared the top, a fierce alpine blizzard blew in, cloaking the peak. Though warned that the storm would completely block any scenic reward at the summit, Carrie single-mindedly refused to turn back.\n\nThey reached the top, but the descent proved fatal:\n\n* Severe Exhaustion: The numbing cold and physical exertion drained Carrie's strength. On the way down, she began collapsing, forcing her young guide to physically support her weight.\n* The Abandonment: Just below the Keyhole, Carrie became completely paralyzed by exhaustion and hypothermia, unable to move. Realizing they were trapped, Lamb wrapped her as warmly as possible and made the grueling decision to hike down the mountain on foot to get rescue help from his father.\n* A Lonely End: By the time a rescue party fought their way back up through the raging blizzard, Carrie had tragically died alone. Evidence suggested she had succumbed shortly after a minor fall while trying to desperately crawl from the spot where she was left."}];
+
+  async function loadRecords(){
+    // 1) Live database (Artifact viewer with the "db" capability granted).
+    try {
+      if (window.claude && typeof window.claude.use === "function") {
+        var db = await window.claude.use("db");
+        if (db) {
+          var snap = await db.collection("incidents").get();
+          if (snap && !snap.empty) {
+            return snap.docs.map(function(d){
+              var data = d.data() || {};
+              data.id = isNaN(+d.id) ? d.id : +d.id;
+              return data;
+            });
+          }
+        }
+      }
+    } catch (e) { /* fall through to next source */ }
+
+    // 2) External records.json, for a standalone self-hosted copy.
+    try {
+      var res = await fetch("records.json", {cache: "no-store"});
+      if (res && res.ok) {
+        var json = await res.json();
+        if (Array.isArray(json) && json.length) return json;
+      }
+    } catch (e) { /* fall through to seed */ }
+
+    // 3) Baked-in seed.
+    return RECORDS_SEED;
+  }
+
+  var RECORDS = await loadRecords();
+
+  // All named peaks on the map: [id, label, range, x, y, hasDeaths]
+  var PEAKS = [
+    ["capitol","Capitol Peak","Elk Range",273.5,366.5,true],
+    ["snowmass","Snowmass Mountain","Elk Range",277,375.5,true],
+    ["maroon-bells","Maroon Bells","Elk Range",295.5,389.25,true],
+    ["pyramid","Pyramid Peak","Elk Range",303,390.5,false],
+    ["conundrum","Conundrum Peak","Elk Range",321,405,false],
+    ["castle","Castle Peak","Elk Range",321,411,false],
+
+    ["holy-cross","Mount of the Holy Cross","Sawatch Range",405.5,275,false],
+    ["massive","Mount Massive","Sawatch Range",407.5,355,false],
+    ["elbert","Mount Elbert","Sawatch Range",412.5,376.5,false],
+    ["la-plata","La Plata Peak","Sawatch Range",406.5,402.5,false],
+    ["oxford","Mount Oxford","Sawatch Range",438.5,418.5,false],
+    ["harvard","Mount Harvard","Sawatch Range",430.5,420.5,true],
+    ["huron","Huron Peak","Sawatch Range",414.5,426,false],
+    ["missouri","Missouri Mountain","Sawatch Range",428,427.5,true],
+    ["belford","Mount Belford","Sawatch Range",442,432.5,false],
+    ["columbia","Mount Columbia","Sawatch Range",447.5,439,false],
+    ["yale","Mount Yale","Sawatch Range",441,455,true],
+    ["princeton","Mount Princeton","Sawatch Range",458.5,483,true],
+    ["antero","Mount Antero","Sawatch Range",457.5,504.5,true],
+    ["tabeguache","Tabeguache Peak","Sawatch Range",456,517.5,false],
+    ["shavano","Mount Shavano","Sawatch Range",461,522,false],
+
+    ["pikes-peak","Pikes Peak","Front Range",727.5,455,false],
+    ["longs","Longs Peak","Front Range",597.5,50,true],
+    ["torreys","Torreys Peak","Front Range",547.5,220,true],
+    ["grays","Grays Peak","Front Range",550,230,false],
+    ["evans","Mount Evans","Front Range",592.5,240,true],
+    ["bierstadt","Mount Bierstadt","Front Range",582.5,242.5,false],
+
+    ["kit-carson","Kit Carson Peak","Sangre de Cristo Range",600,702.5,true],
+    ["humboldt","Humboldt Peak","Sangre de Cristo Range",612.5,702.5,false],
+    ["challenger","Challenger Point","Sangre de Cristo Range",587.5,702.5,true],
+    ["crestone-peak","Crestone Peak","Sangre de Cristo Range",600,710,true],
+    ["crestone-needle","Crestone Needle","Sangre de Cristo Range",612.5,715,true],
+    ["ellingwood","Ellingwood Point","Sangre de Cristo Range",620,815,false],
+    ["lindsey","Mount Lindsey","Sangre de Cristo Range",640,815,false],
+    ["little-bear","Little Bear Peak","Sangre de Cristo Range",648,838,true],
+    ["blanca","Blanca Peak","Sangre de Cristo Range",632.5,822.5,true],
+    ["culebra","Culebra Peak","Sangre de Cristo Range",690,952.5,false],
+
+    ["san-luis","San Luis Peak","San Juan Range",307.5,702.5,false],
+    ["uncompahgre","Uncompahgre Peak","San Juan Range",190,680,false],
+    ["wetterhorn","Wetterhorn Peak","San Juan Range",177.5,682.5,false],
+    ["sneffels","Mount Sneffels","San Juan Range",112.5,697.5,false],
+    ["redcloud","Redcloud Peak","San Juan Range",197.5,715,false],
+    ["sunshine","Sunshine Peak","San Juan Range",200,722.5,false],
+    ["handies","Handies Peak","San Juan Range",180,725,false],
+    ["wilson-peak","Wilson Peak","San Juan Range",72.5,740,false],
+    ["el-diente","El Diente Peak","San Juan Range",62.5,745,true],
+    ["mount-wilson","Mount Wilson","San Juan Range",75,750,false],
+    ["north-eolus","North Eolus","San Juan Range",147.5,805,false],
+    ["sunlight","Sunlight Peak","San Juan Range",160,805,false],
+    ["eolus","Mount Eolus","San Juan Range",142.5,812.5,false],
+    ["windom","Windom Peak","San Juan Range",162.5,815,true],
+
+    ["quandary","Quandary Peak","Tenmile-Mosquito Range",487.5,295,true],
+    ["lincoln","Mount Lincoln","Tenmile-Mosquito Range",495,307.5,false],
+    ["cameron","Mount Cameron","Tenmile-Mosquito Range",486,310,false],
+    ["democrat","Mount Democrat","Tenmile-Mosquito Range",477.5,312.5,false],
+    ["bross","Mount Bross","Tenmile-Mosquito Range",490,320,false],
+    ["sherman","Mount Sherman","Tenmile-Mosquito Range",473.5,342.5,false]
+  ];
+
+  var RANGE_CENTROIDS = {
+    "Elk Range":[298,390],
+    "Sawatch Range":[434,430],
+    "Front Range":[600,240],
+    "Sangre de Cristo Range":[622,771],
+    "San Juan Range":[156,743],
+    "Tenmile-Mosquito Range":[485,315]
+  };
+
+  var CAUSE_ORDER = ["Fall","Falling rock/ice","Avalanche","Cardiac event","Lightning","Unclear"];
+  var RANGE_ORDER = ["Elk Range","Sangre de Cristo Range","Front Range","Sawatch Range","San Juan Range","Tenmile-Mosquito Range"];
+  var AGE_ORDER = ["<20","20-29","30-39","40-49","50-59","60+"];
+  var GENDER_ORDER = ["M","F"];
+  var GENDER_LABEL = {M:"Male", F:"Female"};
+  var MONTH_NUM = {January:"01",February:"02",March:"03",April:"04",May:"05",June:"06",
+    July:"07",August:"08",September:"09",October:"10",November:"11",December:"12"};
+
+  // Built from whatever years are actually present -- entries need not be
+  // contiguous or confined to any one window.
+  var YEAR_ORDER = Array.from(new Set(RECORDS.map(function(r){ return r.year; })))
+    .sort(function(a,b){ return (+a) - (+b); });
+
+  var deathPeaks = PEAKS.filter(function(p){ return p[5]; });
+  var maxCount = 0;
+  var peakCounts = {};
+  deathPeaks.forEach(function(p){
+    var c = RECORDS.filter(function(r){ return r.mountain === p[1]; }).length;
+    peakCounts[p[1]] = c;
+    if (c > maxCount) maxCount = c;
+  });
+
+  function radiusFor(count){ return 9 + 30 * Math.sqrt(count / maxCount); }
+  function opacityFor(count){ return 0.28 + 0.5 * Math.sqrt(count / maxCount); }
+
+  function escapeHtml(s){
+    return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+  }
+
+  function formatDate(r){
+    if (r.year && r.month && r.day) {
+      var mm = MONTH_NUM[r.month] || "";
+      var dd = ("0" + r.day).slice(-2);
+      if (mm) return mm + "/" + dd + "/" + r.year;
+    }
+    return r.year || "—";
+  }
+
+  function formatIncident(text){
+    var blocks = String(text).split(/\n\s*\n/);
+    var headline = blocks.shift();
+    var html = "<h3 class='story-headline'>" + escapeHtml(headline) + "</h3>";
+    blocks.forEach(function(block){
+      var lines = block.split("\n").filter(function(l){ return l.trim().length; });
+      var isList = lines.length > 0 && lines.every(function(l){ return /^\*\s+/.test(l.trim()); });
+      if (isList) {
+        html += "<ul class='story-list'>";
+        lines.forEach(function(l){
+          var item = escapeHtml(l.trim().replace(/^\*\s+/, ""));
+          item = item.replace(/^([^:]{1,60}):\s/, "<strong>$1:</strong> ");
+          html += "<li>" + item + "</li>";
+        });
+        html += "</ul>";
+      } else {
+        html += "<p>" + escapeHtml(block.trim()) + "</p>";
+      }
+    });
+    return html;
+  }
+
+  /* ============ MASTHEAD STATS (computed from whatever data loaded) ============ */
+  (function updateStats(){
+    document.getElementById("statEntries").textContent = RECORDS.length;
+
+    var years = RECORDS.map(function(r){ return +r.year; }).filter(function(y){ return !isNaN(y); });
+    var minY = Math.min.apply(null, years), maxY = Math.max.apply(null, years);
+    document.getElementById("statSpan").textContent = (minY === maxY) ? String(minY) : (minY + "–" + maxY);
+    document.getElementById("statSpanSub").textContent =
+      YEAR_ORDER.length + " recorded year" + (YEAR_ORDER.length === 1 ? "" : "s");
+
+    var top = [], best = 0;
+    Object.keys(peakCounts).forEach(function(m){
+      if (peakCounts[m] > best) { best = peakCounts[m]; top = [m]; }
+      else if (peakCounts[m] === best) { top.push(m); }
+    });
+    var shortNames = top.map(function(m){ return m.replace(/ (Peak|Mountain|Point)$/, ""); });
+    document.getElementById("statDeadliest").textContent = shortNames.join(" · ");
+    document.getElementById("statDeadliestSub").textContent =
+      best + " death" + (best === 1 ? "" : "s") + (top.length > 1 ? " apiece" : "");
+
+    document.getElementById("legendScale").textContent = "1 → " + maxCount;
+  })();
+
+  /* ============ STATE ============ */
+  var filter = null;           // {dim:'mountain'|'cause'|'range'|'age'|'gender'|'year', value:string}
+  var sortKey = "date";
+  var sortDir = 1;
+
+  function matches(r){
+    if (!filter) return true;
+    return r[filter.dim] === filter.value;
+  }
+
+  function setFilter(dim, value){
+    if (filter && filter.dim === dim && filter.value === value) filter = null;
+    else filter = {dim: dim, value: value};
+    renderAll();
+  }
+  function clearFilter(){ filter = null; renderAll(); }
+
+  /* ============ MAP ============ */
+  var svg = document.getElementById("map");
+  (function buildMap(){
+    var ns = "http://www.w3.org/2000/svg";
+    function el(tag, attrs){
+      var e = document.createElementNS(ns, tag);
+      for (var k in attrs) e.setAttribute(k, attrs[k]);
+      return e;
+    }
+
+    var bg = el("rect", {x:0,y:0,width:786,height:1000,fill:"var(--paper-raised)"});
+    svg.appendChild(bg);
+
+    // decorative contour rings per range cluster
+    Object.keys(RANGE_CENTROIDS).forEach(function(name){
+      var c = RANGE_CENTROIDS[name];
+      [1,1.7,2.4].forEach(function(mult, i){
+        svg.appendChild(el("ellipse", {
+          class:"contour", cx:c[0], cy:c[1],
+          rx: 55*mult, ry: 42*mult,
+          transform: "rotate(-12 " + c[0] + " " + c[1] + ")"
+        }));
+      });
+      var label = el("text", {class:"range-label", x:c[0], y:c[1]-70, "text-anchor":"middle"});
+      label.textContent = name;
+      svg.appendChild(label);
+    });
+
+    var capText = "COLORADO · FOURTEENERS";
+    if (YEAR_ORDER.length) {
+      capText += " · " + (YEAR_ORDER[0] === YEAR_ORDER[YEAR_ORDER.length-1]
+        ? YEAR_ORDER[0]
+        : YEAR_ORDER[0] + "–" + YEAR_ORDER[YEAR_ORDER.length-1]);
+    }
+    var cap = el("text", {class:"map-caption", x:14, y:988});
+    cap.textContent = capText;
+    svg.appendChild(cap);
+
+    // heat circles (rendered before markers so markers sit on top)
+    var heatLayer = el("g", {id:"heatLayer"});
+    svg.appendChild(heatLayer);
+    deathPeaks.forEach(function(p){
+      var count = peakCounts[p[1]];
+      heatLayer.appendChild(el("circle", {
+        class:"heat-circle", cx:p[3], cy:p[4], r: radiusFor(count),
+        opacity: opacityFor(count), "data-mountain": p[1]
+      }));
+    });
+
+    // context (non-death) peak glyphs
+    PEAKS.filter(function(p){ return !p[5]; }).forEach(function(p){
+      var g = triangle(p[3], p[4], 5, "peak-context");
+      var t = el("title", {}); t.textContent = p[1] + " — no recorded fatalities on file";
+      g.appendChild(t);
+      svg.appendChild(g);
+    });
+
+    // death peak markers + hit targets
+    var markerLayer = el("g", {id:"markerLayer"});
+    svg.appendChild(markerLayer);
+    deathPeaks.forEach(function(p){
+      var count = peakCounts[p[1]];
+      var g = triangle(p[3], p[4], 6.5, "peak-death");
+      g.setAttribute("data-mountain", p[1]);
+      markerLayer.appendChild(g);
+
+      var hit = el("circle", {
+        class:"peak-hit", cx:p[3], cy:p[4], r:16, "data-mountain": p[1]
+      });
+      var t = el("title", {});
+      t.textContent = p[1] + " — " + count + " death" + (count===1?"":"s") + " (" + p[2] + ")";
+      hit.appendChild(t);
+      hit.addEventListener("click", function(){ setFilter("mountain", p[1]); });
+      markerLayer.appendChild(hit);
+    });
+
+    function triangle(cx, cy, r, cls){
+      var pts = [
+        [cx, cy - r],
+        [cx + r*0.95, cy + r*0.75],
+        [cx - r*0.95, cy + r*0.75]
+      ].map(function(pt){ return pt.join(","); }).join(" ");
+      return el("polygon", {points:pts, class:cls});
+    }
+  })();
+
+  document.getElementById("heatToggle").addEventListener("change", function(e){
+    document.getElementById("heatLayer").style.display = e.target.checked ? "" : "none";
+  });
+
+  /* ============ DETAIL PANEL ============ */
+  function renderDetail(){
+    var box = document.getElementById("detailBody");
+    box.innerHTML = "";
+
+    if (!filter) {
+      var empty = document.createElement("div");
+      empty.className = "detail-empty";
+      empty.textContent = "Click a peak on the map, or a bar below, to open its file.";
+      box.appendChild(empty);
+      return;
+    }
+
+    if (filter.dim === "mountain") {
+      var pdata = PEAKS.filter(function(p){ return p[1] === filter.value; })[0];
+      var rows = RECORDS.filter(matches);
+      var chip = document.createElement("button");
+      chip.className = "chip";
+      chip.innerHTML = "Mountain: " + filter.value + " <span class='x'>&times;</span>";
+      chip.addEventListener("click", clearFilter);
+      box.appendChild(chip);
+
+      var name = document.createElement("div");
+      name.className = "selected-peak";
+      name.textContent = filter.value;
+      box.appendChild(name);
+
+      var rng = document.createElement("div");
+      rng.className = "selected-range";
+      rng.textContent = pdata[2];
+      box.appendChild(rng);
+
+      var count = document.createElement("div");
+      count.className = "selected-count";
+      count.textContent = rows.length;
+      box.appendChild(count);
+      var countLbl = document.createElement("div");
+      countLbl.style.cssText = "font-size:11.5px;color:var(--ink-soft);margin-top:-10px;";
+      countLbl.textContent = "recorded death" + (rows.length===1?"":"s") + " on file";
+      box.appendChild(countLbl);
+
+      var causeCounts = {};
+      rows.forEach(function(r){ causeCounts[r.cause] = (causeCounts[r.cause]||0)+1; });
+      var breakdown = document.createElement("div");
+      breakdown.className = "breakdown";
+      Object.keys(causeCounts).sort(function(a,b){return causeCounts[b]-causeCounts[a];}).forEach(function(c){
+        var row = document.createElement("div");
+        row.className = "breakdown-row";
+        row.innerHTML = "<span>" + c + "</span><b>" + causeCounts[c] + "</b>";
+        breakdown.appendChild(row);
+      });
+      box.appendChild(breakdown);
+    } else {
+      var chip2 = document.createElement("button");
+      chip2.className = "chip";
+      var label = filter.dim === "gender" ? GENDER_LABEL[filter.value] : filter.value;
+      var dimLabel = {cause:"Cause", range:"Range", age:"Age band", gender:"Sex", year:"Year"}[filter.dim];
+      chip2.innerHTML = dimLabel + ": " + label + " <span class='x'>&times;</span>";
+      chip2.addEventListener("click", clearFilter);
+      box.appendChild(chip2);
+
+      var rows2 = RECORDS.filter(matches);
+      var count2 = document.createElement("div");
+      count2.className = "selected-count";
+      count2.textContent = rows2.length;
+      box.appendChild(count2);
+      var countLbl2 = document.createElement("div");
+      countLbl2.style.cssText = "font-size:11.5px;color:var(--ink-soft);margin-top:-10px;";
+      countLbl2.textContent = "matching entries";
+      box.appendChild(countLbl2);
+
+      var mtCounts = {};
+      rows2.forEach(function(r){ mtCounts[r.mountain] = (mtCounts[r.mountain]||0)+1; });
+      var breakdown2 = document.createElement("div");
+      breakdown2.className = "breakdown";
+      Object.keys(mtCounts).sort(function(a,b){return mtCounts[b]-mtCounts[a];}).slice(0,8).forEach(function(m){
+        var row = document.createElement("div");
+        row.className = "breakdown-row";
+        row.innerHTML = "<span>" + m + "</span><b>" + mtCounts[m] + "</b>";
+        breakdown2.appendChild(row);
+      });
+      box.appendChild(breakdown2);
+    }
+  }
+
+  /* ============ CHARTS ============ */
+  function count(dim, value){ return RECORDS.filter(function(r){ return r[dim]===value; }).length; }
+
+  function buildBarChart(containerId, dim, order, labelFn){
+    var el = document.getElementById(containerId);
+    el.innerHTML = "";
+    var counts = order.map(function(v){ return count(dim, v); });
+    var max = Math.max.apply(null, counts);
+    order.forEach(function(v, i){
+      var c = counts[i];
+      var row = document.createElement("button");
+      row.className = "bar-row";
+      row.type = "button";
+      row.innerHTML =
+        "<span class='bar-label'>" + (labelFn ? labelFn(v) : v) + "</span>" +
+        "<span class='bar-track'><span class='bar-fill' style='width:" + (max? (c/max*100):0) + "%'></span></span>" +
+        "<span class='bar-count'>" + c + "</span>";
+      row.addEventListener("click", function(){ setFilter(dim, v); });
+      el.appendChild(row);
+    });
+  }
+
+  function buildYearChart(){
+    var el = document.getElementById("chartYear");
+    el.innerHTML = "";
+    var counts = YEAR_ORDER.map(function(y){ return count("year", y); });
+    var max = Math.max.apply(null, counts);
+    YEAR_ORDER.forEach(function(y, i){
+      var c = counts[i];
+      var col = document.createElement("div");
+      col.className = "year-col";
+      var h = max ? (c/max*100) : 0;
+      col.innerHTML =
+        "<span class='year-bar-value'>" + c + "</span>" +
+        "<span class='year-bar' style='height:" + h + "%'></span>" +
+        "<span class='year-label'>" + y + "</span>";
+      col.addEventListener("click", function(){ setFilter("year", y); });
+      el.appendChild(col);
+    });
+  }
+
+  /* ============ TABLE ============ */
+  var COLUMNS = [
+    {key:"id", label:"#", cls:"num"},
+    {key:"date", label:"Date", cls:"num"},
+    {key:"climberName", label:"Climber"},
+    {key:"mountain", label:"Mountain"},
+    {key:"range", label:"Range"},
+    {key:"cause", label:"Cause"},
+    {key:"gender", label:"Sex"},
+    {key:"age", label:"Age band"}
+  ];
+
+  function buildTableHead(){
+    var head = document.getElementById("tableHead");
+    head.innerHTML = "";
+    COLUMNS.forEach(function(col){
+      var th = document.createElement("th");
+      if (col.cls) th.className = col.cls;
+      var btn = document.createElement("button");
+      btn.innerHTML = col.label + " <span class='arrow'>▲</span>";
+      btn.addEventListener("click", function(){
+        if (sortKey === col.key) sortDir *= -1;
+        else { sortKey = col.key; sortDir = 1; }
+        renderTable();
+        updateSortIndicators();
+      });
+      th.appendChild(btn);
+      head.appendChild(th);
+    });
+    updateSortIndicators();
+  }
+
+  function updateSortIndicators(){
+    var ths = document.querySelectorAll("#tableHead th");
+    COLUMNS.forEach(function(col, i){
+      var th = ths[i];
+      th.classList.toggle("sorted", col.key === sortKey);
+      var arrow = th.querySelector(".arrow");
+      arrow.textContent = sortDir === 1 ? "▲" : "▼";
+    });
+  }
+
+  function sortValue(r, key){
+    if (key === "id") return +r.id;
+    if (key === "date") return +r.year;              // mm/dd are display-only, not sortable
+    if (key === "climberName") return (r.climberName || "￿").toLowerCase(); // blanks sort last
+    return r[key];
+  }
+
+  function renderTable(){
+    var rows = RECORDS.slice().sort(function(a,b){
+      var av = sortValue(a, sortKey), bv = sortValue(b, sortKey);
+      if (av < bv) return -1*sortDir;
+      if (av > bv) return 1*sortDir;
+      return 0;
+    });
+
+    var body = document.getElementById("tableBody");
+    body.innerHTML = "";
+    var shown = 0;
+    rows.forEach(function(r){
+      if (filter && !matches(r)) return;
+      shown++;
+
+      var hasStory = !!(r.incidentDetails && String(r.incidentDetails).trim());
+      var tr = document.createElement("tr");
+      if (filter) tr.classList.add("is-match");
+      if (hasStory) tr.classList.add("has-story");
+      tr.innerHTML =
+        "<td class='id-cell'>" + String(r.id).padStart(2,"0") + "</td>" +
+        "<td class='num'>" + formatDate(r) + "</td>" +
+        "<td>" + (r.climberName ? escapeHtml(r.climberName) : "<span class='muted-cell'>—</span>") +
+          (hasStory ? " <span class='chevron'>▸</span>" : "") + "</td>" +
+        "<td>" + r.mountain + "</td>" +
+        "<td>" + r.range + "</td>" +
+        "<td><span class='cause-tag'>" + r.cause + "</span></td>" +
+        "<td>" + GENDER_LABEL[r.gender] + "</td>" +
+        "<td>" + r.age + "</td>";
+      body.appendChild(tr);
+
+      if (hasStory) {
+        var storyTr = document.createElement("tr");
+        storyTr.className = "story-row";
+        storyTr.hidden = true;
+        var td = document.createElement("td");
+        td.colSpan = COLUMNS.length;
+        td.innerHTML = "<div class='story-body'>" + formatIncident(r.incidentDetails) + "</div>";
+        storyTr.appendChild(td);
+        body.appendChild(storyTr);
+
+        tr.addEventListener("click", function(){
+          var willOpen = storyTr.hidden;
+          storyTr.hidden = !willOpen;
+          tr.classList.toggle("expanded", willOpen);
+        });
+      }
+    });
+
+    document.getElementById("countReadout").textContent =
+      filter ? ("Showing " + shown + " of " + RECORDS.length) : ("Showing " + RECORDS.length + " of " + RECORDS.length);
+    document.getElementById("clearBtn").disabled = !filter;
+  }
+
+  document.getElementById("clearBtn").addEventListener("click", clearFilter);
+
+  /* ============ ACTIVE-STATE SYNC ============ */
+  function syncActiveStates(){
+    // map markers
+    document.querySelectorAll(".peak-death").forEach(function(m){
+      var label = m.getAttribute("data-mountain");
+      m.classList.toggle("is-dim", !!filter && !mountainVisible(label));
+    });
+
+    // bar rows
+    document.querySelectorAll(".bar-row").forEach(function(row){
+      var owner = row.closest(".chart-card").querySelector(".panel-title").textContent.trim();
+      var dim = {"Cause":"cause","Range":"range","Age band":"age","Sex":"gender"}[owner];
+      var val = row.dataset.value;
+      row.classList.remove("is-active","is-dim");
+      if (!filter) return;
+      if (filter.dim === dim && filter.value === val) row.classList.add("is-active");
+      else if (filter.dim === dim) row.classList.add("is-dim");
+    });
+
+    // year columns
+    document.querySelectorAll(".year-col").forEach(function(col){
+      col.classList.remove("is-active","is-dim");
+      if (!filter || filter.dim !== "year") return;
+      if (filter.value === col.dataset.value) col.classList.add("is-active");
+      else col.classList.add("is-dim");
+    });
+  }
+
+  function mountainVisible(label){
+    if (!filter) return true;
+    if (filter.dim === "mountain") return filter.value === label;
+    // dim by another dimension: visible if this mountain has >=1 matching record
+    return RECORDS.some(function(r){ return r.mountain === label && matches(r); });
+  }
+
+  /* ============ WIRE-UP (rebuild charts with data-value + labels) ============ */
+  function buildBarChartsFinal(){
+    buildBarChart("chartCause", "cause", CAUSE_ORDER);
+    buildBarChart("chartRange", "range", RANGE_ORDER, function(v){ return v.replace(" Range",""); });
+    buildBarChart("chartAge", "age", AGE_ORDER);
+    buildBarChart("chartGender", "gender", GENDER_ORDER, function(v){ return GENDER_LABEL[v]; });
+    // attach dataset.value for state sync
+    document.querySelectorAll("#chartCause .bar-row").forEach(function(row,i){ row.dataset.value = CAUSE_ORDER[i]; });
+    document.querySelectorAll("#chartRange .bar-row").forEach(function(row,i){ row.dataset.value = RANGE_ORDER[i]; });
+    document.querySelectorAll("#chartAge .bar-row").forEach(function(row,i){ row.dataset.value = AGE_ORDER[i]; });
+    document.querySelectorAll("#chartGender .bar-row").forEach(function(row,i){ row.dataset.value = GENDER_ORDER[i]; });
+
+    buildYearChart();
+    document.querySelectorAll("#chartYear .year-col").forEach(function(col,i){ col.dataset.value = YEAR_ORDER[i]; });
+  }
+
+  function renderAll(){
+    buildBarChartsFinal();
+    renderDetail();
+    renderTable();
+    syncActiveStates();
+  }
+
+  buildTableHead();
+  renderAll();
+})();
+</script>
+
+</body>
+</html>
