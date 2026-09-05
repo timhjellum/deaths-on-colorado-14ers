@@ -535,33 +535,34 @@
 
 </div>
 
-<!--
-  Read-only Supabase credentials for pulling in publicly-approved incident
-  submissions. This is the same public anon/publishable key used on
-  submit.html -- it is meant to be exposed in browser code, and the
-  database's row-level security policies (not this key) are what actually
-  restrict it to reading rows where status = 'approved'.
--->
-<script>
-  const SUPABASE_URL = "https://upwnwylhlykrxokvcuhu.supabase.co";
-  const SUPABASE_ANON_KEY = "sb_publishable_c3m71XRj9-VBcnoml2tjVw_2pW4rndB";
-</script>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
-
 <script>
 (async function(){
   "use strict";
 
   /* ============ DATA ============ */
-  // Fallback seed, used only if records.json is also unavailable (e.g. this
-  // file opened directly, offline, from disk).
+  // Fallback seed, used only if the live database and records.json are both
+  // unavailable (e.g. this file opened directly, offline, from disk).
   var RECORDS_SEED = [{"id":1,"mountain":"Blanca Peak","range":"Sangre de Cristo Range","x":632.5,"y":822.5,"year":"2010","cause":"Cardiac event","gender":"M","age":"30-39","month":null,"day":null,"climberName":null,"incidentDetails":null},{"id":2,"mountain":"Capitol Peak","range":"Elk Range","x":273.5,"y":366.5,"year":"2010","cause":"Fall","gender":"M","age":"30-39","month":null,"day":null,"climberName":null,"incidentDetails":null},{"id":3,"mountain":"Challenger Point","range":"Sangre de Cristo Range","x":587.5,"y":702.5,"year":"2010","cause":"Fall","gender":"M","age":"60+","month":null,"day":null,"climberName":null,"incidentDetails":null},{"id":4,"mountain":"Crestone Needle","range":"Sangre de Cristo Range","x":612.5,"y":715,"year":"2010","cause":"Fall","gender":"M","age":"50-59","month":null,"day":null,"climberName":null,"incidentDetails":null},{"id":5,"mountain":"El Diente Peak","range":"San Juan Range","x":62.5,"y":745,"year":"2010","cause":"Fall","gender":"F","age":"50-59","month":null,"day":null,"climberName":null,"incidentDetails":null},{"id":6,"mountain":"Little Bear Peak","range":"Sangre de Cristo Range","x":648,"y":838,"year":"2010","cause":"Fall","gender":"M","age":"30-39","month":null,"day":null,"climberName":null,"incidentDetails":null},{"id":7,"mountain":"Longs Peak","range":"Front Range","x":597.5,"y":50,"year":"2010","cause":"Unclear","gender":"M","age":"40-49","month":null,"day":null,"climberName":null,"incidentDetails":null},{"id":8,"mountain":"Longs Peak","range":"Front Range","x":597.5,"y":50,"year":"2010","cause":"Fall","gender":"F","age":"20-29","month":null,"day":null,"climberName":null,"incidentDetails":null},{"id":9,"mountain":"Maroon Bells","range":"Elk Range","x":295.5,"y":389.25,"year":"2010","cause":"Unclear","gender":"M","age":"40-49","month":null,"day":null,"climberName":null,"incidentDetails":null},{"id":10,"mountain":"Missouri Mountain","range":"Sawatch Range","x":428,"y":427.5,"year":"2010","cause":"Fall","gender":"M","age":"20-29","month":null,"day":null,"climberName":null,"incidentDetails":null},{"id":11,"mountain":"Capitol Peak","range":"Elk Range","x":273.5,"y":366.5,"year":"2011","cause":"Avalanche","gender":"M","age":"40-49","month":null,"day":null,"climberName":null,"incidentDetails":null},{"id":12,"mountain":"Crestone Needle","range":"Sangre de Cristo Range","x":612.5,"y":715,"year":"2011","cause":"Fall","gender":"M","age":"50-59","month":null,"day":null,"climberName":null,"incidentDetails":null},{"id":13,"mountain":"El Diente Peak","range":"San Juan Range","x":62.5,"y":745,"year":"2011","cause":"Fall","gender":"M","age":"20-29","month":null,"day":null,"climberName":null,"incidentDetails":null},{"id":14,"mountain":"Kit Carson Peak","range":"Sangre de Cristo Range","x":600,"y":702.5,"year":"2011","cause":"Fall","gender":"M","age":"50-59","month":null,"day":null,"climberName":null,"incidentDetails":null},{"id":15,"mountain":"Longs Peak","range":"Front Range","x":597.5,"y":50,"year":"2011","cause":"Avalanche","gender":"M","age":"20-29","month":null,"day":null,"climberName":null,"incidentDetails":null},{"id":16,"mountain":"Missouri Mountain","range":"Sawatch Range","x":428,"y":427.5,"year":"2011","cause":"Fall","gender":"M","age":"30-39","month":null,"day":null,"climberName":null,"incidentDetails":null},{"id":17,"mountain":"Mount Harvard","range":"Sawatch Range","x":430.5,"y":420.5,"year":"2011","cause":"Fall","gender":"M","age":"30-39","month":null,"day":null,"climberName":null,"incidentDetails":null},{"id":18,"mountain":"Mount Yale","range":"Sawatch Range","x":441,"y":455,"year":"2011","cause":"Fall","gender":"M","age":"20-29","month":null,"day":null,"climberName":null,"incidentDetails":null},{"id":19,"mountain":"Snowmass Mountain","range":"Elk Range","x":277,"y":375.5,"year":"2011","cause":"Fall","gender":"M","age":"50-59","month":null,"day":null,"climberName":null,"incidentDetails":null},{"id":20,"mountain":"Snowmass Mountain","range":"Elk Range","x":277,"y":375.5,"year":"2011","cause":"Falling rock/ice","gender":"M","age":"20-29","month":null,"day":null,"climberName":null,"incidentDetails":null},{"id":21,"mountain":"Capitol Peak","range":"Elk Range","x":273.5,"y":366.5,"year":"2012","cause":"Falling rock/ice","gender":"M","age":"30-39","month":null,"day":null,"climberName":null,"incidentDetails":null},{"id":22,"mountain":"Longs Peak","range":"Front Range","x":597.5,"y":50,"year":"2012","cause":"Fall","gender":"M","age":"60+","month":null,"day":null,"climberName":null,"incidentDetails":null},{"id":23,"mountain":"Longs Peak","range":"Front Range","x":597.5,"y":50,"year":"2012","cause":"Fall","gender":"M","age":"20-29","month":null,"day":null,"climberName":null,"incidentDetails":null},{"id":24,"mountain":"Longs Peak","range":"Front Range","x":597.5,"y":50,"year":"2012","cause":"Unclear","gender":"M","age":"20-29","month":null,"day":null,"climberName":null,"incidentDetails":null},{"id":25,"mountain":"Maroon Bells","range":"Elk Range","x":295.5,"y":389.25,"year":"2012","cause":"Fall","gender":"F","age":"30-39","month":null,"day":null,"climberName":null,"incidentDetails":null},{"id":26,"mountain":"Maroon Bells","range":"Elk Range","x":295.5,"y":389.25,"year":"2012","cause":"Fall","gender":"M","age":"20-29","month":null,"day":null,"climberName":null,"incidentDetails":null},{"id":27,"mountain":"Crestone Peak","range":"Sangre de Cristo Range","x":600,"y":710,"year":"2013","cause":"Fall","gender":"F","age":"20-29","month":null,"day":null,"climberName":null,"incidentDetails":null},{"id":28,"mountain":"Longs Peak","range":"Front Range","x":597.5,"y":50,"year":"2013","cause":"Lightning","gender":"M","age":"20-29","month":null,"day":null,"climberName":null,"incidentDetails":null},{"id":29,"mountain":"Maroon Bells","range":"Elk Range","x":295.5,"y":389.25,"year":"2013","cause":"Fall","gender":"M","age":"60+","month":null,"day":null,"climberName":null,"incidentDetails":null},{"id":30,"mountain":"Mount Antero","range":"Sawatch Range","x":457.5,"y":504.5,"year":"2013","cause":"Unclear","gender":"M","age":"20-29","month":null,"day":null,"climberName":null,"incidentDetails":null},{"id":31,"mountain":"Quandary Peak","range":"Tenmile-Mosquito Range","x":487.5,"y":295,"year":"2013","cause":"Fall","gender":"M","age":"40-49","month":null,"day":null,"climberName":null,"incidentDetails":null},{"id":32,"mountain":"Capitol Peak","range":"Elk Range","x":273.5,"y":366.5,"year":"2014","cause":"Fall","gender":"F","age":"30-39","month":null,"day":null,"climberName":null,"incidentDetails":null},{"id":33,"mountain":"Capitol Peak","range":"Elk Range","x":273.5,"y":366.5,"year":"2014","cause":"Fall","gender":"F","age":"30-39","month":null,"day":null,"climberName":null,"incidentDetails":null},{"id":34,"mountain":"Crestone Peak","range":"Sangre de Cristo Range","x":600,"y":710,"year":"2014","cause":"Unclear","gender":"M","age":"50-59","month":null,"day":null,"climberName":null,"incidentDetails":null},{"id":35,"mountain":"Crestone Peak","range":"Sangre de Cristo Range","x":600,"y":710,"year":"2014","cause":"Unclear","gender":"M","age":"60+","month":null,"day":null,"climberName":null,"incidentDetails":null},{"id":36,"mountain":"Maroon Bells","range":"Elk Range","x":295.5,"y":389.25,"year":"2014","cause":"Fall","gender":"M","age":"50-59","month":null,"day":null,"climberName":null,"incidentDetails":null},{"id":37,"mountain":"Maroon Bells","range":"Elk Range","x":295.5,"y":389.25,"year":"2014","cause":"Fall","gender":"M","age":"30-39","month":null,"day":null,"climberName":null,"incidentDetails":null},{"id":38,"mountain":"Capitol Peak","range":"Elk Range","x":273.5,"y":366.5,"year":"2015","cause":"Fall","gender":"M","age":"20-29","month":null,"day":null,"climberName":null,"incidentDetails":null},{"id":39,"mountain":"Crestone Needle","range":"Sangre de Cristo Range","x":612.5,"y":715,"year":"2015","cause":"Fall","gender":"M","age":"50-59","month":null,"day":null,"climberName":null,"incidentDetails":null},{"id":40,"mountain":"Mount Evans","range":"Front Range","x":592.5,"y":240,"year":"2015","cause":"Falling rock/ice","gender":"M","age":"<20","month":null,"day":null,"climberName":null,"incidentDetails":null},{"id":41,"mountain":"Mount Harvard","range":"Sawatch Range","x":430.5,"y":420.5,"year":"2015","cause":"Falling rock/ice","gender":"M","age":"50-59","month":null,"day":null,"climberName":null,"incidentDetails":null},{"id":42,"mountain":"Capitol Peak","range":"Elk Range","x":273.5,"y":366.5,"year":"2016","cause":"Fall","gender":"F","age":"30-39","month":null,"day":null,"climberName":null,"incidentDetails":null},{"id":43,"mountain":"Longs Peak","range":"Front Range","x":597.5,"y":50,"year":"2016","cause":"Fall","gender":"M","age":"40-49","month":null,"day":null,"climberName":null,"incidentDetails":null},{"id":44,"mountain":"Longs Peak","range":"Front Range","x":597.5,"y":50,"year":"2016","cause":"Fall","gender":"M","age":"30-39","month":null,"day":null,"climberName":null,"incidentDetails":null},{"id":45,"mountain":"Maroon Bells","range":"Elk Range","x":295.5,"y":389.25,"year":"2016","cause":"Fall","gender":"M","age":"20-29","month":null,"day":null,"climberName":null,"incidentDetails":null},{"id":46,"mountain":"Mount Princeton","range":"Sawatch Range","x":458.5,"y":483,"year":"2016","cause":"Unclear","gender":"M","age":"30-39","month":null,"day":null,"climberName":null,"incidentDetails":null},{"id":47,"mountain":"Crestone Needle","range":"Sangre de Cristo Range","x":612.5,"y":715,"year":"2017","cause":"Avalanche","gender":"M","age":"30-39","month":null,"day":null,"climberName":null,"incidentDetails":null},{"id":48,"mountain":"Crestone Needle","range":"Sangre de Cristo Range","x":612.5,"y":715,"year":"2017","cause":"Fall","gender":"M","age":"60+","month":null,"day":null,"climberName":null,"incidentDetails":null},{"id":49,"mountain":"Kit Carson Peak","range":"Sangre de Cristo Range","x":600,"y":702.5,"year":"2017","cause":"Fall","gender":"M","age":"30-39","month":null,"day":null,"climberName":null,"incidentDetails":null},{"id":50,"mountain":"Kit Carson Peak","range":"Sangre de Cristo Range","x":600,"y":702.5,"year":"2017","cause":"Unclear","gender":"M","age":"50-59","month":null,"day":null,"climberName":null,"incidentDetails":null},{"id":51,"mountain":"Maroon Bells","range":"Elk Range","x":295.5,"y":389.25,"year":"2017","cause":"Fall","gender":"M","age":"50-59","month":null,"day":null,"climberName":null,"incidentDetails":null},{"id":52,"mountain":"Maroon Bells","range":"Elk Range","x":295.5,"y":389.25,"year":"2017","cause":"Fall","gender":"M","age":"20-29","month":null,"day":null,"climberName":null,"incidentDetails":null},{"id":53,"mountain":"Mount Evans","range":"Front Range","x":592.5,"y":240,"year":"2017","cause":"Cardiac event","gender":"M","age":"50-59","month":null,"day":null,"climberName":null,"incidentDetails":null},{"id":54,"mountain":"Mount Princeton","range":"Sawatch Range","x":458.5,"y":483,"year":"2017","cause":"Fall","gender":"M","age":"40-49","month":null,"day":null,"climberName":null,"incidentDetails":null},{"id":55,"mountain":"Torreys Peak","range":"Front Range","x":547.5,"y":220,"year":"2017","cause":"Falling rock/ice","gender":"M","age":"30-39","month":null,"day":null,"climberName":null,"incidentDetails":null},{"id":56,"mountain":"Torreys Peak","range":"Front Range","x":547.5,"y":220,"year":"2017","cause":"Fall","gender":"M","age":"50-59","month":null,"day":null,"climberName":null,"incidentDetails":null},{"id":57,"mountain":"Windom Peak","range":"San Juan Range","x":162.5,"y":815,"year":"2017","cause":"Fall","gender":"M","age":"20-29","month":null,"day":null,"climberName":null,"incidentDetails":null},{"id":58,"mountain":"Longs Peak","range":"Front Range","x":597.5,"y":50,"year":"1884","month":"September","day":"23","cause":"Unclear","gender":"F","age":"40-49","climberName":"Carrie J. Welton","incidentDetails":"The Fateful Climb on Longs Peak\n\nIn late September 1884, Carrie J. Welton set out to tackle Longs Peak. She had recently completed a successful, guided ascent of Pikes Peak in snowy conditions. Brimming with confidence, she dismissed warnings from locals and her guide, Carlyle Lamb, about the rapid shift toward volatile autumn mountain weather.\n\nThe pair pushed forward via the Keyhole Route. As they neared the top, a fierce alpine blizzard blew in, cloaking the peak. Though warned that the storm would completely block any scenic reward at the summit, Carrie single-mindedly refused to turn back.\n\nThey reached the top, but the descent proved fatal:\n\n* Severe Exhaustion: The numbing cold and physical exertion drained Carrie's strength. On the way down, she began collapsing, forcing her young guide to physically support her weight.\n* The Abandonment: Just below the Keyhole, Carrie became completely paralyzed by exhaustion and hypothermia, unable to move. Realizing they were trapped, Lamb wrapped her as warmly as possible and made the grueling decision to hike down the mountain on foot to get rescue help from his father.\n* A Lonely End: By the time a rescue party fought their way back up through the raging blizzard, Carrie had tragically died alone. Evidence suggested she had succumbed shortly after a minor fall while trying to desperately crawl from the spot where she was left."}];
 
-  var MONTH_NAMES = ["January","February","March","April","May","June",
-    "July","August","September","October","November","December"];
+  async function loadRecords(){
+    // 1) Live database (Artifact viewer with the "db" capability granted).
+    try {
+      if (window.claude && typeof window.claude.use === "function") {
+        var db = await window.claude.use("db");
+        if (db) {
+          var snap = await db.collection("incidents").get();
+          if (snap && !snap.empty) {
+            return snap.docs.map(function(d){
+              var data = d.data() || {};
+              data.id = isNaN(+d.id) ? d.id : +d.id;
+              return data;
+            });
+          }
+        }
+      }
+    } catch (e) { /* fall through to next source */ }
 
-  async function loadStaticRecords(){
-    // Historical/curated records, self-hosted alongside this page.
+    // 2) External records.json, for a standalone self-hosted copy.
     try {
       var res = await fetch("records.json", {cache: "no-store"});
       if (res && res.ok) {
@@ -570,67 +571,8 @@
       }
     } catch (e) { /* fall through to seed */ }
 
-    // Baked-in seed, used only if records.json is also unavailable (e.g.
-    // this file opened directly, offline, from disk).
+    // 3) Baked-in seed.
     return RECORDS_SEED;
-  }
-
-  function findPeak(mountainName){
-    for (var i = 0; i < PEAKS.length; i++){
-      if (PEAKS[i][1] === mountainName) return PEAKS[i];
-    }
-    return null;
-  }
-
-  // Pulls user-submitted incidents that a reviewer has approved in Supabase.
-  // Only columns needed for display are requested -- nothing about who
-  // submitted it, or its review history, is fetched here. This runs with
-  // the public anon key, so it only ever sees what the "Anyone can view
-  // approved incidents" policy allows: rows where status = 'approved'.
-  async function loadLiveRecords(startingId){
-    if (typeof supabase === "undefined") return [];
-    try {
-      var client = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-      var result = await client
-        .from("incidents")
-        .select("mountain,year,month,day,cause,gender,age,climber_name,incident_details")
-        .eq("status", "approved");
-
-      if (result.error || !result.data) return [];
-
-      return result.data.map(function(row, i){
-        var peak = findPeak(row.mountain);
-        return {
-          id: startingId + i,
-          mountain: row.mountain,
-          range: peak ? peak[2] : "",
-          x: peak ? peak[3] : 0,
-          y: peak ? peak[4] : 0,
-          year: row.year != null ? String(row.year) : "",
-          month: row.month ? MONTH_NAMES[row.month - 1] : null,
-          day: row.day || null,
-          cause: row.cause,
-          gender: row.gender,
-          age: row.age,
-          climberName: row.climber_name,
-          incidentDetails: row.incident_details
-        };
-      });
-    } catch (e) {
-      // Network hiccup, Supabase unreachable, etc. -- the page still works
-      // with just the static/historical records.
-      return [];
-    }
-  }
-
-  async function loadRecords(){
-    var staticRecords = await loadStaticRecords();
-    var maxId = staticRecords.reduce(function(m, r){
-      var n = +r.id;
-      return isNaN(n) ? m : Math.max(m, n);
-    }, 0);
-    var liveRecords = await loadLiveRecords(maxId + 1);
-    return staticRecords.concat(liveRecords);
   }
 
   var RECORDS = await loadRecords();
@@ -713,8 +655,8 @@
   var CAUSE_ORDER = ["Fall","Falling rock/ice","Avalanche","Cardiac event","Lightning","Unclear"];
   var RANGE_ORDER = ["Elk Range","Sangre de Cristo Range","Front Range","Sawatch Range","San Juan Range","Tenmile-Mosquito Range"];
   var AGE_ORDER = ["<20","20-29","30-39","40-49","50-59","60+"];
-  var GENDER_ORDER = ["M","F","O"];
-  var GENDER_LABEL = {M:"Male", F:"Female", O:"Other"};
+  var GENDER_ORDER = ["M","F"];
+  var GENDER_LABEL = {M:"Male", F:"Female"};
   var MONTH_NUM = {January:"01",February:"02",March:"03",April:"04",May:"05",June:"06",
     July:"07",August:"08",September:"09",October:"10",November:"11",December:"12"};
 
@@ -723,14 +665,7 @@
   var YEAR_ORDER = Array.from(new Set(RECORDS.map(function(r){ return r.year; })))
     .sort(function(a,b){ return (+a) - (+b); });
 
-  // Which peaks actually have a recorded incident is now driven by RECORDS
-  // itself (static history + anything approved in Supabase) rather than the
-  // static "hasDeaths" flag on PEAKS -- otherwise a newly-approved incident
-  // on a previously death-free peak would keep showing up as "no recorded
-  // fatalities" on the map.
-  var recordMountains = {};
-  RECORDS.forEach(function(r){ recordMountains[r.mountain] = true; });
-  var deathPeaks = PEAKS.filter(function(p){ return !!recordMountains[p[1]]; });
+  var deathPeaks = PEAKS.filter(function(p){ return p[5]; });
   var maxCount = 0;
   var peakCounts = {};
   deathPeaks.forEach(function(p){
@@ -845,11 +780,11 @@
       svg.appendChild(label);
     });
 
-    var capText = "COLORADO \u00b7 FOURTEENERS";
+    var capText = "COLORADO · FOURTEENERS";
     if (YEAR_ORDER.length) {
-      capText += " \u00b7 " + (YEAR_ORDER[0] === YEAR_ORDER[YEAR_ORDER.length-1]
+      capText += " · " + (YEAR_ORDER[0] === YEAR_ORDER[YEAR_ORDER.length-1]
         ? YEAR_ORDER[0]
-        : YEAR_ORDER[0] + "\u2013" + YEAR_ORDER[YEAR_ORDER.length-1]);
+        : YEAR_ORDER[0] + "–" + YEAR_ORDER[YEAR_ORDER.length-1]);
     }
     var cap = el("text", {class:"map-caption", x:14, y:988});
     cap.textContent = capText;
@@ -867,9 +802,9 @@
     });
 
     // context (non-death) peak glyphs
-    PEAKS.filter(function(p){ return !recordMountains[p[1]]; }).forEach(function(p){
+    PEAKS.filter(function(p){ return !p[5]; }).forEach(function(p){
       var g = triangle(p[3], p[4], 5, "peak-context");
-      var t = el("title", {}); t.textContent = p[1] + " \u2014 no recorded fatalities on file";
+      var t = el("title", {}); t.textContent = p[1] + " — no recorded fatalities on file";
       g.appendChild(t);
       svg.appendChild(g);
     });
@@ -887,7 +822,7 @@
         class:"peak-hit", cx:p[3], cy:p[4], r:16, "data-mountain": p[1]
       });
       var t = el("title", {});
-      t.textContent = p[1] + " \u2014 " + count + " death" + (count===1?"":"s") + " (" + p[2] + ")";
+      t.textContent = p[1] + " — " + count + " death" + (count===1?"":"s") + " (" + p[2] + ")";
       hit.appendChild(t);
       hit.addEventListener("click", function(){ setFilter("mountain", p[1]); });
       markerLayer.appendChild(hit);
@@ -1052,7 +987,7 @@
       var th = document.createElement("th");
       if (col.cls) th.className = col.cls;
       var btn = document.createElement("button");
-      btn.innerHTML = col.label + " <span class='arrow'>\u25b2</span>";
+      btn.innerHTML = col.label + " <span class='arrow'>▲</span>";
       btn.addEventListener("click", function(){
         if (sortKey === col.key) sortDir *= -1;
         else { sortKey = col.key; sortDir = 1; }
@@ -1071,14 +1006,14 @@
       var th = ths[i];
       th.classList.toggle("sorted", col.key === sortKey);
       var arrow = th.querySelector(".arrow");
-      arrow.textContent = sortDir === 1 ? "\u25b2" : "\u25bc";
+      arrow.textContent = sortDir === 1 ? "▲" : "▼";
     });
   }
 
   function sortValue(r, key){
     if (key === "id") return +r.id;
     if (key === "date") return +r.year;              // mm/dd are display-only, not sortable
-    if (key === "climberName") return (r.climberName || "\uffff").toLowerCase(); // blanks sort last
+    if (key === "climberName") return (r.climberName || "￿").toLowerCase(); // blanks sort last
     return r[key];
   }
 
@@ -1104,13 +1039,13 @@
       tr.innerHTML =
         "<td class='id-cell'>" + String(r.id).padStart(2,"0") + "</td>" +
         "<td class='num'>" + formatDate(r) + "</td>" +
-        "<td>" + (r.climberName ? escapeHtml(r.climberName) : "<span class='muted-cell'>\u2014</span>") +
-          (hasStory ? " <span class='chevron'>\u25b8</span>" : "") + "</td>" +
+        "<td>" + (r.climberName ? escapeHtml(r.climberName) : "<span class='muted-cell'>—</span>") +
+          (hasStory ? " <span class='chevron'>▸</span>" : "") + "</td>" +
         "<td>" + r.mountain + "</td>" +
         "<td>" + r.range + "</td>" +
         "<td><span class='cause-tag'>" + r.cause + "</span></td>" +
-        "<td>" + (GENDER_LABEL[r.gender] || "<span class='muted-cell'>—</span>") + "</td>" +
-        "<td>" + (r.age || "<span class='muted-cell'>—</span>") + "</td>";
+        "<td>" + GENDER_LABEL[r.gender] + "</td>" +
+        "<td>" + r.age + "</td>";
       body.appendChild(tr);
 
       if (hasStory) {

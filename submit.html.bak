@@ -188,66 +188,7 @@
     <form id="incidentForm">
       <div class="field">
         <label for="mountain">Mountain</label>
-        <select id="mountain" required>
-          <option value="">Select a mountain…</option>
-          <option value="Blanca Peak">Blanca Peak</option>
-          <option value="Capitol Peak">Capitol Peak</option>
-          <option value="Castle Peak">Castle Peak</option>
-          <option value="Challenger Point">Challenger Point</option>
-          <option value="Conundrum Peak">Conundrum Peak</option>
-          <option value="Crestone Needle">Crestone Needle</option>
-          <option value="Crestone Peak">Crestone Peak</option>
-          <option value="Culebra Peak">Culebra Peak</option>
-          <option value="El Diente Peak">El Diente Peak</option>
-          <option value="Ellingwood Point">Ellingwood Point</option>
-          <option value="Grays Peak">Grays Peak</option>
-          <option value="Handies Peak">Handies Peak</option>
-          <option value="Humboldt Peak">Humboldt Peak</option>
-          <option value="Huron Peak">Huron Peak</option>
-          <option value="Kit Carson Peak">Kit Carson Peak</option>
-          <option value="La Plata Peak">La Plata Peak</option>
-          <option value="Little Bear Peak">Little Bear Peak</option>
-          <option value="Longs Peak">Longs Peak</option>
-          <option value="Maroon Bells">Maroon Bells</option>
-          <option value="Missouri Mountain">Missouri Mountain</option>
-          <option value="Mount Antero">Mount Antero</option>
-          <option value="Mount Belford">Mount Belford</option>
-          <option value="Mount Bierstadt">Mount Bierstadt</option>
-          <option value="Mount Bross">Mount Bross</option>
-          <option value="Mount Cameron">Mount Cameron</option>
-          <option value="Mount Columbia">Mount Columbia</option>
-          <option value="Mount Democrat">Mount Democrat</option>
-          <option value="Mount Elbert">Mount Elbert</option>
-          <option value="Mount Eolus">Mount Eolus</option>
-          <option value="Mount Evans">Mount Evans</option>
-          <option value="Mount Harvard">Mount Harvard</option>
-          <option value="Mount Lincoln">Mount Lincoln</option>
-          <option value="Mount Lindsey">Mount Lindsey</option>
-          <option value="Mount Massive">Mount Massive</option>
-          <option value="Mount of the Holy Cross">Mount of the Holy Cross</option>
-          <option value="Mount Oxford">Mount Oxford</option>
-          <option value="Mount Princeton">Mount Princeton</option>
-          <option value="Mount Shavano">Mount Shavano</option>
-          <option value="Mount Sherman">Mount Sherman</option>
-          <option value="Mount Sneffels">Mount Sneffels</option>
-          <option value="Mount Wilson">Mount Wilson</option>
-          <option value="Mount Yale">Mount Yale</option>
-          <option value="North Eolus">North Eolus</option>
-          <option value="Pikes Peak">Pikes Peak</option>
-          <option value="Pyramid Peak">Pyramid Peak</option>
-          <option value="Quandary Peak">Quandary Peak</option>
-          <option value="Redcloud Peak">Redcloud Peak</option>
-          <option value="San Luis Peak">San Luis Peak</option>
-          <option value="Snowmass Mountain">Snowmass Mountain</option>
-          <option value="Sunlight Peak">Sunlight Peak</option>
-          <option value="Sunshine Peak">Sunshine Peak</option>
-          <option value="Tabeguache Peak">Tabeguache Peak</option>
-          <option value="Torreys Peak">Torreys Peak</option>
-          <option value="Uncompahgre Peak">Uncompahgre Peak</option>
-          <option value="Wetterhorn Peak">Wetterhorn Peak</option>
-          <option value="Wilson Peak">Wilson Peak</option>
-          <option value="Windom Peak">Windom Peak</option>
-        </select>
+        <input type="text" id="mountain" placeholder="e.g. Longs Peak" required>
       </div>
 
       <div class="row">
@@ -267,15 +208,7 @@
 
       <div class="field">
         <label for="cause">Cause</label>
-        <select id="cause" required>
-          <option value="">Select a cause…</option>
-          <option value="Fall">Fall</option>
-          <option value="Falling rock/ice">Falling rock/ice</option>
-          <option value="Avalanche">Avalanche</option>
-          <option value="Cardiac event">Cardiac event</option>
-          <option value="Lightning">Lightning</option>
-          <option value="Unclear">Unclear</option>
-        </select>
+        <input type="text" id="cause" placeholder="e.g. Fall, Altitude sickness, Lightning" required>
       </div>
 
       <div class="field">
@@ -288,22 +221,14 @@
           <label for="gender">Gender (optional)</label>
           <select id="gender">
             <option value="">Unknown</option>
-            <option value="M">Male</option>
-            <option value="F">Female</option>
-            <option value="O">Other</option>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+            <option value="Other">Other</option>
           </select>
         </div>
         <div class="field">
           <label for="age">Age (optional)</label>
-          <select id="age">
-            <option value="">Unknown</option>
-            <option value="<20">Under 20</option>
-            <option value="20-29">20–29</option>
-            <option value="30-39">30–39</option>
-            <option value="40-49">40–49</option>
-            <option value="50-59">50–59</option>
-            <option value="60+">60+</option>
-          </select>
+          <input type="text" id="age" placeholder="e.g. 34">
         </div>
       </div>
 
