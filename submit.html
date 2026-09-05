@@ -15,7 +15,7 @@
   The anon key is meant to be public; it goes right here in the browser.
 -->
 <script>
-  const SUPABASE_URL = "upwnwylhlykrxokvcuhu.supabase.co.";
+  const SUPABASE_URL = "upwnwylhlykrxokvcuhu.supabase.co";
   const SUPABASE_ANON_KEY = "sb_publishable_c3m71XRj9-VBcnoml2tjVw_2pW4rndB";
 </script>
 
@@ -182,6 +182,7 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/supabase/2.45.4/supabase.min.js"></script>
 <script>
+    console.log("version 1.1.1");
   const { createClient } = supabase;
   const client = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
