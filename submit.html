@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Colorado 14er Deaths</title>
+<title>Report an Incident — Colorado 14er Deaths</title>
 <meta name="robots" content="noindex">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -15,7 +15,7 @@
   The anon key is meant to be public; it goes right here in the browser.
 -->
 <script>
-  const SUPABASE_URL = "upwnwylhlykrxokvcuhu.supabase.co";
+  const SUPABASE_URL = "https://upwnwylhlykrxokvcuhu.supabase.co";
   const SUPABASE_ANON_KEY = "sb_publishable_c3m71XRj9-VBcnoml2tjVw_2pW4rndB";
 </script>
 
@@ -180,9 +180,8 @@
 
 </div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/supabase/2.45.4/supabase.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 <script>
-    console.log("version 1.1.1");
   const { createClient } = supabase;
   const client = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
