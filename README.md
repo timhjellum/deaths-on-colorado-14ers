@@ -19,7 +19,7 @@
 </figure>
 <br><br><br>
 <figure>
-<img src="--images/icon-mask.png" alt="" width="512" height="512" />
+<img src="images/--icon-mask.png" alt="" width="512" height="512" />
   <figcaption>icon-mask.png (512x512) - mask is simulated</figcaption>
 </figure>
 <br>
