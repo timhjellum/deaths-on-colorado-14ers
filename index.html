@@ -1555,6 +1555,16 @@
 
             var RECORDS = await loadRecords();
 
+            // "No gender recorded" is a first-class Unknown bucket, not a
+            // separate deliberate "Other" category (nothing ever used one) --
+            // normalize null/blank here so it shows up consistently in the
+            // Sex chart, the click-to-filter state, and the table, instead
+            // of silently disappearing from the chart while still leaving a
+            // blank dash in the table.
+            RECORDS.forEach(function (r) {
+                if (!r.gender) r.gender = "U";
+            });
+
             var RANGE_CENTROIDS = {
                 "Elk Range": [298, 390],
                 "Sawatch Range": [434, 430],
@@ -1581,8 +1591,8 @@
                 "Tenmile-Mosquito Range"
             ];
             var AGE_ORDER = ["<20", "20-29", "30-39", "40-49", "50-59", "60+"];
-            var GENDER_ORDER = ["M", "F", "O"];
-            var GENDER_LABEL = { M: "Male", F: "Female", O: "Other" };
+            var GENDER_ORDER = ["M", "F", "U"];
+            var GENDER_LABEL = { M: "Male", F: "Female", U: "Unknown" };
             var MONTH_NUM = {
                 January: "01",
                 February: "02",

@@ -265,6 +265,8 @@
         </div>
       </div>
 
+      <div class="msg" id="existingNote"></div>
+
       <div class="field">
         <label for="cause">Cause</label>
         <select id="cause" required>
@@ -287,10 +289,9 @@
         <div class="field">
           <label for="gender">Gender (optional)</label>
           <select id="gender">
-            <option value="">Unknown</option>
-            <option value="M">Male</option>
+            <option value="M" selected>Male</option>
             <option value="F">Female</option>
-            <option value="O">Other</option>
+            <option value="">Unknown</option>
           </select>
         </div>
         <div class="field">
@@ -348,6 +349,7 @@
   const genderInput = document.getElementById('gender');
   const ageInput = document.getElementById('age');
   const detailsInput = document.getElementById('details');
+  const existingNote = document.getElementById('existingNote');
 
   // Filled in once we know who's signed in — the insert below uses this
   // rather than trusting anything the form itself could claim.
@@ -357,6 +359,61 @@
     el.textContent = text;
     el.className = 'msg show ' + kind;
   }
+
+  function hideMsg(el){
+    el.className = 'msg';
+  }
+
+  // A soft heads-up, not a hard block: once both mountain and year are
+  // filled in, check whether anything's already on record for that
+  // mountain/year so a submitter can recognize "oh, someone already
+  // reported this" before creating a near-duplicate. Distinct incidents
+  // on the same mountain in the same year are real and should still be
+  // submitted -- this is just a nudge, not a validation error.
+  let existingCheckToken = 0;
+  async function checkExisting(){
+    const mountain = mountainInput.value;
+    const year = yearInput.value.trim();
+    const token = ++existingCheckToken;
+
+    if (!mountain || !year){
+      hideMsg(existingNote);
+      return;
+    }
+
+    const { data, error } = await client
+      .from('incidents')
+      .select('climber_name,cause')
+      .eq('mountain', mountain)
+      .eq('year', Number(year))
+      .eq('status', 'approved');
+
+    // If the mountain/year changed again while this was in flight, or the
+    // fields have since been cleared, let the newer check win.
+    if (token !== existingCheckToken) return;
+    if (error || !data || !data.length){
+      hideMsg(existingNote);
+      return;
+    }
+
+    const items = data
+      .map(r => (r.climber_name ? r.climber_name : 'unnamed climber') + ' (' + (r.cause || 'cause unclear') + ')')
+      .join('; ');
+    showMsg(
+      existingNote,
+      (data.length === 1 ? 'Already on record' : data.length + ' incidents already on record') +
+        ' for ' + mountain + ' in ' + year + ': ' + items +
+        '. Still submit if this is a different person.',
+      'info'
+    );
+  }
+
+  mountainInput.addEventListener('change', checkExisting);
+  let yearCheckTimer = null;
+  yearInput.addEventListener('input', () => {
+    clearTimeout(yearCheckTimer);
+    yearCheckTimer = setTimeout(checkExisting, 400);
+  });
 
   function showLoggedIn(session){
     loginView.style.display = 'none';
