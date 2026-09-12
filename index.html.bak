@@ -29,6 +29,8 @@
     <meta name="twitter:description" content="A field-log map and sortable record of fatalities on Colorado's fourteeners, with a click-to-query heat map by peak." />
     <meta name="twitter:image" content="https://deaths-on-colorados-fourteeners.netlify.app/og-image.png" />
     <meta name="twitter:image:alt" content="Deaths on Colorado Fourteeners (14ers) -- a fatality record of the fourteeners" />
+
+    <title>Mulholland Drive &mdash; A Visual Analysis</title>
 <link rel="icon" href="/favicon.ico" sizes="32x32">
 <link rel="icon" href="/images/icon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
