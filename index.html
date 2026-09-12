@@ -91,7 +91,7 @@
             --ink-soft: #5b5f52;
             --paper: #efece3;
             --paper-raised: #f7f5ee;
-					--paper-raised: transparent;
+            --paper-raised: transparent;
             --sky: #1c7dbe;
             --sky-ink: #0e5c8e;
             --rust: #b0532a;
@@ -158,11 +158,13 @@
             background-size: contain;
             background-position-y: top;
         }
-#map {
-background-image: url(/images/map-bg.webp);
-	background-repeat: no-repeat;
-	background-size: contain;
-}
+
+        #map {
+            background-image: url(/images/map-bg.webp);
+            background-repeat: no-repeat;
+            background-size: contain;
+        }
+
         ::selection {
             background: var(--sky);
             color: var(--paper-raised);
@@ -983,6 +985,7 @@ background-image: url(/images/map-bg.webp);
             max-width: 52ch;
         }
 
+        /*
         body {
             --height: calc(100vw / (1911 / 823));
             background-image:
@@ -1099,6 +1102,7 @@ background-image: url(/images/map-bg.webp);
                         rgba(0, 100, 200, 1) 100%);
             }
         }
+            */
     </style>
 </head>
 
@@ -1267,7 +1271,7 @@ background-image: url(/images/map-bg.webp);
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 
     <script>
-              (async function () {
+        (async function () {
             "use strict";
 
             /* ============ DATA ============ */
