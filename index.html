@@ -10,7 +10,6 @@
     <meta name="robots" content="index, follow" />
     <meta name="theme-color" content="#EFECE3" media="(prefers-color-scheme: light)" />
     <meta name="theme-color" content="#1B1D18" media="(prefers-color-scheme: dark)" />
-
     <link rel="canonical" href="https://deaths-on-colorados-fourteeners.netlify.app/" />
 
     <meta property="og:type" content="website" />
@@ -19,8 +18,8 @@
     <meta property="og:description" content="A field-log map and sortable record of fatalities on Colorado's fourteeners, with a click-to-query heat map by peak." />
     <meta property="og:url" content="https://deaths-on-colorados-fourteeners.netlify.app/" />
     <meta property="og:image" content="https://deaths-on-colorados-fourteeners.netlify.app/og-image.png" />
-    <meta property="og:image:width" content="1280" />
-    <meta property="og:image:height" content="720" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
     <meta property="og:image:alt" content="Deaths on Colorado Fourteeners (14ers) -- a fatality record of the fourteeners" />
     <meta property="og:locale" content="en_US" />
 
@@ -29,10 +28,13 @@
     <meta name="twitter:description" content="A field-log map and sortable record of fatalities on Colorado's fourteeners, with a click-to-query heat map by peak." />
     <meta name="twitter:image" content="https://deaths-on-colorados-fourteeners.netlify.app/og-image.png" />
     <meta name="twitter:image:alt" content="Deaths on Colorado Fourteeners (14ers) -- a fatality record of the fourteeners" />
-<link rel="icon" href="/favicon.ico" sizes="32x32">
-<link rel="icon" href="/images/icon.svg" type="image/svg+xml">
-<link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
-<link rel="manifest" href="/manifest.webmanifest"> 
+
+    <link rel="icon" href="favicon.ico" sizes="any" />
+    <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="favicon-32x32.png" sizes="32x32" type="image/png" />
+    <link rel="icon" href="favicon-16x16.png" sizes="16x16" type="image/png" />
+    <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+    <link rel="manifest" href="site.webmanifest" />
 
     <script type="application/ld+json">
       {
@@ -73,159 +75,144 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Public+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" />
-		<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
-				<link rel="stylesheet" href="./style.css" />
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+    <link rel="stylesheet" href="./style.css" />
 </head>
 
 <body>
-    <div class="wrap">
-        <header class="masthead">
-            <div>
-                <p class="eyebrow">Field Log</p>
-                <h1>
-                    Colorado
-                    <em>14er</em>
-                    Deaths
-                </h1>
-                <p class="deck">A Fatality Record of the Fourteeners</p>
-                <p class="lede">
-                    A running account of reported fatalities on Colorado's
-                    fourteen-thousand-foot peaks — falls, rockfall, avalanche, exposure
-                    — logged by summit the way a party logs a register at the trailhead.
-                </p>
+    <div class="page-shell">
+        <aside class="peak-sidebar" aria-label="Colorado 14ers">
+            <div class="peak-sidebar-head">
+                <h2 class="peak-sidebar-title">14ers</h2>
+                <div class="peak-sort" role="group" aria-label="Sort mountains">
+                    <button type="button" class="peak-sort-btn is-active" data-sort="alpha">A–Z</button>
+                    <button type="button" class="peak-sort-btn" data-sort="tall">Tallest</button>
+                    <button type="button" class="peak-sort-btn" data-sort="deadly">Most deadly</button>
+                </div>
             </div>
-            <div>
-                <div class="stat-panel">
-                    <div class="stat">
-                        <p class="stat-label">Entries</p>
-                        <p class="stat-value" id="statEntries">—</p>
-                        <p class="stat-sub">reported deaths</p>
-                    </div>
-                    <div class="stat">
-                        <p class="stat-label">Span</p>
-                        <p class="stat-value" id="statSpan">—</p>
-                        <p class="stat-sub" id="statSpanSub">recorded years</p>
-                    </div>
-                    <div class="stat">
-                        <p class="stat-label">Deadliest</p>
-                        <p class="stat-value" id="statDeadliest" style="font-size: 16px">
-                            —
-                        </p>
-                        <p class="stat-sub" id="statDeadliestSub">&nbsp;</p>
+            <div class="peak-list" id="peakList"></div>
+        </aside>
+
+        <div class="wrap">
+            <div class="peak-dropdown-wrap">
+                <label class="peak-dropdown-label" for="peakDropdown">14ers</label>
+                <select id="peakDropdown" class="peak-dropdown"></select>
+            </div>
+
+            <header class="masthead">
+                <div>
+                    <p class="eyebrow">Field Log</p>
+                    <h1>
+                        Colorado
+                        <em>14er</em>
+                        Deaths
+                    </h1>
+                    <p class="deck">A Fatality Record of the Fourteeners</p>
+                    <p class="lede">
+                        A running account of reported fatalities on Colorado's
+                        fourteen-thousand-foot peaks — falls, rockfall, avalanche, exposure,
+                        cardiac events, lightning, and other causes — logged by summit the
+                        way a party logs a register at the trailhead.
+                    </p>
+                </div>
+                <div>
+                    <div class="stat-panel">
+                        <div class="stat">
+                            <p class="stat-label">Entries</p>
+                            <p class="stat-value" id="statEntries">—</p>
+                            <p class="stat-sub">reported deaths</p>
+                        </div>
+                        <div class="stat">
+                            <p class="stat-label">Span</p>
+                            <p class="stat-value" id="statSpan">—</p>
+                            <p class="stat-sub" id="statSpanSub">recorded years</p>
+                        </div>
+                        <div class="stat">
+                            <p class="stat-label">Deadliest</p>
+                            <p class="stat-value" id="statDeadliest" style="font-size: 16px">
+                                —
+                            </p>
+                            <p class="stat-sub" id="statDeadliestSub">&nbsp;</p>
+                        </div>
                     </div>
                 </div>
-                <p class="method-note">
-                    Entries with a climber's name and a written account are drawn from
-                    the historical record. The rest report the mountain directly from an
-                    aggregate 2010–2017 count; their year, cause, sex, and age band are
-                    distributed to match that count's published totals — not
-                    individually case-linked — pending further documentation.
-                </p>
-            </div>
-        </header>
+            </header>
 
-        <section class="atlas">
-            <div class="panel">
-                <div class="panel-head">
-                    <h2 class="panel-title">
-                        Fatality Map
-                        <span class="n">54 named peaks</span>
+            <section class="atlas">
+                <div class="panel map-panel">
+                    <div class="panel-head">
+                        <h2 class="panel-title">
+                            Fatality Map
+                            <span class="n">54 named peaks</span>
+                        </h2>
+                        <label class="toggle">
+                            Heat map
+                            <input type="checkbox" id="heatToggle" checked />
+                            <span class="switch"></span>
+                        </label>
+                    </div>
+                    <div class="map-body">
+                        <svg id="map" viewBox="0 0 786 1000" xmlns="http://www.w3.org/2000/svg"></svg>
+                    </div>
+                </div>
+            </section>
+
+            <section class="charts">
+                <div class="panel chart-card">
+                    <h2 class="panel-title" style="font-size: 14px">Cause</h2>
+                    <div class="bar-list" id="chartCause"></div>
+                </div>
+                <div class="panel chart-card">
+                    <h2 class="panel-title" style="font-size: 14px">Range</h2>
+                    <div class="bar-list" id="chartRange"></div>
+                </div>
+                <div class="panel chart-card">
+                    <h2 class="panel-title" style="font-size: 14px">Age band</h2>
+                    <div class="bar-list" id="chartAge"></div>
+                </div>
+                <div class="panel chart-card">
+                    <h2 class="panel-title" style="font-size: 14px">Sex</h2>
+                    <div class="bar-list" id="chartGender"></div>
+                </div>
+
+                <div class="panel year-card">
+                    <h2 class="panel-title" style="font-size: 14px">
+                        Fatalities by Year
                     </h2>
-                    <label class="toggle">
-                        Heat map
-                        <input type="checkbox" id="heatToggle" checked />
-                        <span class="switch"></span>
-                    </label>
+                    <div class="year-chart" id="chartYear"></div>
                 </div>
-                <div class="map-body">
-                    <svg id="map" viewBox="0 0 786 1000" xmlns="http://www.w3.org/2000/svg"></svg>
+            </section>
+
+            <section class="log">
+                <div class="log-toolbar">
+                    <h2 class="panel-title" style="font-size: 19px">Logged Incidents</h2>
+                    <span class="count-readout" id="countReadout">Showing 57 of 57</span>
+                    <button class="clear-btn" id="clearBtn" disabled>Clear filter</button>
+                    <a href="submit.html" class="submit-btn">Submit an incident</a>
                 </div>
-                <div class="legend-row">
-                    <div class="legend-scale">
-                        <span>Deaths</span>
-                        <svg width="120" height="34" style="overflow: visible">
-                            <circle class="legend-dot" cx="14" cy="20" r="7" opacity="0.42"></circle>
-                            <circle class="legend-dot" cx="46" cy="17" r="12" opacity="0.58"></circle>
-                            <circle class="legend-dot" cx="90" cy="12" r="19.5" opacity="0.75"></circle>
-                        </svg>
-                        <span id="legendScale">1 &nbsp;→&nbsp; 9</span>
-                    </div>
-                    <div class="legend-item">
-                        <span class="legend-swatch death"></span>
-                        Peak with recorded deaths
-                    </div>
-                    <div class="legend-item">
-                        <span class="legend-swatch context"></span>
-                        No recorded deaths
-                    </div>
+                <div class="table-scroll">
+                    <table>
+                        <thead>
+                            <tr id="tableHead"></tr>
+                        </thead>
+                        <tbody id="tableBody"></tbody>
+                    </table>
                 </div>
-            </div>
-
-            <div class="panel">
-                <div class="panel-head">
-                    <h2 class="panel-title">Selection</h2>
+                <div class="log-footer">
+                    <a href="submit.html" class="submit-btn">Submit an incident</a>
                 </div>
-                <div class="detail-body" id="detailBody"></div>
-            </div>
-        </section>
+            </section>
 
-        <section class="charts">
-            <div class="panel chart-card">
-                <h2 class="panel-title" style="font-size: 14px">Cause</h2>
-                <div class="bar-list" id="chartCause"></div>
-            </div>
-            <div class="panel chart-card">
-                <h2 class="panel-title" style="font-size: 14px">Range</h2>
-                <div class="bar-list" id="chartRange"></div>
-            </div>
-            <div class="panel chart-card">
-                <h2 class="panel-title" style="font-size: 14px">Age band</h2>
-                <div class="bar-list" id="chartAge"></div>
-            </div>
-            <div class="panel chart-card">
-                <h2 class="panel-title" style="font-size: 14px">Sex</h2>
-                <div class="bar-list" id="chartGender"></div>
-            </div>
-
-            <div class="panel year-card">
-                <h2 class="panel-title" style="font-size: 14px">
-                    Fatalities by Year
-                </h2>
-                <div class="year-chart" id="chartYear"></div>
-            </div>
-        </section>
-
-        <section class="log">
-            <div class="log-toolbar">
-                <h2 class="panel-title" style="font-size: 19px">Logged Incidents</h2>
-                <span class="count-readout" id="countReadout">Showing 57 of 57</span>
-                <button class="clear-btn" id="clearBtn" disabled>Clear filter</button>
-            </div>
-            <div class="table-scroll">
-                <table>
-                    <thead>
-                        <tr id="tableHead"></tr>
-                    </thead>
-                    <tbody id="tableBody"></tbody>
-                </table>
-            </div>
-            <a href="submit.html" style="display: inline-block; margin-top: 14px; font-size: 13px; color: var(--ink-soft);">Submit an incident</a>
-        </section>
-
-        <footer>
-            <span>
-                Deaths on Colorado Fourteeners (14ers) · Field Log · entries as
-                reported, 2010–2017
-            </span>
-            <!--span class="src">
-                2010–2017 aggregate totals as supplied; per-incident year / cause /
-                sex / age on those entries are modeled to match them and are
-                illustrative pending case-level sourcing. Entries with a climber's
-                name and account are individually documented from the historical
-                record.
-            </span -->
-        </footer>
+            <footer>
+                <span>
+                    Deaths on Colorado Fourteeners (14ers) · Field Log · entries as
+                    reported, <span id="footerSpan">—</span>
+                </span>
+            </footer>
+        </div>
     </div>
-				<script type="module" src="./script.js"></script>
-  </body>
+    <script type="module" src="./script.js"></script>
+</body>
+
 </html>
