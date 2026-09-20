@@ -1358,8 +1358,3 @@ aside {
   scrollbar-color: var(--rust) var(--line); /* var(--paper-raised) */
   scrollbar-width: thin;
 }
-
-tr > th:first-child,
-tr > td:first-child {
-  display: none;
-}
