@@ -11,8 +11,7 @@
     <meta name="theme-color" content="#EFECE3" media="(prefers-color-scheme: light)" />
     <meta name="theme-color" content="#1B1D18" media="(prefers-color-scheme: dark)" />
 
-    <meta name="google-site-verification" content="b7XVluCDwVgWy7pJdQJlCpT58x4reDOinXZyWeZoyto" />
-    <!-- Google tag (gtag.js) -->
+<!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-5M4Q8PHKV8"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
