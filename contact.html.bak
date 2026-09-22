@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>About — Deaths on Colorado Fourteeners (14ers)</title>
+    <title>Contact the Team — Colorado 14er Deaths</title>
     <meta name="robots" content="noindex">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -222,17 +222,28 @@
 
 <body>
     <div class="card">
-        <h1>About This Project</h1>
-
-        <p>Colorado’s Fourteeners—peaks rising above 14,000 feet—are among the most sought-after mountains in the country and attract hundreds of thousands of hiker use days each year. The Colorado Fourteeners Initiative estimates that 256,000 hiker use days were recorded across the state’s 14ers in 2025, with more than 400,000 hiker use days recorded during the peak of the pandemic in 2020.</p>
-        <p>With so many people venturing into Colorado’s high country, accidents and fatalities have unfortunately become part of the history of these mountains. Yet there has historically been no single, comprehensive public record of fatalities on Colorado’s Fourteeners. Previous efforts have documented portions of this history. For example, a 2010–2017 analysis identified 57 deaths, but its author noted that the information was incomplete and that some incidents may have gone unreported.</p>
-        <p>Deaths on Colorado’s Fourteeners was created to help fill that gap.</p>
-        <p>This site documents reported fatalities on Colorado’s fourteen-thousand-foot peaks, including incidents involving falls, rockfall, avalanches, exposure, medical events, lightning, and other causes. The goal is not simply to count deaths, but to preserve the stories, circumstances, and history surrounding these incidents and the people who lost their lives.</p>
-        <p>The database combines information from publicly available sources with crowdsourced contributions from the 14er community. Whenever possible, incidents are cross-referenced and independently verified. Conflicting information is reviewed, duplicate reports are consolidated, and records are updated as additional information becomes available.</p>
-        <p>Because historical records are often incomplete, this database should not be considered a definitive or official count of fatalities. Some incidents may have received little or no public coverage, while details surrounding others may remain uncertain. The database is intended to be a living historical resource—one that can be corrected, expanded, and improved as new information comes to light.</p>
-        <p>Above all, this project is intended to document these events with respect for the people who died, their families, and the mountains themselves.</p>
-
+        <h1>Contact the Team</h1>
+        <form name="contact" netlify>
+            <div class="row">
+                <div class="field">
+                    <label for="name">Name</label>
+                    <input type="text" name="name" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="field">
+                    <label for="email">E-mail</label>
+                    <input type="email" name="email" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="field">
+                    <label for="message">Message</label>
+                    <textarea name="message"></textarea>
+                </div>
+            </div>
+            <button type="submit">Send</button>
+        </form>
     </div>
 </body>
-
 </html>
