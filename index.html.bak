@@ -10,7 +10,13 @@
     <meta name="robots" content="index, follow" />
     <meta name="theme-color" content="#EFECE3" media="(prefers-color-scheme: light)" />
     <meta name="theme-color" content="#1B1D18" media="(prefers-color-scheme: dark)" />
-
+    <meta property="og:image:width" content="1280" />
+    <meta property="og:image:height" content="720" />
+    <meta property="og:locale" content="en_US" />
+    <link rel="icon" href="favicon.ico" sizes="32x32">
+    <link rel="icon" href="images/icon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+    <link rel="manifest" href="manifest.webmanifest">
     <meta name="google-site-verification" content="b7XVluCDwVgWy7pJdQJlCpT58x4reDOinXZyWeZoyto" />
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-5M4Q8PHKV8"></script>
@@ -21,14 +27,14 @@
 
         gtag('config', 'G-5M4Q8PHKV8');
     </script>
-    <link rel="canonical" href="https://deaths-on-colorados-fourteeners.netlify.app/" />
+    <link rel="canonical" href="https://14er-deaths.com/" />
 
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Deaths on Colorado Fourteeners (14ers)" />
     <meta property="og:title" content="Deaths on Colorado Fourteeners (14ers)" />
     <meta property="og:description" content="A field-log map and sortable record of fatalities on Colorado's fourteeners, with a click-to-query heat map by peak." />
-    <meta property="og:url" content="https://deaths-on-colorados-fourteeners.netlify.app/" />
-    <meta property="og:image" content="https://deaths-on-colorados-fourteeners.netlify.app/og-image.png" />
+    <meta property="og:url" content="https://14er-deaths.com/" />
+    <meta property="og:image" content="https://14er-deaths.com/images/og-image.png" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta property="og:image:alt" content="Deaths on Colorado Fourteeners (14ers) -- a fatality record of the fourteeners" />
@@ -37,13 +43,12 @@
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Deaths on Colorado Fourteeners (14ers)" />
     <meta name="twitter:description" content="A field-log map and sortable record of fatalities on Colorado's fourteeners, with a click-to-query heat map by peak." />
-    <meta name="twitter:image" content="https://deaths-on-colorados-fourteeners.netlify.app/og-image.png" />
+    <meta name="twitter:image" content="https://14er-deaths.com/images/og-image.png" />
     <meta name="twitter:image:alt" content="Deaths on Colorado Fourteeners (14ers) -- a fatality record of the fourteeners" />
 
     <link rel="icon" href="favicon.ico" sizes="any" />
     <link rel="icon" href="favicon.svg" type="image/svg+xml" />
-    <link rel="icon" href="favicon-32x32.png" sizes="32x32" type="image/png" />
-    <link rel="icon" href="favicon-16x16.png" sizes="16x16" type="image/png" />
+
     <link rel="apple-touch-icon" href="apple-touch-icon.png" />
     <link rel="manifest" href="manifest.webmanifest" />
 
@@ -79,14 +84,14 @@
           "Age band",
           "Climber name"
         ],
-        "url": "https://deaths-on-colorados-fourteeners.netlify.app/"
+        "url": "https://14er-deaths.com/"
       }
     </script>
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Public+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" />
-<link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="style.css" />
 </head>
 
 <body>
@@ -95,7 +100,7 @@
             <div class="peak-sidebar-head">
                 <h2 class="peak-sidebar-title">14ers</h2>
                 <div class="peak-sort" role="group" aria-label="Sort mountains">
-                    <button type="button" class="peak-sort-btn is-active" data-sort="alpha">A–Z</button>
+                    <button type="button" class="peak-sort-btn is-active" data-sort="alpha">A&#8212;Z</button>
                     <button type="button" class="peak-sort-btn" data-sort="tall">Tallest</button>
                     <button type="button" class="peak-sort-btn" data-sort="deadly">Most deadly</button>
                 </div>
@@ -113,11 +118,11 @@
                 <div>
                     <!-- p class="eyebrow">Field Log</p -->
                     <h1>
-                        Deaths on Colorado's <em>Fourteeners (14er)</em>
+                        Deaths on Colorado&#x27;s <em>Fourteeners (14er)</em>
                     </h1>
                     <div class="panel masthead-sub">
-                        <p>Colorado’s Fourteeners attract hundreds of thousands of hikers each year. Yet there is no single, comprehensive public record of the people who have lost their lives on these peaks.</p>
-                        <p>Deaths on Colorado’s Fourteeners was created to document these fatalities and preserve the stories behind them—including falls, rockfall, avalanches, exposure, medical events, lightning, and other causes.</p>
+                        <p>Colorado&#x27;s Fourteeners attract hundreds of thousands of hikers each year. Yet there is no single, comprehensive public record of the people who have lost their lives on these peaks.</p>
+                        <p>Deaths on Colorado&#x27;s Fourteeners was created to document these fatalities and preserve the stories behind them—including falls, rockfall, avalanches, exposure, medical events, lightning, and other causes.</p>
                         <p>The database combines publicly reported information with crowdsourced accounts. Whenever possible, incidents are cross-referenced and verified, duplicate reports are merged, and inaccuracies are corrected as new information emerges.</p>
                     </div>
                 </div>
@@ -135,9 +140,7 @@
                         </div>
                         <div class="stat">
                             <p class="stat-label">Deadliest</p>
-                            <p class="stat-value" id="statDeadliest" style="font-size: 16px">
-                                —
-                            </p>
+                            <p class="stat-value" id="statDeadliest" style="font-size: 16px">—</p>
                             <p class="stat-sub" id="statDeadliestSub">&nbsp;</p>
                         </div>
                     </div>
@@ -211,8 +214,7 @@
 
             <footer>
                 <span>
-                    Deaths on Colorado Fourteeners (14ers) · Field Log · entries as
-                    reported, <span id="footerSpan">—</span>
+                    Deaths on Colorado Fourteeners (14ers) · entries as reported, <span id="footerSpan">—</span> · <a href="contact.html">Contact</a> · <a href="about.html">About</a>
                 </span>
             </footer>
         </div>
@@ -223,7 +225,6 @@
             "sb_publishable_c3m71XRj9-VBcnoml2tjVw_2pW4rndB";
     </script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
-
     <script type="module" src="script.js"></script>
 </body>
 
