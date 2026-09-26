@@ -1,17 +1,4 @@
-// GET /export.geojson  (redirected to this function by netlify.toml)
-//
-// Same live Supabase data as export-kml.js used to feed, reshaped as
-// GeoJSON for map.html's Leaflet map.
-//
-// One Feature per INCIDENT (not per mountain) -- matches how the original
-// KML/My Maps version worked, where every death was its own placemark.
-// Incidents on the same mountain share that mountain's coordinates, so
-// they'll stack exactly on top of each other; map.html handles that with
-// marker clustering (Leaflet.markercluster) rather than by merging them
-// here, so each death stays individually clickable.
-//
-// Uses the same public anon key the site itself uses client-side --
-// no secrets, no environment variable setup required to deploy this.
+console.log("hi")
 
 const SUPABASE_URL = "https://upwnwylhlykrxokvcuhu.supabase.co";
 const SUPABASE_ANON_KEY = "sb_publishable_c3m71XRj9-VBcnoml2tjVw_2pW4rndB";
