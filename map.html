@@ -7,27 +7,14 @@
 <meta name="description" content="Live map of fatalities on Colorado's fourteeners, pulled directly from the incident database." />
 
 <!--
-  MAPBOX SETUP -- one step required before this works:
-
-  1. Create a free account at https://account.mapbox.com/auth/signup/
-  2. Copy your "Default public token" (starts with "pk.") from
-     https://account.mapbox.com/access-tokens/
-  3. In Netlify: Site settings > Environment variables > Add a variable
-     named MAPBOX_TOKEN, value = that pk. token. Deploy once after adding it.
-
-  The token is fetched below from /mapbox-config.js (a Netlify function
-  reading that env var) rather than being written into this file. It's a
-  *public* token either way -- meant to be embedded in client-side code,
-  same idea as the Supabase anon key already in export-kml.js -- but
-  GitHub's push protection specifically recognizes and blocks Mapbox
-  tokens in commits, so keeping it in an env var instead of this file
-  sidesteps that. Never put your *secret* token (starts with "sk.")
-  anywhere in this project -- that one has write access to your account.
+  No account, no API key, no environment variable -- Leaflet + free
+  OpenStreetMap-based tiles need none of that. This page is entirely
+  self-contained: it just fetches /export.geojson (already live on your
+  site) and draws it. Nothing to configure before deploying.
 -->
-<script src="/mapbox-config.js"></script>
 
-<link href="https://cdnjs.cloudflare.com/ajax/libs/mapbox-gl/3.7.0/mapbox-gl.min.css" rel="stylesheet" />
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mapbox-gl/3.7.0/mapbox-gl.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 
 <style>
   :root {
@@ -39,10 +26,10 @@
   }
   * { box-sizing: border-box; }
   html, body { margin: 0; height: 100%; background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
-  #map { position: absolute; inset: 0; }
+  #map { position: absolute; inset: 0; background: var(--bg); }
 
   #status {
-    position: absolute; top: 12px; left: 12px; z-index: 2;
+    position: absolute; top: 12px; left: 12px; z-index: 1000;
     background: var(--panel); border: 1px solid var(--border); border-radius: 8px;
     padding: 8px 12px; font-size: 13px; color: var(--text-dim); max-width: 320px;
   }
@@ -50,7 +37,7 @@
   #status.hidden { display: none; }
 
   #legend {
-    position: absolute; bottom: 24px; left: 12px; z-index: 2;
+    position: absolute; bottom: 24px; left: 12px; z-index: 1000;
     background: var(--panel); border: 1px solid var(--border); border-radius: 8px;
     padding: 10px 14px; font-size: 12px; max-width: 220px;
   }
@@ -58,13 +45,22 @@
   .legend-row { display: flex; align-items: center; gap: 8px; margin: 4px 0; }
   .legend-swatch { width: 10px; height: 10px; border-radius: 50%; flex: 0 0 auto; }
 
-  .mapboxgl-popup-content {
-    background: var(--panel); color: var(--text); border: 1px solid var(--border);
-    border-radius: 10px; padding: 14px 16px; max-width: 300px;
+  /* Custom marker: a colored circle with the death count inside, sized by count. */
+  .mtn-marker {
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 50%; border: 1.5px solid var(--bg);
+    color: #fff; font-size: 11px; font-weight: 700;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.5);
   }
-  .mapboxgl-popup-tip { border-top-color: var(--panel) !important; border-bottom-color: var(--panel) !important; }
-  .mapboxgl-popup-close-button { color: var(--text-dim); font-size: 18px; }
+
+  .leaflet-popup-content-wrapper {
+    background: var(--panel); color: var(--text); border: 1px solid var(--border);
+    border-radius: 10px;
+  }
+  .leaflet-popup-content { margin: 14px 16px; max-width: 280px; }
+  .leaflet-popup-tip { background: var(--panel); border: 1px solid var(--border); }
+  .leaflet-popup-close-button { color: var(--text-dim) !important; }
 
   .popup-title { font-size: 15px; font-weight: 600; margin: 0 0 2px; }
   .popup-sub { font-size: 12px; color: var(--text-dim); margin: 0 0 10px; }
@@ -85,119 +81,85 @@
   var statusEl = document.getElementById("status");
   var legendEl = document.getElementById("legend");
 
-  if (!window.MAPBOX_TOKEN || window.MAPBOX_TOKEN === "YOUR_MAPBOX_TOKEN_HERE") {
-    statusEl.className = "error";
-    statusEl.textContent = "Set your Mapbox public token at the top of map.html (see the comment there) before this map will load.";
-    return;
+  var map = L.map("map", { zoomControl: true }).setView([38.9, -106.2], 7);
+
+  // CartoDB's dark basemap -- free, no signup, no key. Attribution required
+  // (included below), that's the whole cost of using it.
+  L.tileLayer("https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png", {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+    subdomains: "abcd",
+    maxZoom: 19
+  }).addTo(map);
+
+  // Radius scales with death count so heavily-fatal peaks (Capitol, Longs,
+  // Maroon Bells...) read as visually heavier -- same idea as the old
+  // Mapbox circle-radius interpolation, just done by hand here.
+  function radiusFor(count) {
+    if (count >= 30) return 26;
+    if (count >= 15) return 19;
+    if (count >= 5) return 14;
+    return 9;
   }
 
-  mapboxgl.accessToken = window.MAPBOX_TOKEN;
+  fetch("/export.geojson")
+    .then(function (res) {
+      if (!res.ok) throw new Error("HTTP " + res.status);
+      return res.json();
+    })
+    .then(function (geojson) {
+      if (!geojson.features || !geojson.features.length) {
+        statusEl.textContent = "No approved incidents found in the database yet.";
+        return;
+      }
 
-  var map = new mapboxgl.Map({
-    container: "map",
-    style: "mapbox://styles/mapbox/dark-v11",
-    center: [-106.2, 38.9], // roughly the center of Colorado's 14ers
-    zoom: 6.4
-  });
+      statusEl.className = "hidden";
 
-  map.addControl(new mapboxgl.NavigationControl(), "top-right");
+      geojson.features.forEach(function (f) {
+        var p = f.properties;
+        var lat = f.geometry.coordinates[1];
+        var lon = f.geometry.coordinates[0];
+        var r = radiusFor(p.death_count);
 
-  map.on("load", function () {
-    fetch("/export.geojson")
-      .then(function (res) {
-        if (!res.ok) throw new Error("HTTP " + res.status);
-        return res.json();
-      })
-      .then(function (geojson) {
-        if (!geojson.features || !geojson.features.length) {
-          statusEl.textContent = "No approved incidents found in the database yet.";
-          return;
-        }
-
-        statusEl.className = "hidden";
-
-        map.addSource("mountains", {
-          type: "geojson",
-          data: geojson
+        var icon = L.divIcon({
+          className: "",
+          html: '<div class="mtn-marker" style="width:' + (r * 2) + 'px;height:' + (r * 2) + 'px;background:' + p.range_color + ';">' + p.death_count + "</div>",
+          iconSize: [r * 2, r * 2],
+          iconAnchor: [r, r]
         });
 
-        // Circle radius scales with death count so heavily-fatal peaks
-        // (Capitol, Longs, Maroon Bells...) read as visually heavier.
-        map.addLayer({
-          id: "mountain-circles",
-          type: "circle",
-          source: "mountains",
-          paint: {
-            "circle-radius": [
-              "interpolate", ["linear"], ["get", "death_count"],
-              1, 7,
-              5, 12,
-              15, 20,
-              30, 28
-            ],
-            "circle-color": ["get", "range_color"],
-            "circle-opacity": 0.85,
-            "circle-stroke-width": 1.5,
-            "circle-stroke-color": "#14161a"
-          }
-        });
+        var incidents = typeof p.incidents === "string" ? JSON.parse(p.incidents) : p.incidents;
+        var popupHtml = "<div class=\"popup-title\">" + p.mountain + "</div>" +
+          "<div class=\"popup-sub\">" + p.range + " Range &middot; " + p.death_count + " recorded death" + (p.death_count === 1 ? "" : "s") + "</div>" +
+          incidents.map(function (r2) {
+            return "<div class=\"incident\">" +
+              "<div class=\"climber\">" + r2.climber + "</div>" +
+              "<div class=\"meta\">" + r2.date + " &middot; Age " + r2.age + " &middot; " + r2.sex + "</div>" +
+              "<div>" + r2.cause + "</div>" +
+              "</div>";
+          }).join("");
 
-        map.addLayer({
-          id: "mountain-counts",
-          type: "symbol",
-          source: "mountains",
-          layout: {
-            "text-field": ["get", "death_count"],
-            "text-size": 11,
-            "text-font": ["DIN Pro Bold", "Arial Unicode MS Bold"]
-          },
-          paint: {
-            "text-color": "#ffffff"
-          }
-        });
-
-        // Legend: one swatch per distinct range color actually present.
-        var seen = {};
-        geojson.features.forEach(function (f) {
-          seen[f.properties.range + "|" + f.properties.range_color] = true;
-        });
-        var rows = Object.keys(seen).map(function (key) {
-          var parts = key.split("|");
-          return "<div class=\"legend-row\"><span class=\"legend-swatch\" style=\"background:" + parts[1] + "\"></span>" + parts[0] + "</div>";
-        }).sort().join("");
-        legendEl.innerHTML = "<h4>Range</h4>" + rows;
-        legendEl.className = "";
-
-        var popup = new mapboxgl.Popup({ closeButton: true, closeOnClick: true, maxWidth: "320px" });
-
-        function showPopup(e) {
-          var f = e.features[0];
-          var p = f.properties;
-          var incidents = typeof p.incidents === "string" ? JSON.parse(p.incidents) : p.incidents;
-
-          var html = "<div class=\"popup-title\">" + p.mountain + "</div>" +
-            "<div class=\"popup-sub\">" + p.range + " Range &middot; " + p.death_count + " recorded death" + (p.death_count === 1 ? "" : "s") + "</div>" +
-            incidents.map(function (r) {
-              return "<div class=\"incident\">" +
-                "<div class=\"climber\">" + r.climber + "</div>" +
-                "<div class=\"meta\">" + r.date + " &middot; Age " + r.age + " &middot; " + r.sex + "</div>" +
-                "<div>" + r.cause + "</div>" +
-                "</div>";
-            }).join("");
-
-          popup.setLngLat(f.geometry.coordinates).setHTML(html).addTo(map);
-        }
-
-        map.on("click", "mountain-circles", showPopup);
-        map.on("mouseenter", "mountain-circles", function () { map.getCanvas().style.cursor = "pointer"; });
-        map.on("mouseleave", "mountain-circles", function () { map.getCanvas().style.cursor = ""; });
-      })
-      .catch(function (err) {
-        statusEl.className = "error";
-        statusEl.textContent = "Failed to load /export.geojson: " + err.message +
-          ". If this is a fresh deploy, check that mountains_public_read_policy.sql has been run in Supabase (RLS blocking anon reads is the usual cause).";
+        L.marker([lat, lon], { icon: icon })
+          .addTo(map)
+          .bindPopup(popupHtml, { maxWidth: 300 });
       });
-  });
+
+      // Legend: one swatch per distinct range color actually present.
+      var seen = {};
+      geojson.features.forEach(function (f) {
+        seen[f.properties.range + "|" + f.properties.range_color] = true;
+      });
+      var rows = Object.keys(seen).map(function (key) {
+        var parts = key.split("|");
+        return "<div class=\"legend-row\"><span class=\"legend-swatch\" style=\"background:" + parts[1] + "\"></span>" + parts[0] + "</div>";
+      }).sort().join("");
+      legendEl.innerHTML = "<h4>Range</h4>" + rows;
+      legendEl.className = "";
+    })
+    .catch(function (err) {
+      statusEl.className = "error";
+      statusEl.textContent = "Failed to load /export.geojson: " + err.message +
+        ". If this is a fresh deploy, check that mountains_public_read_policy.sql has been run in Supabase (RLS blocking anon reads is the usual cause).";
+    });
 })();
 </script>
 
