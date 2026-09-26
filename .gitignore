@@ -39,6 +39,10 @@ Thumbs.db
 *.app
 *.exe
 *.war
+*.bak
+.txt
+.db
+
 
 # Large media files
 *.mp4

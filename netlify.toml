@@ -1,0 +1,10 @@
+[build]
+  functions = "netlify/functions"
+
+# https://deaths-on-colorados-fourteeners.netlify.app/export.kml
+# Import this URL into Google My Maps (Import > Link, not a file upload) to
+# get a layer that re-fetches current data each time you re-import.
+[[redirects]]
+  from = "/export.kml"
+  to = "/.netlify/functions/export-kml"
+  status = 200
