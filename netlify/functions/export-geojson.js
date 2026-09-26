@@ -12,15 +12,15 @@
 //
 // Uses the same public anon key the site itself uses client-side --
 // no secrets, no environment variable setup required to deploy this.
- 
+
 const SUPABASE_URL = "https://upwnwylhlykrxokvcuhu.supabase.co";
 const SUPABASE_ANON_KEY = "sb_publishable_c3m71XRj9-VBcnoml2tjVw_2pW4rndB";
- 
+
 const MONTH_NAMES = [
   "", "January", "February", "March", "April", "May", "June",
   "July", "August", "September", "October", "November", "December"
 ];
- 
+
 // `month` has been stored inconsistently (numeric 1-12 in some inserts,
 // possibly a month name elsewhere) -- accept either rather than assume.
 function monthNumber(month) {
@@ -32,7 +32,7 @@ function monthNumber(month) {
   });
   return idx > 0 ? idx : null;
 }
- 
+
 function formatDate(r) {
   var mm = monthNumber(r.month);
   if (r.year && mm && r.day) {
@@ -43,7 +43,7 @@ function formatDate(r) {
   }
   return r.year ? String(r.year) : "Unknown";
 }
- 
+
 async function fetchAll(path) {
   var res = await fetch(SUPABASE_URL + "/rest/v1/" + path, {
     headers: {
@@ -56,7 +56,7 @@ async function fetchAll(path) {
   }
   return res.json();
 }
- 
+
 exports.handler = async function () {
   var mountains, incidents;
   try {
@@ -70,21 +70,21 @@ exports.handler = async function () {
       body: JSON.stringify({ error: "Failed to load data from Supabase: " + err.message })
     };
   }
- 
+
   var byMountain = {};
   mountains.forEach(function (m) {
     byMountain[m.mountain] = m;
   });
- 
+
   var features = incidents
     .filter(function (r) {
       return byMountain[r.mountain]; // skip incidents whose mountain isn't in the reference table
     })
     .map(function (r) {
       var m = byMountain[r.mountain];
-      var climber = r.climber_name && r.climber_name.trim() ? r.climber_name : "Unidentified climber";
+      var climber = r.climber_name && r.climber_name.trim() ? r.climber_name : "—";
       var sex = r.gender === "M" ? "Male" : r.gender === "F" ? "Female" : "Unknown";
- 
+
       return {
         type: "Feature",
         geometry: {
@@ -104,12 +104,12 @@ exports.handler = async function () {
         }
       };
     });
- 
+
   var geojson = {
     type: "FeatureCollection",
     features: features
   };
- 
+
   return {
     statusCode: 200,
     headers: {
@@ -120,4 +120,3 @@ exports.handler = async function () {
     body: JSON.stringify(geojson)
   };
 };
- 
