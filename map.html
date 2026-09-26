@@ -16,6 +16,15 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 
+<!-- Marker clustering: each death is its own marker (like the old KML),
+     but deaths on the same mountain share that mountain's exact coordinates
+     and would otherwise stack invisibly on top of each other. This groups
+     them into a numbered cluster when zoomed out, and "spiderfies" them
+     into individually-clickable markers when you click a cluster in close. -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.3/MarkerCluster.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.3/MarkerCluster.Default.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.3/leaflet.markercluster.js"></script>
+
 <style>
   :root {
     --bg: #14161a;
@@ -45,11 +54,19 @@
   .legend-row { display: flex; align-items: center; gap: 8px; margin: 4px 0; }
   .legend-swatch { width: 10px; height: 10px; border-radius: 50%; flex: 0 0 auto; }
 
-  /* Custom marker: a colored circle with the death count inside, sized by count. */
-  .mtn-marker {
+  /* Individual incident marker: a small colored dot. */
+  .incident-marker {
+    width: 14px; height: 14px; border-radius: 50%;
+    border: 1.5px solid var(--bg);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.5);
+  }
+
+  /* Cluster bubble: colored when every incident inside shares one range,
+     neutral gray when a cluster spans multiple ranges. */
+  .cluster-marker {
     display: flex; align-items: center; justify-content: center;
-    border-radius: 50%; border: 1.5px solid var(--bg);
-    color: #fff; font-size: 11px; font-weight: 700;
+    border-radius: 50%; border: 2px solid var(--bg);
+    color: #fff; font-size: 12px; font-weight: 700;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     box-shadow: 0 1px 4px rgba(0,0,0,0.5);
   }
@@ -63,11 +80,8 @@
   .leaflet-popup-close-button { color: var(--text-dim) !important; }
 
   .popup-title { font-size: 15px; font-weight: 600; margin: 0 0 2px; }
-  .popup-sub { font-size: 12px; color: var(--text-dim); margin: 0 0 10px; }
-  .incident { padding: 8px 0; border-top: 1px solid var(--border); font-size: 13px; line-height: 1.5; }
-  .incident:first-of-type { border-top: none; }
-  .incident .climber { font-weight: 600; }
-  .incident .meta { color: var(--text-dim); }
+  .popup-sub { font-size: 12px; color: var(--text-dim); margin: 0 0 8px; }
+  .popup-meta { font-size: 13px; line-height: 1.5; }
 </style>
 </head>
 <body>
@@ -83,23 +97,33 @@
 
   var map = L.map("map", { zoomControl: true }).setView([38.9, -106.2], 7);
 
-  // CartoDB's dark basemap -- free, no signup, no key. Attribution required
-  // (included below), that's the whole cost of using it.
+  // CartoDB's dark basemap -- free, no signup, no key.
   L.tileLayer("https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png", {
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
     subdomains: "abcd",
     maxZoom: 19
   }).addTo(map);
 
-  // Radius scales with death count so heavily-fatal peaks (Capitol, Longs,
-  // Maroon Bells...) read as visually heavier -- same idea as the old
-  // Mapbox circle-radius interpolation, just done by hand here.
-  function radiusFor(count) {
-    if (count >= 30) return 26;
-    if (count >= 15) return 19;
-    if (count >= 5) return 14;
-    return 9;
-  }
+  var clusters = L.markerClusterGroup({
+    maxClusterRadius: 45,
+    spiderfyOnMaxZoom: true,
+    showCoverageOnHover: false,
+    iconCreateFunction: function (cluster) {
+      var children = cluster.getAllChildMarkers();
+      var colors = {};
+      children.forEach(function (m) { colors[m.options.rangeColor] = true; });
+      var colorKeys = Object.keys(colors);
+      var bg = colorKeys.length === 1 ? colorKeys[0] : "#5a6270"; // neutral gray for mixed-range clusters
+      var count = children.length;
+      var size = count >= 20 ? 44 : count >= 8 ? 36 : 28;
+
+      return L.divIcon({
+        html: '<div class="cluster-marker" style="width:' + size + 'px;height:' + size + 'px;background:' + bg + ';">' + count + "</div>",
+        className: "",
+        iconSize: [size, size]
+      });
+    }
+  });
 
   fetch("/export.geojson")
     .then(function (res) {
@@ -118,30 +142,27 @@
         var p = f.properties;
         var lat = f.geometry.coordinates[1];
         var lon = f.geometry.coordinates[0];
-        var r = radiusFor(p.death_count);
 
         var icon = L.divIcon({
           className: "",
-          html: '<div class="mtn-marker" style="width:' + (r * 2) + 'px;height:' + (r * 2) + 'px;background:' + p.range_color + ';">' + p.death_count + "</div>",
-          iconSize: [r * 2, r * 2],
-          iconAnchor: [r, r]
+          html: '<div class="incident-marker" style="background:' + p.range_color + ';"></div>',
+          iconSize: [14, 14],
+          iconAnchor: [7, 7]
         });
 
-        var incidents = typeof p.incidents === "string" ? JSON.parse(p.incidents) : p.incidents;
-        var popupHtml = "<div class=\"popup-title\">" + p.mountain + "</div>" +
-          "<div class=\"popup-sub\">" + p.range + " Range &middot; " + p.death_count + " recorded death" + (p.death_count === 1 ? "" : "s") + "</div>" +
-          incidents.map(function (r2) {
-            return "<div class=\"incident\">" +
-              "<div class=\"climber\">" + r2.climber + "</div>" +
-              "<div class=\"meta\">" + r2.date + " &middot; Age " + r2.age + " &middot; " + r2.sex + "</div>" +
-              "<div>" + r2.cause + "</div>" +
-              "</div>";
-          }).join("");
+        var popupHtml = "<div class=\"popup-title\">" + p.climber + "</div>" +
+          "<div class=\"popup-sub\">" + p.mountain + " &middot; " + p.range + " Range</div>" +
+          "<div class=\"popup-meta\">" +
+          p.date + " &middot; Age " + p.age + " &middot; " + p.sex + "<br>" +
+          p.cause +
+          "</div>";
 
-        L.marker([lat, lon], { icon: icon })
-          .addTo(map)
-          .bindPopup(popupHtml, { maxWidth: 300 });
+        var marker = L.marker([lat, lon], { icon: icon, rangeColor: p.range_color });
+        marker.bindPopup(popupHtml, { maxWidth: 300 });
+        clusters.addLayer(marker);
       });
+
+      map.addLayer(clusters);
 
       // Legend: one swatch per distinct range color actually present.
       var seen = {};
