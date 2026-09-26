@@ -442,23 +442,24 @@
                 cap.textContent = capText;
                 svg.appendChild(cap);
  
-                // heat circles (rendered before markers so markers sit on top)
-                var heatLayer = el("g", { id: "heatLayer" });
-                svg.appendChild(heatLayer);
-                deathPeaks.forEach(function (p) {
-                    var count = peakCounts[p[1]];
-                    heatLayer.appendChild(
-                        el("circle", {
-                            class: "heat-circle",
-                            cx: p[3],
-                            cy: p[4],
-                            r: radiusFor(count),
-                            opacity: opacityFor(count),
-                            "data-mountain": p[1]
-                        })
-                    );
-                });
- 
+// heat circles (rendered before markers so markers sit on top)
+/*
+var heatLayer = el("g", { id: "heatLayer" });
+svg.appendChild(heatLayer);
+deathPeaks.forEach(function (p) {
+var count = peakCounts[p[1]];
+heatLayer.appendChild(
+el("circle", {
+class: "heat-circle",
+cx: p[3],
+cy: p[4],
+r: radiusFor(count),
+opacity: opacityFor(count),
+"data-mountain": p[1]
+})
+);
+});
+*/
                 // context (non-death) peak glyphs
                 PEAKS.filter(function (p) {
                     return !recordMountains[p[1]];
@@ -525,7 +526,8 @@
                 }
             })();
  
-            document
+            /*
+			document
                 .getElementById("heatToggle")
                 .addEventListener("change", function (e) {
                     document.getElementById("heatLayer").style.display = e.target
@@ -533,7 +535,7 @@
                         ? ""
                         : "none";
                 });
- 
+ */
             /* ============ PEAK LIST (left sidebar / mobile dropdown) ============ */
             // The map is read-only, so this list is now the only way to
             // find a specific mountain: mousing over (or focusing) a row

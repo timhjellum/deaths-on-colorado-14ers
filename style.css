@@ -99,12 +99,13 @@ body {
     background-position-y: top;
 }
 
+/*
 #map {
     background-image: url(/images/map-bg.webp);
     background-repeat: no-repeat;
     background-size: contain;
 }
-
+*/
 ::selection {
     background: var(--sky);
     color: var(--paper-raised);
