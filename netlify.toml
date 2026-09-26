@@ -1,0 +1,9 @@
+[build]
+  functions = "netlify/functions"
+
+# https://14er-deaths.com/export.geojson
+# Live data for map.html's Leaflet map.
+[[redirects]]
+  from = "/export.geojson"
+  to = "/.netlify/functions/export-geojson"
+  status = 200
