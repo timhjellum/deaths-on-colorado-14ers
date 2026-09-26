@@ -1,29 +1,26 @@
 // GET /export.geojson  (redirected to this function by netlify.toml)
 //
-// Same live Supabase data as export-kml.js, reshaped for Mapbox GL JS
-// instead of KML/My Maps. My Maps' file-import silently truncates large
-// imports and has no "link" import option; Mapbox just renders whatever
-// GeoJSON you hand it, so there's no row cap to run into.
+// Same live Supabase data as export-kml.js used to feed, reshaped as
+// GeoJSON for map.html's Leaflet map.
 //
-// One Feature per MOUNTAIN (not per death) -- all of that mountain's
-// approved incidents are embedded as a JSON array in the feature's
-// `incidents` property. map.html reads that array to build the popup.
-// This keeps the feature count at "peaks with a recorded death" (a few
-// dozen) instead of one marker per fatality stacked on identical
-// coordinates, which is both smaller to transfer and easier to render
-// (circle size = death count) than a marker-per-incident approach.
+// One Feature per INCIDENT (not per mountain) -- matches how the original
+// KML/My Maps version worked, where every death was its own placemark.
+// Incidents on the same mountain share that mountain's coordinates, so
+// they'll stack exactly on top of each other; map.html handles that with
+// marker clustering (Leaflet.markercluster) rather than by merging them
+// here, so each death stays individually clickable.
 //
 // Uses the same public anon key the site itself uses client-side --
 // no secrets, no environment variable setup required to deploy this.
- 
+
 const SUPABASE_URL = "https://upwnwylhlykrxokvcuhu.supabase.co";
 const SUPABASE_ANON_KEY = "sb_publishable_c3m71XRj9-VBcnoml2tjVw_2pW4rndB";
- 
+
 const MONTH_NAMES = [
   "", "January", "February", "March", "April", "May", "June",
   "July", "August", "September", "October", "November", "December"
 ];
- 
+
 // `month` has been stored inconsistently (numeric 1-12 in some inserts,
 // possibly a month name elsewhere) -- accept either rather than assume.
 function monthNumber(month) {
@@ -35,7 +32,7 @@ function monthNumber(month) {
   });
   return idx > 0 ? idx : null;
 }
- 
+
 function formatDate(r) {
   var mm = monthNumber(r.month);
   if (r.year && mm && r.day) {
@@ -46,7 +43,7 @@ function formatDate(r) {
   }
   return r.year ? String(r.year) : "Unknown";
 }
- 
+
 async function fetchAll(path) {
   var res = await fetch(SUPABASE_URL + "/rest/v1/" + path, {
     headers: {
@@ -59,7 +56,7 @@ async function fetchAll(path) {
   }
   return res.json();
 }
- 
+
 exports.handler = async function () {
   var mountains, incidents;
   try {
@@ -73,29 +70,21 @@ exports.handler = async function () {
       body: JSON.stringify({ error: "Failed to load data from Supabase: " + err.message })
     };
   }
- 
-  var incidentsByMountain = {};
-  incidents.forEach(function (r) {
-    (incidentsByMountain[r.mountain] = incidentsByMountain[r.mountain] || []).push(r);
+
+  var byMountain = {};
+  mountains.forEach(function (m) {
+    byMountain[m.mountain] = m;
   });
- 
-  var features = mountains
-    .filter(function (m) {
-      return (incidentsByMountain[m.mountain] || []).length > 0;
+
+  var features = incidents
+    .filter(function (r) {
+      return byMountain[r.mountain]; // skip incidents whose mountain isn't in the reference table
     })
-    .map(function (m) {
-      var rows = incidentsByMountain[m.mountain];
-      var incidentList = rows.map(function (r) {
-        var climber = r.climber_name && r.climber_name.trim() ? r.climber_name : "Unidentified climber";
-        var sex = r.gender === "M" ? "Male" : r.gender === "F" ? "Female" : "Unknown";
-        return {
-          climber: climber,
-          date: formatDate(r),
-          age: r.age || "Unknown",
-          sex: sex,
-          cause: r.cause || "Unknown"
-        };
-      });
+    .map(function (r) {
+      var m = byMountain[r.mountain];
+      var climber = r.climber_name && r.climber_name.trim() ? r.climber_name : "Unidentified climber";
+      var sex = r.gender === "M" ? "Male" : r.gender === "F" ? "Female" : "Unknown";
+
       return {
         type: "Feature",
         geometry: {
@@ -106,17 +95,20 @@ exports.handler = async function () {
           mountain: m.mountain,
           range: m.range,
           range_color: m.range_color,
-          death_count: incidentList.length,
-          incidents: incidentList
+          climber: climber,
+          date: formatDate(r),
+          age: r.age || "Unknown",
+          sex: sex,
+          cause: r.cause || "Unknown"
         }
       };
     });
- 
+
   var geojson = {
     type: "FeatureCollection",
     features: features
   };
- 
+
   return {
     statusCode: 200,
     headers: {
