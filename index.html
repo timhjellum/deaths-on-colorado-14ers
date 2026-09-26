@@ -145,70 +145,71 @@
             </header>
 
             <section class="atlas">
-<div class="panel">
-  <div class="panel-head">
-    <h2 class="panel-title">Interactive Map</h2>
-  </div>
-  <iframe
-    src="/map.html"
-    title="Live map of deaths on Colorado's fourteeners"
-    loading="lazy"
-    style="display:block; width:100%; height:600px; border:0; border-radius:0 0 var(--radius-m) var(--radius-m);">
-  </iframe>
-</div>
+                <div class="panel">
+                    <div class="panel-head">
+                        <h2 class="panel-title">Interactive Map</h2>
+                    </div>
+                    <iframe src="/map.html" title="Live map of deaths on Colorado's fourteeners" loading="lazy" style="display:block; width:100%; height:600px; border:0; border-radius:0 0 var(--radius-m) var(--radius-m);">
+                    </iframe>
+                </div>
             </section>
+
+            <div class="selected" id="selectedMountainPanel" hidden style="margin-top: 1em; margin-bottom: 1em;">
+                <h2 id="selectedMountainName"></h2>
+            </div>
 
             <section class="charts">
-                <div class="panel chart-card">
-                    <h2 class="panel-title" style="font-size: 14px">Cause</h2>
-                    <div class="bar-list" id="chartCause"></div>
-                </div>
-                <div class="panel chart-card">
-                    <h2 class="panel-title" style="font-size: 14px">Range</h2>
-                    <div class="bar-list" id="chartRange"></div>
-                </div>
-                <div class="panel chart-card">
-                    <h2 class="panel-title" style="font-size: 14px">Age band</h2>
-                    <div class="bar-list" id="chartAge"></div>
-                </div>
-                <div class="panel chart-card">
-                    <h2 class="panel-title" style="font-size: 14px">Sex</h2>
-                    <div class="bar-list" id="chartGender"></div>
-                </div>
+                <section class="charts">
+                    <div class="panel chart-card">
+                        <h2 class="panel-title" style="font-size: 14px">Cause</h2>
+                        <div class="bar-list" id="chartCause"></div>
+                    </div>
+                    <div class="panel chart-card">
+                        <h2 class="panel-title" style="font-size: 14px">Range</h2>
+                        <div class="bar-list" id="chartRange"></div>
+                    </div>
+                    <div class="panel chart-card">
+                        <h2 class="panel-title" style="font-size: 14px">Age band</h2>
+                        <div class="bar-list" id="chartAge"></div>
+                    </div>
+                    <div class="panel chart-card">
+                        <h2 class="panel-title" style="font-size: 14px">Sex</h2>
+                        <div class="bar-list" id="chartGender"></div>
+                    </div>
 
-                <div class="panel year-card">
-                    <h2 class="panel-title" style="font-size: 14px">
-                        Fatalities by Year
-                    </h2>
-                    <div class="year-chart" id="chartYear"></div>
-                </div>
-            </section>
+                    <div class="panel year-card">
+                        <h2 class="panel-title" style="font-size: 14px">
+                            Fatalities by Year
+                        </h2>
+                        <div class="year-chart" id="chartYear"></div>
+                    </div>
+                </section>
 
-            <section class="log">
-                <div class="log-toolbar">
-                    <h2 class="panel-title" style="font-size: 19px">Logged Incidents</h2>
-                    <span class="count-readout" id="countReadout">Showing 57 of 57</span>
-                    <button class="clear-btn" id="clearBtn" disabled>Clear filter</button>
-                    <a href="submit.html" class="submit-btn">Submit an incident</a>
-                </div>
-                <div class="table-scroll">
-                    <table>
-                        <thead>
-                            <tr id="tableHead"></tr>
-                        </thead>
-                        <tbody id="tableBody"></tbody>
-                    </table>
-                </div>
-                <div class="log-footer">
-                    <a href="submit.html" class="submit-btn">Submit an incident</a>
-                </div>
-            </section>
+                <section class="log">
+                    <div class="log-toolbar">
+                        <h2 class="panel-title" style="font-size: 19px">Logged Incidents</h2>
+                        <span class="count-readout" id="countReadout">Showing 57 of 57</span>
+                        <button class="clear-btn" id="clearBtn" disabled>Clear filter</button>
+                        <a href="submit.html" class="submit-btn">Submit an incident</a>
+                    </div>
+                    <div class="table-scroll">
+                        <table>
+                            <thead>
+                                <tr id="tableHead"></tr>
+                            </thead>
+                            <tbody id="tableBody"></tbody>
+                        </table>
+                    </div>
+                    <div class="log-footer">
+                        <a href="submit.html" class="submit-btn">Submit an incident</a>
+                    </div>
+                </section>
 
-            <footer>
-                <span>
-                    Deaths on Colorado Fourteeners (14ers) · entries as reported, <span id="footerSpan">—</span> · <a href="contact.html">Contact</a> · <a href="about.html">About</a>
-                </span>
-            </footer>
+                <footer>
+                    <span>
+                        Deaths on Colorado Fourteeners (14ers) · entries as reported, <span id="footerSpan">—</span> · <a href="contact.html">Contact</a> · <a href="about.html">About</a>
+                    </span>
+                </footer>
         </div>
     </div>
     <script>
