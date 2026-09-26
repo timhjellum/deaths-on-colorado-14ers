@@ -2,9 +2,28 @@
   functions = "netlify/functions"
 
 # https://deaths-on-colorados-fourteeners.netlify.app/export.kml
-# Import this URL into Google My Maps (Import > Link, not a file upload) to
-# get a layer that re-fetches current data each time you re-import.
+# My Maps has no "import by link" option (despite what we originally
+# thought) -- this KML endpoint is kept for manual download + upload
+# into My Maps, or for anything else that wants a KML file.
 [[redirects]]
   from = "/export.kml"
   to = "/.netlify/functions/export-kml"
+  status = 200
+
+# https://deaths-on-colorados-fourteeners.netlify.app/export.geojson
+# Same live data, shaped for map.html's Mapbox GL map -- one feature per
+# mountain with an embedded incident list, so there's no import row cap
+# to run into like Google Maps/My Maps have.
+[[redirects]]
+  from = "/export.geojson"
+  to = "/.netlify/functions/export-geojson"
+  status = 200
+
+# Serves the Mapbox public token from a Netlify env var (MAPBOX_TOKEN)
+# instead of it being hardcoded in map.html -- GitHub's push protection
+# specifically flags Mapbox tokens, so keeping it out of committed files
+# avoids that entirely.
+[[redirects]]
+  from = "/mapbox-config.js"
+  to = "/.netlify/functions/mapbox-config"
   status = 200
