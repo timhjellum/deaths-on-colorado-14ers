@@ -30,7 +30,7 @@
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAFWOhN5B3nHCCzCkf8Gk_355YMFzqfxIk" async defer></script>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="crossorigin="" />
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-<script src="custom-map.js"></script>
+<!-- script src="custom-map.js"></script -->
 <style>
   :root {
     --bg: #14161a;
@@ -201,6 +201,9 @@
       statusEl.textContent = "Failed to load /export.geojson: " + err.message +
         ". If this is a fresh deploy, check that mountains_public_read_policy.sql has been run in Supabase (RLS blocking anon reads is the usual cause).";
     });
+    var roads = L.gridLayer.googleMutant({
+		type: "roadmap", // valid values are 'roadmap', 'satellite', 'terrain' and 'hybrid'
+	}).addTo(map);
 })();
 </script>
 
