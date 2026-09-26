@@ -285,14 +285,12 @@
 			.replace(/>/g, "&gt;");
 	}
 
-	function formatDate(r) {
-		if (r.year && r.month && r.day) {
-			var mm = MONTH_NUM[r.month] || "";
-			var dd = ("0" + r.day).slice(-2);
-			if (mm) return mm + "/" + dd + "/" + r.year;
-		}
-		return r.year || "—";
-	}
+function formatDate(r) {
+    if (!r.year) return "—";
+    var mm = r.month && MONTH_NUM[r.month] ? MONTH_NUM[r.month] : "--";
+    var dd = r.day ? ("0" + r.day).slice(-2) : "--";
+    return mm + "/" + dd + "/" + r.year;
+}
 
 	function formatIncident(text) {
 		var blocks = String(text).split(/\n\s*\n/);
@@ -838,13 +836,18 @@ function onPeakChoose(name) {
 		});
 	}
 
-	function sortValue(r, key) {
-		if (key === "id") return +r.id;
-		if (key === "date") return +r.year; // mm/dd are display-only, not sortable
-		if (key === "climberName")
-			return (r.climberName || "\uffff").toLowerCase(); // blanks sort last
-		return r[key];
-	}
+function sortValue(r, key) {
+    if (key === "id") return +r.id;
+    if (key === "date") {
+        var y = +r.year || 0;
+        var mm = r.month && MONTH_NUM[r.month] ? +MONTH_NUM[r.month] : 0;
+        var dd = r.day ? +r.day : 0;
+        return y * 10000 + mm * 100 + dd; // sorts by year, then month, then day
+    }
+    if (key === "climberName")
+        return (r.climberName || "\uffff").toLowerCase();
+    return r[key];
+}
 
 	function renderTable() {
 		var rows = RECORDS.slice().sort(function (a, b) {
