@@ -21,8 +21,6 @@ const MONTH_NAMES = [
   "July", "August", "September", "October", "November", "December"
 ];
 
-// `month` has been stored inconsistently (numeric 1-12 in some inserts,
-// possibly a month name elsewhere) -- accept either rather than assume.
 function monthNumber(month) {
   if (month == null || month === "") return null;
   var n = parseInt(month, 10);
