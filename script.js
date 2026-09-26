@@ -1,11 +1,11 @@
-        (async function () {
+      (async function () {
             "use strict";
-
+ 
             /* ============ DATA ============ */
             // Fallback seed, used only if records.json is also unavailable (e.g. this
             // file opened directly, offline, from disk).
             var RECORDS_SEED = [];
-
+ 
             var MONTH_NAMES = [
                 "January",
                 "February",
@@ -20,7 +20,7 @@
                 "November",
                 "December"
             ];
-
+ 
             // All named peaks on the map: [id, label, range, x, y, hasDeaths]
             // Each row: [slug, name, range, x, y, labeled, elevationFt].
             // elevationFt drives the peak list's "Tallest" sort and the
@@ -32,7 +32,7 @@
                 ["pyramid", "Pyramid Peak", "Elk Range", 303, 390.5, false, 14018],
                 ["conundrum", "Conundrum Peak", "Elk Range", 321, 405, false, 14060],
                 ["castle", "Castle Peak", "Elk Range", 321, 411, false, 14265],
-
+ 
                 ["holy-cross", "Mount of the Holy Cross", "Sawatch Range", 405.5, 275, false, 14005],
                 ["massive", "Mount Massive", "Sawatch Range", 407.5, 355, false, 14421],
                 ["elbert", "Mount Elbert", "Sawatch Range", 412.5, 376.5, false, 14433],
@@ -48,14 +48,14 @@
                 ["antero", "Mount Antero", "Sawatch Range", 457.5, 504.5, true, 14269],
                 ["tabeguache", "Tabeguache Peak", "Sawatch Range", 456, 517.5, false, 14155],
                 ["shavano", "Mount Shavano", "Sawatch Range", 461, 522, false, 14229],
-
+ 
                 ["pikes-peak", "Pikes Peak", "Front Range", 727.5, 455, false, 14115],
                 ["longs", "Longs Peak", "Front Range", 597.5, 50, true, 14255],
                 ["torreys", "Torreys Peak", "Front Range", 547.5, 220, true, 14267],
                 ["grays", "Grays Peak", "Front Range", 550, 230, false, 14270],
                 ["evans", "Mount Evans", "Front Range", 592.5, 240, true, 14258],
                 ["bierstadt", "Mount Bierstadt", "Front Range", 582.5, 242.5, false, 14060],
-
+ 
                 ["kit-carson", "Kit Carson Peak", "Sangre de Cristo Range", 600, 702.5, true, 14165],
                 ["humboldt", "Humboldt Peak", "Sangre de Cristo Range", 612.5, 702.5, false, 14064],
                 ["challenger", "Challenger Point", "Sangre de Cristo Range", 587.5, 702.5, true, 14081],
@@ -66,7 +66,7 @@
                 ["little-bear", "Little Bear Peak", "Sangre de Cristo Range", 648, 838, true, 14037],
                 ["blanca", "Blanca Peak", "Sangre de Cristo Range", 632.5, 822.5, true, 14345],
                 ["culebra", "Culebra Peak", "Sangre de Cristo Range", 690, 952.5, false, 14047],
-
+ 
                 ["san-luis", "San Luis Peak", "San Juan Range", 307.5, 702.5, false, 14014],
                 ["uncompahgre", "Uncompahgre Peak", "San Juan Range", 190, 680, false, 14309],
                 ["wetterhorn", "Wetterhorn Peak", "San Juan Range", 177.5, 682.5, false, 14015],
@@ -81,7 +81,7 @@
                 ["sunlight", "Sunlight Peak", "San Juan Range", 160, 805, false, 14059],
                 ["eolus", "Mount Eolus", "San Juan Range", 142.5, 812.5, false, 14083],
                 ["windom", "Windom Peak", "San Juan Range", 162.5, 815, true, 14082],
-
+ 
                 ["quandary", "Quandary Peak", "Tenmile-Mosquito Range", 487.5, 295, true, 14265],
                 ["lincoln", "Mount Lincoln", "Tenmile-Mosquito Range", 495, 307.5, false, 14286],
                 ["cameron", "Mount Cameron", "Tenmile-Mosquito Range", 486, 310, false, 14238],
@@ -89,7 +89,7 @@
                 ["bross", "Mount Bross", "Tenmile-Mosquito Range", 490, 320, false, 14172],
                 ["sherman", "Mount Sherman", "Tenmile-Mosquito Range", 473.5, 342.5, false, 14036]
             ];
-
+ 
             async function loadStaticRecords() {
                 // Historical/curated records, self-hosted alongside this page.
                 try {
@@ -101,19 +101,19 @@
                 } catch (e) {
                     /* fall through to seed */
                 }
-
+ 
                 // Baked-in seed, used only if records.json is also unavailable (e.g.
                 // this file opened directly, offline, from disk).
                 return RECORDS_SEED;
             }
-
+ 
             function findPeak(mountainName) {
                 for (var i = 0; i < PEAKS.length; i++) {
                     if (PEAKS[i][1] === mountainName) return PEAKS[i];
                 }
                 return null;
             }
-
+ 
             // Pulls user-submitted incidents that a reviewer has approved in Supabase.
             // Only columns needed for display are requested -- nothing about who
             // submitted it, or its review history, is fetched here. This runs with
@@ -129,9 +129,9 @@
                             "mountain,year,month,day,cause,gender,age,climber_name,incident_details"
                         )
                         .eq("status", "approved");
-
+ 
                     if (result.error || !result.data) return [];
-
+ 
                     return result.data.map(function (row, i) {
                         var peak = findPeak(row.mountain);
                         return {
@@ -156,7 +156,7 @@
                     return [];
                 }
             }
-
+ 
             async function loadRecords() {
                 var staticRecords = await loadStaticRecords();
                 var maxId = staticRecords.reduce(function (m, r) {
@@ -166,9 +166,9 @@
                 var liveRecords = await loadLiveRecords(maxId + 1);
                 return staticRecords.concat(liveRecords);
             }
-
+ 
             var RECORDS = await loadRecords();
-
+ 
             // "No gender recorded" is a first-class Unknown bucket, not a
             // separate deliberate "Other" category (nothing ever used one) --
             // normalize null/blank here so it shows up consistently in the
@@ -178,7 +178,7 @@
             RECORDS.forEach(function (r) {
                 if (!r.gender) r.gender = "U";
             });
-
+ 
             var RANGE_CENTROIDS = {
                 "Elk Range": [298, 390],
                 "Sawatch Range": [434, 430],
@@ -187,7 +187,7 @@
                 "San Juan Range": [156, 743],
                 "Tenmile-Mosquito Range": [485, 315]
             };
-
+ 
             var CAUSE_ORDER = [
                 "Fall",
                 "Falling rock/ice",
@@ -234,7 +234,7 @@
                 November: "11",
                 December: "12"
             };
-
+ 
             // Built from whatever years are actually present -- entries need not be
             // contiguous or confined to any one window.
             var YEAR_ORDER = Array.from(
@@ -246,7 +246,7 @@
             ).sort(function (a, b) {
                 return +a - +b;
             });
-
+ 
             // Which peaks actually have a recorded incident is now driven by RECORDS
             // itself (static history + anything approved in Supabase) rather than the
             // static "hasDeaths" flag on PEAKS -- otherwise a newly-approved incident
@@ -268,21 +268,21 @@
                 peakCounts[p[1]] = c;
                 if (c > maxCount) maxCount = c;
             });
-
+ 
             function radiusFor(count) {
                 return 9 + 30 * Math.sqrt(count / maxCount);
             }
             function opacityFor(count) {
                 return 0.28 + 0.5 * Math.sqrt(count / maxCount);
             }
-
+ 
             function escapeHtml(s) {
                 return String(s)
                     .replace(/&/g, "&amp;")
                     .replace(/</g, "&lt;")
                     .replace(/>/g, "&gt;");
             }
-
+ 
             function formatDate(r) {
                 if (r.year && r.month && r.day) {
                     var mm = MONTH_NUM[r.month] || "";
@@ -291,7 +291,7 @@
                 }
                 return r.year || "—";
             }
-
+ 
             function formatIncident(text) {
                 var blocks = String(text).split(/\n\s*\n/);
                 var headline = blocks.shift();
@@ -323,11 +323,11 @@
                 });
                 return html;
             }
-
+ 
             /* ============ MASTHEAD STATS (computed from whatever data loaded) ============ */
             (function updateStats() {
                 document.getElementById("statEntries").textContent = RECORDS.length;
-
+ 
                 var years = RECORDS.map(function (r) {
                     return +r.year;
                 }).filter(function (y) {
@@ -351,7 +351,7 @@
                     spanYears +
                     " recorded year" +
                     (spanYears === 1 ? "" : "s");
-
+ 
                 var top = [],
                     best = 0;
                 Object.keys(peakCounts).forEach(function (m) {
@@ -373,17 +373,17 @@
                     (best === 1 ? "" : "s") +
                     (top.length > 1 ? " apiece" : "");
             })();
-
+ 
             /* ============ STATE ============ */
             var filter = null; // {dim:'mountain'|'cause'|'range'|'age'|'gender'|'year', value:string}
             var sortKey = "date";
             var sortDir = 1;
-
+ 
             function matches(r) {
                 if (!filter) return true;
                 return r[filter.dim] === filter.value;
             }
-
+ 
             function setFilter(dim, value) {
                 if (filter && filter.dim === dim && filter.value === value)
                     filter = null;
@@ -394,7 +394,7 @@
                 filter = null;
                 renderAll();
             }
-
+ 
             /* ============ MAP ============ */
             var svg = document.getElementById("map");
             (function buildMap() {
@@ -404,7 +404,7 @@
                     for (var k in attrs) e.setAttribute(k, attrs[k]);
                     return e;
                 }
-
+ 
                 var bg = el("rect", {
                     x: 0,
                     y: 0,
@@ -413,7 +413,7 @@
                     fill: "none"
                 });
                 svg.appendChild(bg);
-
+ 
                 // Range labels -- colored to match each range's icon in the
                 // peak list instead of the old decorative contour rings,
                 // which are redundant now that range is color-coded.
@@ -429,7 +429,7 @@
                     label.textContent = name;
                     svg.appendChild(label);
                 });
-
+ 
                 var capText = "COLORADO \u00b7 FOURTEENERS";
                 if (YEAR_ORDER.length) {
                     capText +=
@@ -441,7 +441,7 @@
                 var cap = el("text", { class: "map-caption", x: 14, y: 988 });
                 cap.textContent = capText;
                 svg.appendChild(cap);
-
+ 
                 // heat circles (rendered before markers so markers sit on top)
                 var heatLayer = el("g", { id: "heatLayer" });
                 svg.appendChild(heatLayer);
@@ -458,7 +458,7 @@
                         })
                     );
                 });
-
+ 
                 // context (non-death) peak glyphs
                 PEAKS.filter(function (p) {
                     return !recordMountains[p[1]];
@@ -471,7 +471,7 @@
                     g.appendChild(t);
                     svg.appendChild(g);
                 });
-
+ 
                 // death peak markers + hit targets
                 var markerLayer = el("g", { id: "markerLayer" });
                 svg.appendChild(markerLayer);
@@ -481,7 +481,7 @@
                     g.setAttribute("data-mountain", p[1]);
                     g.setAttribute("data-range", RANGE_COLOR[p[2]] || "orange");
                     markerLayer.appendChild(g);
-
+ 
                     var hit = el("circle", {
                         class: "peak-hit",
                         cx: p[3],
@@ -505,7 +505,7 @@
                     // handler. Use the peak list to filter by mountain.
                     markerLayer.appendChild(hit);
                 });
-
+ 
                 // Same isosceles-triangle proportions as the .peak-icon
                 // glyph in the sidebar (apex centered above a base twice
                 // its own half-height wide) so the map markers read as the
@@ -524,7 +524,7 @@
                     return el("polygon", { points: pts, class: cls });
                 }
             })();
-
+ 
             document
                 .getElementById("heatToggle")
                 .addEventListener("change", function (e) {
@@ -533,7 +533,7 @@
                         ? ""
                         : "none";
                 });
-
+ 
             /* ============ PEAK LIST (left sidebar / mobile dropdown) ============ */
             // The map is read-only, so this list is now the only way to
             // find a specific mountain: mousing over (or focusing) a row
@@ -544,7 +544,7 @@
             // filters the incident log the same way clicking a map marker
             // used to.
             var peakSort = "alpha"; // 'alpha' | 'tall' | 'deadly' -- no reverse variants
-
+ 
             function highlightMountain(name) {
                 document.querySelectorAll("[data-mountain]").forEach(function (node) {
                     node.classList.toggle(
@@ -553,18 +553,18 @@
                     );
                 });
             }
-
+ 
             function clearMountainHighlight() {
                 document.querySelectorAll(".is-hover").forEach(function (node) {
                     node.classList.remove("is-hover");
                 });
             }
-
+ 
             function onPeakChoose(name) {
                 if (!name) clearFilter();
                 else setFilter("mountain", name);
             }
-
+ 
             function sortedPeakList() {
                 var list = PEAKS.slice();
                 if (peakSort === "tall") {
@@ -585,7 +585,7 @@
                 }
                 return list;
             }
-
+ 
             function peakIconSVG(colorKey) {
                 return (
                     '<svg class="peak-icon" data-range="' +
@@ -593,7 +593,7 @@
                     '" viewBox="0 0 16 14" width="14" height="12" aria-hidden="true" focusable="false"><polygon points="8,1 15,13 1,13"></polygon></svg>'
                 );
             }
-
+ 
             function peakRowHTML(p) {
                 var colorKey = RANGE_COLOR[p[2]] || "orange";
                 return (
@@ -615,10 +615,10 @@
                     "</div>"
                 );
             }
-
+ 
             function renderPeakList() {
                 var list = sortedPeakList();
-
+ 
                 var box = document.getElementById("peakList");
                 box.innerHTML = list.map(peakRowHTML).join("");
                 box.querySelectorAll(".peak-row").forEach(function (row) {
@@ -635,7 +635,7 @@
                         onPeakChoose(name);
                     });
                 });
-
+ 
                 var select = document.getElementById("peakDropdown");
                 select.innerHTML =
                     '<option value="">Browse 14ers…</option>' +
@@ -652,10 +652,10 @@
                             );
                         })
                         .join("");
-
+ 
                 syncActiveStates();
             }
-
+ 
             document.querySelectorAll(".peak-sort-btn").forEach(function (btn) {
                 btn.addEventListener("click", function () {
                     if (btn.dataset.sort === peakSort) return;
@@ -666,15 +666,15 @@
                     renderPeakList();
                 });
             });
-
+ 
             document
                 .getElementById("peakDropdown")
                 .addEventListener("change", function (e) {
                     onPeakChoose(e.target.value);
                 });
-
+ 
             renderPeakList();
-
+ 
             /* ============ PEAK LIST DETAIL (replaces the old Selection panel) ============ */
             // Builds the cause breakdown shown inline under a mountain's row
             // once it's the active filter -- same data the old Selection
@@ -712,14 +712,14 @@
                 html += "</div>";
                 return html;
             }
-
+ 
             /* ============ CHARTS ============ */
             function count(dim, value) {
                 return RECORDS.filter(function (r) {
                     return r[dim] === value;
                 }).length;
             }
-
+ 
             function buildBarChart(containerId, dim, order, labelFn) {
                 var el = document.getElementById(containerId);
                 el.innerHTML = "";
@@ -748,7 +748,7 @@
                     el.appendChild(row);
                 });
             }
-
+ 
             function buildYearChart() {
                 var el = document.getElementById("chartYear");
                 el.innerHTML = "";
@@ -783,10 +783,9 @@
                 });
                 el.appendChild(inner);
             }
-
+ 
             /* ============ TABLE ============ */
             var COLUMNS = [
-                { key: "id", label: "#", cls: "num" },
                 { key: "date", label: "Date", cls: "num" },
                 { key: "climberName", label: "Climber" },
                 { key: "mountain", label: "Mountain" },
@@ -795,7 +794,7 @@
                 { key: "gender", label: "Sex" },
                 { key: "age", label: "Age band" }
             ];
-
+ 
             function buildTableHead() {
                 var head = document.getElementById("tableHead");
                 head.innerHTML = "";
@@ -818,7 +817,7 @@
                 });
                 updateSortIndicators();
             }
-
+ 
             function updateSortIndicators() {
                 var ths = document.querySelectorAll("#tableHead th");
                 COLUMNS.forEach(function (col, i) {
@@ -828,7 +827,7 @@
                     arrow.textContent = sortDir === 1 ? "\u25b2" : "\u25bc";
                 });
             }
-
+ 
             function sortValue(r, key) {
                 if (key === "id") return +r.id;
                 if (key === "date") return +r.year; // mm/dd are display-only, not sortable
@@ -836,7 +835,7 @@
                     return (r.climberName || "\uffff").toLowerCase(); // blanks sort last
                 return r[key];
             }
-
+ 
             function renderTable() {
                 var rows = RECORDS.slice().sort(function (a, b) {
                     var av = sortValue(a, sortKey),
@@ -845,14 +844,14 @@
                     if (av > bv) return 1 * sortDir;
                     return 0;
                 });
-
+ 
                 var body = document.getElementById("tableBody");
                 body.innerHTML = "";
                 var shown = 0;
                 rows.forEach(function (r) {
                     if (filter && !matches(r)) return;
                     shown++;
-
+ 
                     var hasStory = !!(
                         r.incidentDetails && String(r.incidentDetails).trim()
                     );
@@ -860,9 +859,6 @@
                     if (filter) tr.classList.add("is-match");
                     if (hasStory) tr.classList.add("has-story");
                     tr.innerHTML =
-                        "<td class='id-cell'>" +
-                        String(r.id).padStart(2, "0") +
-                        "</td>" +
                         "<td class='num'>" +
                         formatDate(r) +
                         "</td>" +
@@ -890,7 +886,7 @@
                         (r.age || "<span class='muted-cell'>—</span>") +
                         "</td>";
                     body.appendChild(tr);
-
+ 
                     if (hasStory) {
                         var storyTr = document.createElement("tr");
                         storyTr.className = "story-row";
@@ -903,7 +899,7 @@
                             "</div>";
                         storyTr.appendChild(td);
                         body.appendChild(storyTr);
-
+ 
                         tr.addEventListener("click", function () {
                             var willOpen = storyTr.hidden;
                             storyTr.hidden = !willOpen;
@@ -911,17 +907,17 @@
                         });
                     }
                 });
-
+ 
                 document.getElementById("countReadout").textContent = filter
                     ? "Showing " + shown + " of " + RECORDS.length
                     : "Showing " + RECORDS.length + " of " + RECORDS.length;
                 document.getElementById("clearBtn").disabled = !filter;
             }
-
+ 
             document
                 .getElementById("clearBtn")
                 .addEventListener("click", clearFilter);
-
+ 
             /* ============ ACTIVE-STATE SYNC ============ */
             function syncActiveStates() {
                 // map markers
@@ -929,7 +925,7 @@
                     var label = m.getAttribute("data-mountain");
                     m.classList.toggle("is-dim", !!filter && !mountainVisible(label));
                 });
-
+ 
                 // bar rows
                 document.querySelectorAll(".bar-row").forEach(function (row) {
                     var owner = row
@@ -949,7 +945,7 @@
                         row.classList.add("is-active");
                     else if (filter.dim === dim) row.classList.add("is-dim");
                 });
-
+ 
                 // year columns
                 document.querySelectorAll(".year-col").forEach(function (col) {
                     col.classList.remove("is-active", "is-dim");
@@ -958,7 +954,7 @@
                         col.classList.add("is-active");
                     else col.classList.add("is-dim");
                 });
-
+ 
                 // peak list rows (sidebar) + mobile dropdown
                 document.querySelectorAll(".peak-row").forEach(function (row) {
                     var label = row.getAttribute("data-mountain");
@@ -972,7 +968,7 @@
                     dropdown.value =
                         filter && filter.dim === "mountain" ? filter.value : "";
                 }
-
+ 
                 // inline detail -- expands under whichever row is the
                 // active mountain filter, same data the old Selection
                 // panel showed
@@ -984,7 +980,7 @@
                     box.innerHTML = isActive ? peakDetailHTML(label) : "";
                 });
             }
-
+ 
             function mountainVisible(label) {
                 if (!filter) return true;
                 if (filter.dim === "mountain") return filter.value === label;
@@ -993,7 +989,7 @@
                     return r.mountain === label && matches(r);
                 });
             }
-
+ 
             /* ============ WIRE-UP (rebuild charts with data-value + labels) ============ */
             function buildBarChartsFinal() {
                 buildBarChart("chartCause", "cause", CAUSE_ORDER);
@@ -1025,7 +1021,7 @@
                     .forEach(function (row, i) {
                         row.dataset.value = GENDER_ORDER[i];
                     });
-
+ 
                 buildYearChart();
                 document
                     .querySelectorAll("#chartYear .year-col")
@@ -1033,13 +1029,13 @@
                         col.dataset.value = YEAR_ORDER[i];
                     });
             }
-
+ 
             function renderAll() {
                 buildBarChartsFinal();
                 renderTable();
                 syncActiveStates();
             }
-
+ 
             buildTableHead();
             renderAll();
         })();
