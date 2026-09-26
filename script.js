@@ -179,7 +179,8 @@
                 if (!r.gender) r.gender = "U";
             });
  
-            var RANGE_CENTROIDS = {
+            /*
+			var RANGE_CENTROIDS = {
                 "Elk Range": [298, 390],
                 "Sawatch Range": [434, 430],
                 "Front Range": [600, 240],
@@ -187,7 +188,7 @@
                 "San Juan Range": [156, 743],
                 "Tenmile-Mosquito Range": [485, 315]
             };
- 
+ */
             var CAUSE_ORDER = [
                 "Fall",
                 "Falling rock/ice",
@@ -259,23 +260,24 @@
             var deathPeaks = PEAKS.filter(function (p) {
                 return !!recordMountains[p[1]];
             });
-            var maxCount = 0;
+            //var maxCount = 0;
             var peakCounts = {};
             deathPeaks.forEach(function (p) {
                 var c = RECORDS.filter(function (r) {
                     return r.mountain === p[1];
                 }).length;
                 peakCounts[p[1]] = c;
-                if (c > maxCount) maxCount = c;
+                //if (c > maxCount) maxCount = c;
             });
  
-            function radiusFor(count) {
-                return 9 + 30 * Math.sqrt(count / maxCount);
-            }
-            function opacityFor(count) {
-                return 0.28 + 0.5 * Math.sqrt(count / maxCount);
-            }
- 
+/*
+function radiusFor(count) {
+return 9 + 30 * Math.sqrt(count / maxCount);
+}
+function opacityFor(count) {
+return 0.28 + 0.5 * Math.sqrt(count / maxCount);
+}
+*/
             function escapeHtml(s) {
                 return String(s)
                     .replace(/&/g, "&amp;")
@@ -395,55 +397,54 @@
                 renderAll();
             }
  
-            /* ============ MAP ============ */
-            var svg = document.getElementById("map");
-            (function buildMap() {
-                var ns = "http://www.w3.org/2000/svg";
-                function el(tag, attrs) {
-                    var e = document.createElementNS(ns, tag);
-                    for (var k in attrs) e.setAttribute(k, attrs[k]);
-                    return e;
-                }
- 
-                var bg = el("rect", {
-                    x: 0,
-                    y: 0,
-                    width: 786,
-                    height: 1000,
-                    fill: "none"
-                });
-                svg.appendChild(bg);
- 
-                // Range labels -- colored to match each range's icon in the
-                // peak list instead of the old decorative contour rings,
-                // which are redundant now that range is color-coded.
-                Object.keys(RANGE_CENTROIDS).forEach(function (name) {
-                    var c = RANGE_CENTROIDS[name];
-                    var label = el("text", {
-                        class: "range-label",
-                        "data-range": RANGE_COLOR[name] || "orange",
-                        x: c[0],
-                        y: c[1] - 70,
-                        "text-anchor": "middle"
-                    });
-                    label.textContent = name;
-                    svg.appendChild(label);
-                });
- 
-                var capText = "COLORADO \u00b7 FOURTEENERS";
-                if (YEAR_ORDER.length) {
-                    capText +=
-                        " \u00b7 " +
-                        (YEAR_ORDER[0] === YEAR_ORDER[YEAR_ORDER.length - 1]
-                            ? YEAR_ORDER[0]
-                            : YEAR_ORDER[0] + "\u2013" + YEAR_ORDER[YEAR_ORDER.length - 1]);
-                }
-                var cap = el("text", { class: "map-caption", x: 14, y: 988 });
-                cap.textContent = capText;
-                svg.appendChild(cap);
- 
+/* ============ MAP ============ 
+var svg = document.getElementById("map");
+(function buildMap() {
+var ns = "http://www.w3.org/2000/svg";
+function el(tag, attrs) {
+var e = document.createElementNS(ns, tag);
+for (var k in attrs) e.setAttribute(k, attrs[k]);
+return e;
+}
+
+var bg = el("rect", {
+x: 0,
+y: 0,
+width: 786,
+height: 1000,
+fill: "none"
+});
+svg.appendChild(bg);
+
+// Range labels -- colored to match each range's icon in the
+// peak list instead of the old decorative contour rings,
+// which are redundant now that range is color-coded.
+Object.keys(RANGE_CENTROIDS).forEach(function (name) {
+var c = RANGE_CENTROIDS[name];
+var label = el("text", {
+class: "range-label",
+"data-range": RANGE_COLOR[name] || "orange",
+x: c[0],
+y: c[1] - 70,
+"text-anchor": "middle"
+});
+label.textContent = name;
+svg.appendChild(label);
+});
+
+var capText = "COLORADO \u00b7 FOURTEENERS";
+if (YEAR_ORDER.length) {
+capText +=
+" \u00b7 " +
+(YEAR_ORDER[0] === YEAR_ORDER[YEAR_ORDER.length - 1]
+? YEAR_ORDER[0]
+: YEAR_ORDER[0] + "\u2013" + YEAR_ORDER[YEAR_ORDER.length - 1]);
+}
+var cap = el("text", { class: "map-caption", x: 14, y: 988 });
+cap.textContent = capText;
+svg.appendChild(cap);
+
 // heat circles (rendered before markers so markers sit on top)
-/*
 var heatLayer = el("g", { id: "heatLayer" });
 svg.appendChild(heatLayer);
 deathPeaks.forEach(function (p) {
@@ -459,83 +460,83 @@ opacity: opacityFor(count),
 })
 );
 });
+
+// context (non-death) peak glyphs
+PEAKS.filter(function (p) {
+return !recordMountains[p[1]];
+}).forEach(function (p) {
+var g = triangle(p[3], p[4], 5, "peak-context");
+g.setAttribute("data-mountain", p[1]);
+g.setAttribute("data-range", RANGE_COLOR[p[2]] || "orange");
+var t = el("title", {});
+t.textContent = p[1] + " \u2014 no recorded fatalities on file";
+g.appendChild(t);
+svg.appendChild(g);
+});
+
+// death peak markers + hit targets
+var markerLayer = el("g", { id: "markerLayer" });
+svg.appendChild(markerLayer);
+deathPeaks.forEach(function (p) {
+var count = peakCounts[p[1]];
+var g = triangle(p[3], p[4], 6.5, "peak-death");
+g.setAttribute("data-mountain", p[1]);
+g.setAttribute("data-range", RANGE_COLOR[p[2]] || "orange");
+markerLayer.appendChild(g);
+
+var hit = el("circle", {
+class: "peak-hit",
+cx: p[3],
+cy: p[4],
+r: 16,
+"data-mountain": p[1]
+});
+var t = el("title", {});
+t.textContent =
+p[1] +
+" \u2014 " +
+count +
+" death" +
+(count === 1 ? "" : "s") +
+" (" +
+p[2] +
+")";
+hit.appendChild(t);
+// Read-only: the map is a visual overview only, so this
+// hit target keeps its hover tooltip but has no click
+// handler. Use the peak list to filter by mountain.
+markerLayer.appendChild(hit);
+});
+
+// Same isosceles-triangle proportions as the .peak-icon
+// glyph in the sidebar (apex centered above a base twice
+// its own half-height wide) so the map markers read as the
+// same icon, just at a different scale.
+function triangle(cx, cy, r, cls) {
+var halfW = r * (7 / 6);
+var pts = [
+[cx, cy - r],
+[cx + halfW, cy + r],
+[cx - halfW, cy + r]
+]
+.map(function (pt) {
+return pt.join(",");
+})
+.join(" ");
+return el("polygon", { points: pts, class: cls });
+}
+})();
+
+
+document
+.getElementById("heatToggle")
+.addEventListener("change", function (e) {
+document.getElementById("heatLayer").style.display = e.target
+.checked
+? ""
+: "none";
+});
 */
-                // context (non-death) peak glyphs
-                PEAKS.filter(function (p) {
-                    return !recordMountains[p[1]];
-                }).forEach(function (p) {
-                    var g = triangle(p[3], p[4], 5, "peak-context");
-                    g.setAttribute("data-mountain", p[1]);
-                    g.setAttribute("data-range", RANGE_COLOR[p[2]] || "orange");
-                    var t = el("title", {});
-                    t.textContent = p[1] + " \u2014 no recorded fatalities on file";
-                    g.appendChild(t);
-                    svg.appendChild(g);
-                });
- 
-                // death peak markers + hit targets
-                var markerLayer = el("g", { id: "markerLayer" });
-                svg.appendChild(markerLayer);
-                deathPeaks.forEach(function (p) {
-                    var count = peakCounts[p[1]];
-                    var g = triangle(p[3], p[4], 6.5, "peak-death");
-                    g.setAttribute("data-mountain", p[1]);
-                    g.setAttribute("data-range", RANGE_COLOR[p[2]] || "orange");
-                    markerLayer.appendChild(g);
- 
-                    var hit = el("circle", {
-                        class: "peak-hit",
-                        cx: p[3],
-                        cy: p[4],
-                        r: 16,
-                        "data-mountain": p[1]
-                    });
-                    var t = el("title", {});
-                    t.textContent =
-                        p[1] +
-                        " \u2014 " +
-                        count +
-                        " death" +
-                        (count === 1 ? "" : "s") +
-                        " (" +
-                        p[2] +
-                        ")";
-                    hit.appendChild(t);
-                    // Read-only: the map is a visual overview only, so this
-                    // hit target keeps its hover tooltip but has no click
-                    // handler. Use the peak list to filter by mountain.
-                    markerLayer.appendChild(hit);
-                });
- 
-                // Same isosceles-triangle proportions as the .peak-icon
-                // glyph in the sidebar (apex centered above a base twice
-                // its own half-height wide) so the map markers read as the
-                // same icon, just at a different scale.
-                function triangle(cx, cy, r, cls) {
-                    var halfW = r * (7 / 6);
-                    var pts = [
-                        [cx, cy - r],
-                        [cx + halfW, cy + r],
-                        [cx - halfW, cy + r]
-                    ]
-                        .map(function (pt) {
-                            return pt.join(",");
-                        })
-                        .join(" ");
-                    return el("polygon", { points: pts, class: cls });
-                }
-            })();
- 
-            /*
-			document
-                .getElementById("heatToggle")
-                .addEventListener("change", function (e) {
-                    document.getElementById("heatLayer").style.display = e.target
-                        .checked
-                        ? ""
-                        : "none";
-                });
- */
             /* ============ PEAK LIST (left sidebar / mobile dropdown) ============ */
             // The map is read-only, so this list is now the only way to
             // find a specific mountain: mousing over (or focusing) a row
