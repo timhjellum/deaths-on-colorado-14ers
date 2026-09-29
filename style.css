@@ -951,6 +951,7 @@ table {
     border-collapse: collapse;
     font-size: 13px;
     min-width: 680px;
+	box-shadow: var(--shadow), 0 0 24px 0 rgba(255, 132, 84, 0.25);
 }
 
 thead th {
