@@ -430,10 +430,12 @@ h1 em {
 }
 
 .panel {
-    border: 1px solid var(--line);
+    /* border: 1px solid var(--line); */
+	border: 1px dashed #ff8454;
     border-radius: var(--radius-m);
     background: var(--paper-raised);
     box-shadow: var(--shadow);
+    box-shadow: var(--shadow), 0 0 24px 0 rgba(255, 132, 84, 0.25);
 }
 
 .panel-head {
