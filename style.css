@@ -1,7 +1,7 @@
 /* ============ TOKENS ============ */
 :root {
     --ink: #23261f;
-    --black-ink: #010101;
+    --black-ink: #212121; /* #010101 */;
     --ink-soft: #5b5f52;
     --paper: #efece3;
     --paper-raised: #f7f5ee;
@@ -48,13 +48,14 @@
         "Public Sans", -apple-system, BlinkMacSystemFont, "Segoe UI",
         sans-serif;
     --font-mono: "IBM Plex Mono", "SFMono-Regular", Consolas, monospace;
-}
+/*}
 
 @media (prefers-color-scheme: dark) {
     :root:not([data-theme="light"]) {
+	*/
         --ink: #e8e4d8;
         --ink-soft: #a6a190;
-        --paper: #1b1d18;
+        --paper: #212121;
         --paper-raised: #232720;
         --sky: #3e90c9;
         --sky-ink: #8fc4e8;
@@ -65,6 +66,7 @@
         --line-strong: #4c5044;
         --shadow: 0 1px 0 rgba(0, 0, 0, 0.3);
     }
+/*
 }
 
 :root[data-theme="dark"] {
@@ -81,7 +83,7 @@
     --line-strong: #4c5044;
     --shadow: 0 1px 0 rgba(0, 0, 0, 0.3);
 }
-
+*/
 * {
     box-sizing: border-box;
 }
@@ -170,7 +172,7 @@ h1 {
 h1 em {
     font-style: italic;
     font-weight: 500;
-    color: var(--rust);
+    color: #eee; /* var(--rust); */
 }
 
 .deck {
@@ -1189,14 +1191,13 @@ footer .src {
 }
 
 .wrap {
-    background-image: linear-gradient(343deg,
-            rgba(0, 100, 200, 0) 0%,
-            rgba(0, 100, 200, 0) 96%,
-            rgba(0, 100, 200, 1) 99%,
-            rgba(0, 100, 200, 1) 100%),
-        url("./images/bg.webp");
+
+	background-image: 
+
+        url("./images/bg.png");
     background-repeat: no-repeat;
     background-position-x: center;
+	background-size: contain;
     margin: 0;
 }
 
