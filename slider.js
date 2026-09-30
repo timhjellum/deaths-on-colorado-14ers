@@ -10,12 +10,18 @@
 
     var before = document.createDocumentFragment();
     var after = document.createDocumentFragment();
-    originals.forEach(function (el) {
-        var a = el.cloneNode(true); a.setAttribute("aria-hidden", "true");
-        var b = el.cloneNode(true); b.setAttribute("aria-hidden", "true");
-        before.appendChild(a);
-        after.appendChild(b);
-    });
+function stripIds(node) {
+    if (node.removeAttribute) node.removeAttribute("id");
+    node.querySelectorAll("[id]").forEach(function (n) { n.removeAttribute("id"); });
+    return node;
+}
+
+originals.forEach(function (el) {
+    var a = stripIds(el.cloneNode(true)); a.setAttribute("aria-hidden", "true");
+    var b = stripIds(el.cloneNode(true)); b.setAttribute("aria-hidden", "true");
+    before.appendChild(a);
+    after.appendChild(b);
+});
     track.insertBefore(before, track.firstChild);
     track.appendChild(after);
 
