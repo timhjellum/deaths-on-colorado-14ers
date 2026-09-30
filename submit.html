@@ -281,7 +281,7 @@
       </div>
 
       <div class="field">
-        <label for="climberName">Climber's name (optional)</label>
+        <label for="climberName">Name (optional)</label>
         <input type="text" id="climberName" placeholder="Leave blank if unknown">
       </div>
 
@@ -396,9 +396,9 @@
       return;
     }
 
-    const items = data
-      .map(r => (r.climber_name ? r.climber_name : 'unnamed climber') + ' (' + (r.cause || 'cause unclear') + ')')
-      .join('; ');
+const items = data
+  .map(r => (r.climber_name ? r.climber_name : 'name unknown') + ' (' + (r.cause || 'cause unclear') + ')')
+  .join('; ');
     showMsg(
       existingNote,
       (data.length === 1 ? 'Already on record' : data.length + ' incidents already on record') +

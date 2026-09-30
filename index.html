@@ -112,33 +112,51 @@
             </div>
 
             <header class="masthead">
-                <div>
-                    <!-- p class="eyebrow">Field Log</p -->
-                    <h1>
-                        Deaths on Colorado&#x27;s <em>Fourteeners (14er)</em>
-                    </h1>
-                    <div class="panel masthead-sub">
-                        <p>Colorado&#x27;s Fourteeners attract hundreds of thousands of hikers each year. Yet there is no single, comprehensive public record of the people who have lost their lives on these peaks.</p>
-                        <p>Deaths on Colorado&#x27;s Fourteeners was created to document these fatalities and preserve the stories behind them—including falls, rockfall, avalanches, exposure, medical events, lightning, and other causes.</p>
-                        <p>The database combines publicly reported information with crowdsourced accounts. Whenever possible, incidents are cross-referenced and verified, duplicate reports are merged, and inaccuracies are corrected as new information emerges.</p>
-                    </div>
+                <h1>
+                    Deaths on Colorado&#x27;s <em>Fourteeners (14er)</em>
+                </h1>
+
+                <div class="panel masthead-sub">
+                    <p>Colorado&#x27;s Fourteeners attract hundreds of thousands of hikers each year. Yet there is no single, comprehensive public record of the people who have lost their lives on these peaks.</p>
+                    <p>Deaths on Colorado&#x27;s Fourteeners was created to document these fatalities and preserve the stories behind them—including falls, rockfall, avalanches, exposure, medical events, lightning, and other causes.</p>
+                    <p>The database combines publicly reported information with crowdsourced accounts. Whenever possible, incidents are cross-referenced and verified, duplicate reports are merged, and inaccuracies are corrected as new information emerges.</p>
                 </div>
-                <div>
-                    <div class="stat-panel">
-                        <div class="stat">
-                            <p class="stat-label">Entries</p>
-                            <p class="stat-value" id="statEntries">—</p>
-                            <p class="stat-sub">reported deaths</p>
-                        </div>
-                        <div class="stat">
-                            <p class="stat-label">Span</p>
-                            <p class="stat-value" id="statSpan">—</p>
-                            <p class="stat-sub" id="statSpanSub">recorded years</p>
-                        </div>
-                        <div class="stat">
-                            <p class="stat-label">Deadliest</p>
-                            <p class="stat-value" id="statDeadliest" style="font-size: 16px">—</p>
-                            <p class="stat-sub" id="statDeadliestSub">&nbsp;</p>
+
+                <div class="panel stat-panel">
+                    <div class="vslider-wrap">
+                        <div class="vslider" aria-roledescription="carousel" aria-label="Stats and recent news">
+                            <div class="vslider__viewport">
+                                <div class="vslider__track">
+                                    <article>
+                                        <p><strong><span class="stat-value" id="statEntries">—</span></strong><br />reported deaths</p>
+                                    </article>
+                                    <article>
+                                        <p><strong><span class="stat-value" id="statSpan">—</span></strong><br />recorded years</p>
+                                    </article>
+                                    <article>
+                                        <p><strong><span class="stat-value" id="statDeadliest" style="font-size: 16px">—</span></strong><br />Deadliest mountain</p>
+                                    </article>
+
+                                    <article>
+                                        <p><strong><a href="https://www.coloradoan.com/story/news/local/colorado/2026/07/06/rocky-mountain-national-park-investigating-death-on-longs-peak-july-5/90825234007/" target="_blank" rel="noopener noreferrer">Person found dead on Longs Peak route in Rocky Mountain National Park</a></strong><br />06/07/2026</p>
+                                    </article>
+                                    <article>
+                                        <p><strong><a href="https://coloradosun.com/2026/06/19/solo-trail-runner-death-mount-sneffels-ouray/" target="_blank" rel="noopener noreferrer">Solo trail runner&#x27;s death on Colorado 14,155-foot Mount Sneffels</a></strong><br />06/10/2026</p>
+                                    </article>
+                                    <article>
+                                        <p><strong><a href="https://coloradosun.com/2026/07/01/hiker-dies-little-bear-peak-alamosa-county/" target="_blank" rel="noopener noreferrer">Hiker dies on 14,000-foot Little Bear Peak</a></strong><br />07/21/2026</p>
+                                    </article>
+                                    <article>
+                                        <p><strong><a href="https://www.fox5ny.com/news/colorado-city-leader-dies-after-collapsing-14000-foot-mountain-hike?link_source=ta_first_comment&taid=6a948bc6cdeb3c00017ab1cc" target="_blank" rel="noopener noreferrer">Colorado city leader dies after collapsing on 14,271-feet Quandary Peak</a></strong><br />08/10/2026</p>
+                                    </article>
+                                    <article>
+                                        <p><strong><a href="https://www.outsideonline.com/outdoor-adventure/exploration-survival/maroon-bells-closed-two-climber-deaths/" target="_blank" rel="noopener noreferrer">Two Climbers Died on the Maroon Bells Days Apart. Now Authorities Have Identified Them.</a></strong><br />09/02/2026</p>
+                                    </article>
+                                    <article>
+                                        <p><strong><a href="https://coloradosun.com/2026/09/07/climber-dies-castle-peak-aspen-colorado/" target="_blank" rel="noopener noreferrer">Climber dies after falling from 14,265-foot Castle Peak</a></strong><br />09/06/2026</p>
+                                    </article>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -218,6 +236,7 @@
     </script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
     <script type="module" src="script.js"></script>
+    <script type="module" src="slider.js"></script>
 </body>
 
 </html>

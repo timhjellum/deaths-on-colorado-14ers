@@ -346,11 +346,11 @@ function formatDate(r) {
 		// years), not how many of those years actually have a
 		// recorded death -- e.g. 1884-2026 is a 143-year span even
 		// though only some of those years have entries.
-		//var spanYears = maxY - minY + 1;
-		//document.getElementById("statSpanSub").textContent =
-		//	spanYears +
-		//	" recorded year" +
-		//	(spanYears === 1 ? "" : "s");
+		var spanYears = maxY - minY + 1;
+		document.getElementById("statSpanSub").textContent =
+			spanYears +
+			" recorded year" +
+			(spanYears === 1 ? "" : "s");
 
 		var top = [],
 			best = 0;
@@ -367,11 +367,11 @@ function formatDate(r) {
 		});
 		document.getElementById("statDeadliest").textContent =
 			shortNames.join(" · ");
-		//document.getElementById("statDeadliestSub").textContent =
-		//	best +
-		//	" death" +
-		//	(best === 1 ? "" : "s") +
-		//	(top.length > 1 ? " apiece" : "");
+		document.getElementById("statDeadliestSub").textContent =
+			best +
+			" death" +
+			(best === 1 ? "" : "s") +
+			(top.length > 1 ? " apiece" : "");
 	})();
 
 	/* ============ STATE ============ */
@@ -795,7 +795,8 @@ function onPeakChoose(name) {
 	/* ============ TABLE ============ */
 	var COLUMNS = [
 		{ key: "date", label: "Date", cls: "num" },
-		{ key: "climberName", label: "Climber" },
+		//", label: "Climber" },
+		{ key: "climberName", label: "Name" },
 		{ key: "mountain", label: "Mountain" },
 		{ key: "range", label: "Range" },
 		{ key: "cause", label: "Cause" },
