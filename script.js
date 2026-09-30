@@ -795,7 +795,7 @@ function onPeakChoose(name) {
 	/* ============ TABLE ============ */
 	var COLUMNS = [
 		{ key: "date", label: "Date", cls: "num" },
-		{ key: "climberName", label: "Climber" },
+		{ key: "climberName", label: "Name" },
 		{ key: "mountain", label: "Mountain" },
 		{ key: "range", label: "Range" },
 		{ key: "cause", label: "Cause" },

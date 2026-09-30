@@ -1274,10 +1274,16 @@ footer .src {
     max-width: 52ch;
 }
 
-
+.story-body h3 {
+    margin: 0 0 10px;
+    color: var(--ink-soft);
+    font-size: 13.5px;
+    line-height: 1.65;
+}
 
 
 .masthead-sub {
+	height: 100%;
     padding: 16px;
     grid-column: 1;
     grid-row: 2;
