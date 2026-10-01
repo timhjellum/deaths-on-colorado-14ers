@@ -1350,12 +1350,6 @@ aside {
 
     .stat-panel {
         display: flex;
-        gap: 0;
-        border: 1px solid var(--line);
-        border-radius: var(--radius-m);
-        background: var(--paper-raised);
-        overflow: hidden;
-        flex-direction: column;
         flex-direction: column;
         grid-column: 1;
         grid-row: 3;
@@ -1419,6 +1413,7 @@ aside {
 	.stat-panel {
 		grid-column: 2;
 		grid-row: 2;
+		margin-top: 22px;
 	}
 
 
