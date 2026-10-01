@@ -159,7 +159,12 @@ h1 {
     grid-column: 1 / -1;
     grid-row: 1;
 }
-
+h1 {
+    display:  flex;
+    flex-direction: row;
+    align-content: center;
+    align-items: center;
+}
 .eyebrow {
     font-family: var(--font-body);
     font-size: 11.5px;
