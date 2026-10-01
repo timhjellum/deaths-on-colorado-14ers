@@ -473,8 +473,6 @@ button {
 	this just wraps the map panel. */
 .atlas {
     display: grid;
-    grid-template-columns: 1fr;
-    margin-top: 40px;
 }
 
 .panel {
@@ -1338,7 +1336,7 @@ aside {
         align-items: end;
         grid-template-columns: 1fr;
 		grid-template-rows: fit-content fit-content fit-content;
-        padding: 16px 0 32px;
+        padding: 16px 0 0;
     }
 
     .masthead-sub {
@@ -1353,6 +1351,7 @@ aside {
         flex-direction: column;
         grid-column: 1;
         grid-row: 3;
+		margin-top: 22px;
     }
 
     h1 {
@@ -1382,6 +1381,9 @@ aside {
         width: 75px;
         aspect-ratio: 1;
     }
+	.atlas {
+    	margin-top: 22px;
+	}
 }
 
 @media (min-width: 480px) {}
@@ -1389,14 +1391,8 @@ aside {
 @media (min-width: 600px) {}
 
 @media (min-width: 801px) {
-    /*
-	masthead {
-        grid-template-columns: 1.4fr 1fr;
-        gap: 40px;
-
-    }
-		*/
-    .masthead {
+ .masthead {
+        padding: 16px 0 32px;
 		grid-template-columns: 1fr 1fr;
 		grid-template-rows: 1fr 1fr;
 	}
@@ -1413,11 +1409,11 @@ aside {
 	.stat-panel {
 		grid-column: 2;
 		grid-row: 2;
-		margin-top: 22px;
+		margin-top: 0;
 	}
-
-
-	
+	.atlas {
+	    margin-top: 40px;
+	}
 }
 
 @media (min-width: 1024px) {
