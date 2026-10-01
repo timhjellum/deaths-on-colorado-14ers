@@ -333,6 +333,20 @@ button {
 
 
 
+.leaflet-control-zoom.leaflet-bar.leaflet-control a {
+	background-color: var(--rust);
+}
+
+
+
+
+
+
+
+
+
+
+
 
 
 
