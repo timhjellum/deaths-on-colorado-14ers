@@ -1,4 +1,4 @@
-/* ============ TOKENS ============ */
+@import 'slider.css';
 :root {
     --ink: #23261f;
     --black-ink: #212121;
@@ -178,7 +178,7 @@ button {
 
 
 
-/* ---------- Masthead stats/news slider ---------- */
+/* ---------- Masthead stats/news slider ----------
 .vslider-wrap {
     display: flex;
     align-items: stretch;
@@ -244,7 +244,7 @@ button {
     text-decoration: underline;
 }
 
-
+ */
 
 
 
