@@ -1475,6 +1475,7 @@ aside {
     h1 img {
         width: 75px;
         aspect-ratio: 1;
+		margin-left: 32px
     }
 
     .atlas {
