@@ -1335,7 +1335,7 @@ aside {
         display: grid;
         align-items: end;
         grid-template-columns: 1fr;
-		grid-template-rows: fit-content fit-content fit-content;
+        grid-template-rows: fit-content fit-content fit-content;
         padding: 16px 0 0;
     }
 
@@ -1351,7 +1351,7 @@ aside {
         flex-direction: column;
         grid-column: 1;
         grid-row: 3;
-		margin-top: 22px;
+        margin-top: 22px;
     }
 
     h1 {
@@ -1381,9 +1381,10 @@ aside {
         width: 75px;
         aspect-ratio: 1;
     }
-	.atlas {
-    	margin-top: 22px;
-	}
+
+    .atlas {
+        margin-top: 22px;
+    }
 }
 
 @media (min-width: 480px) {}
@@ -1391,29 +1392,32 @@ aside {
 @media (min-width: 600px) {}
 
 @media (min-width: 801px) {
- .masthead {
+    .masthead {
         padding: 16px 0 32px;
-		grid-template-columns: 1fr 1fr;
-		grid-template-rows: 1fr 1fr;
-	}
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: auto auto;
+		gap: 32px;
+    }
 
-	h1 {
-		grid-column: 1 / -1;
-		grid-row: 1;
-	}
-	.masthead-sub {
-		grid-column: 1;
-		grid-row: 2;
-	}
+    h1 {
+        grid-column: 1 / -1;
+        grid-row: 1;
+    }
 
-	.stat-panel {
-		grid-column: 2;
-		grid-row: 2;
-		margin-top: 0;
-	}
-	.atlas {
-	    margin-top: 40px;
-	}
+    .masthead-sub {
+        grid-column: 1;
+        grid-row: 2;
+    }
+
+    .stat-panel {
+        grid-column: 2;
+        grid-row: 2;
+        margin-top: 0;
+    }
+
+    .atlas {
+        margin-top: 40px;
+    }
 }
 
 @media (min-width: 1024px) {
