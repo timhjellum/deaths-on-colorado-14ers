@@ -141,7 +141,6 @@ button {
 
 
 
-
 .eyebrow {
     font-family: var(--font-body);
     font-size: 11.5px;
@@ -336,11 +335,6 @@ button {
 .leaflet-control-zoom.leaflet-bar.leaflet-control a {
 	background-color: var(--rust);
 }
-
-
-
-
-
 
 
 
@@ -1412,7 +1406,6 @@ aside {
 
 
 
-
 @media (min-width: 320px) {
     .wrap {
         width: 100%;
@@ -1452,7 +1445,7 @@ aside {
     h1 {
         font-family: var(--font-display);
         font-weight: 600;
-        font-size: clamp(26px, 5.4vw, 60px);
+        font-size: clamp(26px, 5.4vw, 56px);
         line-height: 1.02;
         margin: 0 0 8px;
         text-wrap: balance;
@@ -1525,5 +1518,147 @@ aside {
 
     h1 img {
         width: 100px;
+    }
+}
+
+
+/* ============ SCOPE TOGGLE (14er climbing | All) ============ */
+.cause-filter {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex: none;
+    margin-left: auto;
+    /* h1 sets display font/size/balance -- reset for the control */
+    font-family: var(--font-body);
+    font-size: 12.5px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    line-height: 1.2;
+    text-wrap: wrap;
+}
+
+.cause-seg {
+    display: inline-flex;
+    border: 1px solid var(--line-strong);
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.cause-opt {
+    font: inherit;
+    letter-spacing: inherit;
+    background: none;
+    border: 0;
+    color: var(--ink-soft);
+    padding: 8px 16px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.12s ease, color 0.12s ease;
+}
+
+.cause-opt:hover {
+    color: var(--ink);
+}
+
+.cause-opt[aria-pressed="true"] {
+    background: var(--rust);
+    color: #fff;
+    cursor: default;
+}
+
+.cause-opt:focus-visible,
+.cause-info:focus-visible {
+    outline-offset: -2px;
+}
+
+.cause-info {
+    flex: none;
+    width: 24px;
+    height: 24px;
+    padding: 0;
+    border: 1px solid var(--line-strong);
+    border-radius: 50%;
+    background: none;
+    color: var(--ink-soft);
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1;
+    cursor: pointer;
+}
+
+.cause-info:hover {
+    color: var(--ink);
+    border-color: var(--ink-soft);
+}
+
+.cause-help {
+    position: absolute;
+    top: calc(100% + 10px);
+    right: 0;
+    z-index: 30;
+    width: min(320px, 85vw);
+    padding: 12px 14px;
+    background: var(--paper);
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius-m);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+    color: var(--ink-soft);
+    font-size: 13px;
+    font-weight: 400;
+    letter-spacing: 0;
+    line-height: 1.5;
+    text-wrap: pretty;
+    visibility: hidden;
+    opacity: 0;
+    transform: translateY(-4px);
+    transition: opacity 0.12s ease, transform 0.12s ease, visibility 0.12s;
+    pointer-events: none;
+}
+
+.cause-help p {
+    margin: 0 0 8px;
+}
+
+.cause-help p:last-child {
+    margin-bottom: 0;
+}
+
+.cause-help strong {
+    color: var(--ink);
+}
+
+.cause-filter.is-open .cause-help,
+.cause-filter:focus-within .cause-help {
+    visibility: visible;
+    opacity: 1;
+    transform: none;
+}
+
+@media (hover: hover) {
+    .cause-filter:hover .cause-help {
+        visibility: visible;
+        opacity: 1;
+        transform: none;
+    }
+}
+
+@media (max-width: 700px) {
+    h1 {
+        flex-wrap: wrap;
+        row-gap: 12px;
+    }
+
+    .cause-filter {
+        flex-basis: 100%;
+        margin-left: 0;
+    }
+
+    .cause-help {
+        right: auto;
+        left: 0;
     }
 }

@@ -179,6 +179,21 @@
 		if (!r.gender) r.gender = "U";
 	});
 
+	// Scope toggle: "14er climbing" (default) hides entries filed under
+	// "Accident, other" (automobile, aircraft, and other non-hiking /
+	// climbing incidents); "All" shows everything. ACTIVE_RECORDS is what
+	// the stats, charts, peak list, and table read from -- RECORDS stays
+	// the full dataset.
+	var EXCLUDED_CAUSE = "Accident, other";
+	var showAllCauses = false;
+
+	function computeActiveRecords() {
+		return showAllCauses
+			? RECORDS
+			: RECORDS.filter(function (r) { return r.cause !== EXCLUDED_CAUSE; });
+	}
+	var ACTIVE_RECORDS = computeActiveRecords();
+
 	/*
 	var RANGE_CENTROIDS = {
 		"Elk Range": [298, 390],
@@ -240,7 +255,7 @@
 	// contiguous or confined to any one window.
 	var YEAR_ORDER = Array.from(
 		new Set(
-			RECORDS.map(function (r) {
+			ACTIVE_RECORDS.map(function (r) {
 				return r.year;
 			})
 		)
@@ -254,7 +269,7 @@
 	// on a previously death-free peak would keep showing up as "no recorded
 	// fatalities" on the map.
 	var recordMountains = {};
-	RECORDS.forEach(function (r) {
+	ACTIVE_RECORDS.forEach(function (r) {
 		recordMountains[r.mountain] = true;
 	});
 	var deathPeaks = PEAKS.filter(function (p) {
@@ -263,7 +278,7 @@
 	//var maxCount = 0;
 	var peakCounts = {};
 	deathPeaks.forEach(function (p) {
-		var c = RECORDS.filter(function (r) {
+		var c = ACTIVE_RECORDS.filter(function (r) {
 			return r.mountain === p[1];
 		}).length;
 		peakCounts[p[1]] = c;
@@ -325,18 +340,28 @@ function formatDate(r) {
 	}
 
 	/* ============ MASTHEAD STATS (computed from whatever data loaded) ============ */
-	(function updateStats() {
-		document.getElementById("statEntries").textContent = RECORDS.length;
+	// slider.js clones these stat slides (with ids stripped) for its
+	// infinite-loop effect, so write by data-stat attribute -- that
+	// reaches the clones too, instead of leaving them stuck on "\u2014".
+	function setStat(key, text) {
+		document
+			.querySelectorAll('[data-stat="' + key + '"]')
+			.forEach(function (el) {
+				el.textContent = text;
+			});
+	}
 
-		var years = RECORDS.map(function (r) {
+	function updateStats() {
+		setStat("entries", ACTIVE_RECORDS.length);
+
+		var years = ACTIVE_RECORDS.map(function (r) {
 			return +r.year;
 		}).filter(function (y) {
 			return !isNaN(y);
 		});
 		var minY = Math.min.apply(null, years),
 			maxY = Math.max.apply(null, years);
-		document.getElementById("statSpan").textContent =
-			minY === maxY ? String(minY) : minY + "–" + maxY;
+		setStat("span", minY === maxY ? String(minY) : minY + "–" + maxY);
 		// Footer used to hardcode "2010–2017" -- drive it off the
 		// same span the Span stat shows instead, so it can't drift
 		// out of date as more years of records get added.
@@ -365,14 +390,14 @@ function formatDate(r) {
 		var shortNames = top.map(function (m) {
 			return m.replace(/ (Peak|Mountain|Point)$/, "");
 		});
-		document.getElementById("statDeadliest").textContent =
-			shortNames.join(" · ");
+		setStat("deadliest", shortNames.join(" \u00b7 "));
 		//document.getElementById("statDeadliestSub").textContent =
 		//	best +
 		//	" death" +
 		//	(best === 1 ? "" : "s") +
 		//	(top.length > 1 ? " apiece" : "");
-	})();
+	}
+	updateStats();
 
 	/* ============ STATE ============ */
 	var filter = null; // {dim:'mountain'|'cause'|'range'|'age'|'gender'|'year', value:string}
@@ -430,13 +455,13 @@ function formatDate(r) {
 	svg.appendChild(label);
 	});
 	
-	var capText = "COLORADO \u00b7 FOURTEENERS";
+	var capText = "COLORADO · FOURTEENERS";
 	if (YEAR_ORDER.length) {
 	capText +=
-	" \u00b7 " +
+	" · " +
 	(YEAR_ORDER[0] === YEAR_ORDER[YEAR_ORDER.length - 1]
 	? YEAR_ORDER[0]
-	: YEAR_ORDER[0] + "\u2013" + YEAR_ORDER[YEAR_ORDER.length - 1]);
+	: YEAR_ORDER[0] + "–" + YEAR_ORDER[YEAR_ORDER.length - 1]);
 	}
 	var cap = el("text", { class: "map-caption", x: 14, y: 988 });
 	cap.textContent = capText;
@@ -467,7 +492,7 @@ function formatDate(r) {
 	g.setAttribute("data-mountain", p[1]);
 	g.setAttribute("data-range", RANGE_COLOR[p[2]] || "orange");
 	var t = el("title", {});
-	t.textContent = p[1] + " \u2014 no recorded fatalities on file";
+	t.textContent = p[1] + " — no recorded fatalities on file";
 	g.appendChild(t);
 	svg.appendChild(g);
 	});
@@ -492,7 +517,7 @@ function formatDate(r) {
 	var t = el("title", {});
 	t.textContent =
 	p[1] +
-	" \u2014 " +
+	" — " +
 	count +
 	" death" +
 	(count === 1 ? "" : "s") +
@@ -689,7 +714,7 @@ function onPeakChoose(name) {
 	// panel showed, just rendered in place instead of off to the
 	// side.
 	function peakDetailHTML(name) {
-		var rows = RECORDS.filter(function (r) {
+		var rows = ACTIVE_RECORDS.filter(function (r) {
 			return r.mountain === name;
 		});
 		var causeCounts = {};
@@ -723,7 +748,7 @@ function onPeakChoose(name) {
 
 	/* ============ CHARTS ============ */
 	function count(dim, value) {
-		return RECORDS.filter(function (r) {
+		return ACTIVE_RECORDS.filter(function (r) {
 			return r[dim] === value;
 		}).length;
 	}
@@ -810,7 +835,7 @@ function onPeakChoose(name) {
 			var th = document.createElement("th");
 			if (col.cls) th.className = col.cls;
 			var btn = document.createElement("button");
-			btn.innerHTML = col.label + " <span class='arrow'>\u25b2</span>";
+			btn.innerHTML = col.label + " <span class='arrow'>▲</span>";
 			btn.addEventListener("click", function () {
 				if (sortKey === col.key) sortDir *= -1;
 				else {
@@ -832,7 +857,7 @@ function onPeakChoose(name) {
 			var th = ths[i];
 			th.classList.toggle("sorted", col.key === sortKey);
 			var arrow = th.querySelector(".arrow");
-			arrow.textContent = sortDir === 1 ? "\u25b2" : "\u25bc";
+			arrow.textContent = sortDir === 1 ? "▲" : "▼";
 		});
 	}
 
@@ -845,12 +870,12 @@ function sortValue(r, key) {
         return y * 10000 + mm * 100 + dd; // sorts by year, then month, then day
     }
     if (key === "climberName")
-        return (r.climberName || "\uffff").toLowerCase();
+        return (r.climberName || "￿").toLowerCase();
     return r[key];
 }
 
 	function renderTable() {
-		var rows = RECORDS.slice().sort(function (a, b) {
+		var rows = ACTIVE_RECORDS.slice().sort(function (a, b) {
 			var av = sortValue(a, sortKey),
 				bv = sortValue(b, sortKey);
 			if (av < bv) return -1 * sortDir;
@@ -878,8 +903,8 @@ function sortValue(r, key) {
 				"<td>" +
 				(r.climberName
 					? escapeHtml(r.climberName)
-					: "<span class='muted-cell'>\u2014</span>") +
-				(hasStory ? " <span class='chevron'>\u25b8</span>" : "") +
+					: "<span class='muted-cell'>—</span>") +
+				(hasStory ? " <span class='chevron'>▸</span>" : "") +
 				"</td>" +
 				"<td>" +
 				r.mountain +
@@ -922,14 +947,88 @@ function sortValue(r, key) {
 		});
 
 		document.getElementById("countReadout").textContent = filter
-			? "Showing " + shown + " of " + RECORDS.length
-			: "Showing " + RECORDS.length + " of " + RECORDS.length;
+			? "Showing " + shown + " of " + ACTIVE_RECORDS.length
+			: "Showing " + ACTIVE_RECORDS.length + " of " + ACTIVE_RECORDS.length;
 		document.getElementById("clearBtn").disabled = !filter;
 	}
 
 	document
 		.getElementById("clearBtn")
 		.addEventListener("click", clearFilter);
+
+	/* ============ SCOPE TOGGLE (14er climbing vs All) ============ */
+	function applyCauseToggle() {
+		ACTIVE_RECORDS = computeActiveRecords();
+
+		YEAR_ORDER = Array.from(
+			new Set(
+				ACTIVE_RECORDS.map(function (r) {
+					return r.year;
+				})
+			)
+		).sort(function (a, b) {
+			return +a - +b;
+		});
+
+		recordMountains = {};
+		ACTIVE_RECORDS.forEach(function (r) {
+			recordMountains[r.mountain] = true;
+		});
+		deathPeaks = PEAKS.filter(function (p) {
+			return !!recordMountains[p[1]];
+		});
+		peakCounts = {};
+		deathPeaks.forEach(function (p) {
+			peakCounts[p[1]] = ACTIVE_RECORDS.filter(function (r) {
+				return r.mountain === p[1];
+			}).length;
+		});
+
+		updateStats();
+		renderPeakList();
+		renderAll();
+	}
+
+	var causeClimbBtn = document.getElementById("causeClimb");
+	var causeAllBtn = document.getElementById("causeAll");
+	var causeInfoBtn = document.getElementById("causeInfo");
+	var causeFilterEl = document.getElementById("causeFilter");
+
+	function setCauseScope(showAll) {
+		if (showAll === showAllCauses) return;
+		showAllCauses = showAll;
+		causeClimbBtn.setAttribute("aria-pressed", showAll ? "false" : "true");
+		causeAllBtn.setAttribute("aria-pressed", showAll ? "true" : "false");
+		applyCauseToggle();
+	}
+
+	if (causeClimbBtn && causeAllBtn) {
+		causeClimbBtn.addEventListener("click", function () {
+			setCauseScope(false);
+		});
+		causeAllBtn.addEventListener("click", function () {
+			setCauseScope(true);
+		});
+	}
+
+	// Help popover: shows on hover/focus via CSS; the "i" button also
+	// toggles it so touch users (no hover) can open it.
+	if (causeInfoBtn && causeFilterEl) {
+		function setHelpOpen(open) {
+			causeFilterEl.classList.toggle("is-open", open);
+			causeInfoBtn.setAttribute("aria-expanded", open ? "true" : "false");
+		}
+		causeInfoBtn.addEventListener("click", function (e) {
+			e.stopPropagation();
+			setHelpOpen(!causeFilterEl.classList.contains("is-open"));
+		});
+		document.addEventListener("click", function (e) {
+			if (!causeFilterEl.contains(e.target)) setHelpOpen(false);
+		});
+		document.addEventListener("keydown", function (e) {
+			if (e.key === "Escape") setHelpOpen(false);
+		});
+	}
 
 	/* ============ ACTIVE-STATE SYNC ============ */
 	function syncActiveStates() {
@@ -1007,7 +1106,7 @@ function sortValue(r, key) {
 		if (!filter) return true;
 		if (filter.dim === "mountain") return filter.value === label;
 		// dim by another dimension: visible if this mountain has >=1 matching record
-		return RECORDS.some(function (r) {
+		return ACTIVE_RECORDS.some(function (r) {
 			return r.mountain === label && matches(r);
 		});
 	}
