@@ -1063,30 +1063,30 @@ function sortValue(r, key) {
 			if (filter) tr.classList.add("is-match");
 			if (hasStory) tr.classList.add("has-story");
 			tr.innerHTML =
-				"<td class='num'>" +
+				"<th scope='row' class='num' data-title='Date'>" +
 				formatDate(r) +
-				"</td>" +
-				"<td>" +
+				"</th>" +
+				"<td data-title='Name'>" +
 				(r.climberName
 					? escapeHtml(r.climberName)
 					: "<span class='muted-cell'>—</span>") +
 				(hasStory ? " <span class='chevron'>▸</span>" : "") +
 				"</td>" +
-				"<td>" +
+				"<td data-title='Mountain'>" +
 				r.mountain +
 				"</td>" +
-				"<td>" +
+				"<td data-title='Range'>" +
 				r.range +
 				"</td>" +
-				"<td><span class='cause-tag' data-cause='" +
+				"<td data-title='Cause'><span class='cause-tag' data-cause='" +
 				escapeHtml(r.cause) +
 				"'>" +
 				escapeHtml(r.cause) +
 				"</span></td>" +
-				"<td>" +
+				"<td data-title='Sex'>" +
 				(GENDER_LABEL[r.gender] || "<span class='muted-cell'>—</span>") +
 				"</td>" +
-				"<td>" +
+				"<td data-title='Age band'>" +
 				(r.age || "<span class='muted-cell'>—</span>") +
 				"</td>";
 			body.appendChild(tr);

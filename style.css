@@ -1093,13 +1093,17 @@ thead th.sorted button {
     color: var(--ink);
 }
 
-tbody td {
+tbody td,
+tbody th[scope="row"] {
     padding: 9px 14px;
     border-bottom: 1px solid var(--line);
     color: var(--ink);
+    font-weight: 400;
+    text-align: left;
 }
 
-tbody tr:last-child td {
+tbody tr:last-child td,
+tbody tr:last-child th {
     border-bottom: none;
 }
 
@@ -1872,5 +1876,119 @@ aside {
 
     .form-row .field:first-child:nth-last-child(3) {
         flex-basis: 100%;
+    }
+}
+
+
+/* ============ RESPONSIVE TABLE ============
+	Ported from the Grand Canyon site. Below 768px each record becomes
+	a stacked card: the date (row header) leads, and every other cell
+	shows its column name from data-title. The header row turns into a
+	wrapping strip of sort buttons. At 768px and up it's a normal table. */
+.responsive-table tr[hidden] {
+    /* hidden story rows must stay hidden when rows are display:block */
+    display: none !important;
+}
+
+@media (max-width: 767.98px) {
+    .responsive-table {
+        overflow-x: visible;
+    }
+
+    .responsive-table table {
+        display: block;
+        min-width: 0;
+    }
+
+    /* header row -> wrapping strip of sort buttons */
+    .responsive-table thead {
+        display: block;
+    }
+
+    .responsive-table thead tr {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0 2px;
+        padding: 4px 6px;
+        border-bottom: 1px solid var(--line-strong);
+    }
+
+    .responsive-table thead th {
+        display: block;
+        position: static;
+        border-bottom: 0;
+        background: transparent;
+    }
+
+    .responsive-table thead th button {
+        width: auto;
+        padding: 8px;
+        font-size: 10.5px;
+    }
+
+    .responsive-table tbody,
+    .responsive-table tr,
+    .responsive-table th,
+    .responsive-table td {
+        display: block;
+        text-align: left;
+        white-space: normal;
+    }
+
+    /* one record = one card */
+    .responsive-table tbody tr:not(.story-row) {
+        padding: 4px 0 8px;
+        border-top: 1px dashed var(--rust);
+    }
+
+    .responsive-table tbody tr:first-child {
+        border-top: 0;
+    }
+
+    .responsive-table tbody th[scope="row"] {
+        padding: 10px 14px 6px;
+        border-bottom: 0;
+        font-size: 14px;
+        font-weight: 600;
+    }
+
+    .responsive-table tbody td {
+        position: relative;
+        padding: 6px 14px 6px 106px; /* 92px label column + 14px gutter */
+        border-bottom: 0;
+        max-width: none;
+    }
+
+    .responsive-table tbody td:nth-child(even) {
+        background-color: rgba(255, 255, 255, 0.025);
+    }
+
+    .responsive-table tbody td[data-title]::before {
+        content: attr(data-title);
+        position: absolute;
+        left: 14px;
+        top: 6px;
+        width: 92px;
+        font-size: 10.5px;
+        font-weight: 600;
+        letter-spacing: 0.06em;
+        line-height: 1.9;
+        text-transform: uppercase;
+        color: var(--ink-soft);
+    }
+
+    /* the story opens right under its card */
+    .responsive-table tr.story-row td {
+        padding: 14px 14px 18px;
+        border-bottom: 0;
+        background: var(--panel);
+    }
+
+    .responsive-table tbody tr:hover {
+        background: transparent;
+    }
+
+    .responsive-table tbody tr.expanded {
+        background: var(--panel);
     }
 }
