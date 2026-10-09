@@ -120,17 +120,20 @@
                     <p>Colorado&#x27;s Fourteeners attract hundreds of thousands of hikers each year. Yet there is no single, comprehensive public record of the people who have lost their lives on these peaks.</p>
                     <p>Deaths on Colorado&#x27;s Fourteeners was created to document these fatalities and preserve the stories behind them—including falls, rockfall, avalanches, exposure, medical events, lightning, and other causes.</p>
                     <!-- p>The database combines publicly reported information with crowdsourced accounts. Whenever possible, incidents are cross-referenced and verified, duplicate reports are merged, and inaccuracies are corrected as new information emerges.</p-->
-    <div class="cause-filter" id="causeFilter">
-        <p><strong>14er climbing</strong> &mdash; incidents tied to hiking and climbing on the fourteeners, including rescues.</p>
-        <div class="cause-seg" role="group" aria-label="Which incidents to show">
-            <button type="button" id="causeClimb" class="cause-opt" aria-pressed="true" aria-describedby="causeHelp">Climbing</button>
-            <button type="button" id="causeAll" class="cause-opt" aria-pressed="false" aria-describedby="causeHelp">All</button>
-        </div>
-        <p><strong>All</strong> &mdash; also includes automobile, aircraft, and other incidents that aren't hiking or climbing.</p>
-        <!-- button type="button" id="causeInfo" class="cause-info" aria-label="What do these options mean?" aria-expanded="false" aria-controls="causeHelp">i</button -->
-        <!-- div id="causeHelp" class="cause-help" role="tooltip" -->
-        <!-- /div -->
-    </div>
+                    <div class="cause-filter" id="causeFilter" data-scope="climb">
+                        <span class="cause-label" id="causeLabel">Show incidents</span>
+                        <div class="cause-seg" role="radiogroup" aria-labelledby="causeLabel" aria-describedby="causeDesc">
+                            <input type="radio" name="cause" id="causeClimb" value="climb" checked autocomplete="off">
+                            <label for="causeClimb">14ers Climbing Related</label>
+                            <input type="radio" name="cause" id="causeAll" value="all" autocomplete="off">
+                            <label for="causeAll">All</label>
+                            <span class="seg-thumb" aria-hidden="true"></span>
+                        </div>
+                        <div class="cause-desc" id="causeDesc" aria-live="polite">
+                            <p data-scope-desc="climb">Incidents tied to <strong>hiking and climbing</strong> on the fourteeners, including rescues.</p>
+                            <p data-scope-desc="all" hidden>Climbing incidents plus <strong>automobile, aircraft, and other</strong> incidents that aren&#x27;t hiking or climbing.</p>
+                        </div>
+                    </div>
                     
                 </div>
 

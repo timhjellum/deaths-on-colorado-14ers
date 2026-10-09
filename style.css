@@ -1481,150 +1481,124 @@ aside {
 
 
 /* ============ SCOPE TOGGLE (14er climbing | All) ============ */
-
-
-
-
+/* Segmented radio control: the two radios are visually hidden, their
+	labels are the segments, and .seg-thumb slides under the checked one. */
 .cause-filter {
-	border: 1px solid red;
-	width: 100%;
-    /*
-	position: relative;
-	*/
-	display: flex;
-    align-items: center;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
     gap: 8px;
-    flex: none;
-    margin-left: auto;
-    /* h1 sets display font/size/balance -- reset for the control */
+    margin-top: 16px;
+    padding-top: 14px;
+    border-top: 1px dotted var(--rust);
     font-family: var(--font-body);
+}
+
+.cause-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+}
+
+.cause-seg {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    max-width: 100%;
+    padding: 3px;
+    border: 1px solid var(--line-strong);
+    border-radius: 999px;
+    background: var(--panel-bg);
+}
+
+.cause-seg input {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: 0;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.cause-seg label {
+    position: relative;
+    z-index: 1;
+    padding: 7px 14px;
+    border-radius: 999px;
+    color: var(--ink-soft);
     font-size: 12.5px;
     font-weight: 600;
     letter-spacing: 0.02em;
     line-height: 1.2;
-    text-wrap: wrap;
-}
-
-.cause-seg {
-    display: inline-flex;
-    border: 1px solid var(--line-strong);
-    border-radius: 20px;
-    overflow: hidden;
-}
-
-.cause-opt {
-    font: inherit;
-    letter-spacing: inherit;
-    background: var(--panel-bg);
-    border: 0;
-    color: var(--ink-soft);
-    padding: 8px 16px;
-    cursor: pointer;
+    text-align: center;
     white-space: nowrap;
-    transition: background 0.12s ease, color 0.12s ease;
+    cursor: pointer;
+    user-select: none;
+    transition: color 0.2s ease;
 }
 
-.cause-opt:hover {
+.cause-seg label:hover {
     color: var(--ink);
 }
 
-.cause-opt[aria-pressed="true"] {
-    background: var(--rust);
+.cause-seg input:checked + label {
     color: #fff;
     cursor: default;
 }
 
-.cause-opt:focus-visible,
-.cause-info:focus-visible {
-    outline-offset: -2px;
+.cause-seg input:focus-visible + label {
+    outline: 2px solid var(--sky);
+    outline-offset: 2px;
 }
 
-.cause-info {
-    flex: none;
-    width: 24px;
-    height: 24px;
-    padding: 0;
-    border: 1px solid var(--line-strong);
-    border-radius: 50%;
-    background: none;
-    color: var(--ink-soft);
-    font-family: var(--font-display);
-    font-style: italic;
-    font-size: 14px;
-    font-weight: 600;
-    line-height: 1;
-    cursor: pointer;
-}
-
-.cause-info:hover {
-    color: var(--ink);
-    border-color: var(--ink-soft);
-}
-
-.cause-help {
+.seg-thumb {
     position: absolute;
-    top: calc(100% + 10px);
-    right: 0;
-    z-index: 30;
-    width: min(320px, 85vw);
-    padding: 12px 14px;
-    background: var(--panel);
-    border: 1px solid var(--line-strong);
-    border-radius: var(--radius-m);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
-    color: var(--ink-soft);
+    top: 3px;
+    bottom: 3px;
+    left: 3px;
+    width: calc(50% - 3px);
+    border-radius: 999px;
+    background: var(--rust);
+    transition: transform 0.25s cubic-bezier(0.3, 0.7, 0.4, 1);
+}
+
+#causeAll:checked ~ .seg-thumb {
+    transform: translateX(100%);
+}
+
+.cause-desc {
+    /* reserve two lines so layout doesn't jump on swap */
+    min-height: calc(2 * 1.5em);
     font-size: 13px;
-    font-weight: 400;
-    letter-spacing: 0;
     line-height: 1.5;
+    color: var(--ink-soft);
     text-wrap: pretty;
-    visibility: hidden;
-    opacity: 0;
-    transform: translateY(-4px);
-    transition: opacity 0.12s ease, transform 0.12s ease, visibility 0.12s;
-    pointer-events: none;
 }
 
-.cause-help p {
-    margin: 0 0 8px;
+.cause-desc p {
+    margin: 0;
 }
 
-.cause-help p:last-child {
-    margin-bottom: 0;
-}
-
-.cause-help strong {
+.cause-desc strong {
     color: var(--ink);
+    font-weight: 600;
 }
 
-.cause-filter.is-open .cause-help,
-.cause-filter:focus-within .cause-help {
-    visibility: visible;
-    opacity: 1;
-    transform: none;
-}
+@media (max-width: 420px) {
+    .cause-seg {
+        width: 100%;
+    }
 
-@media (hover: hover) {
-    .cause-filter:hover .cause-help {
-        visibility: visible;
-        opacity: 1;
-        transform: none;
+    .cause-seg label {
+        padding-inline: 10px;
     }
 }
 
-@media (max-width: 700px) {
-    h1 {
-        flex-wrap: wrap;
-        row-gap: 12px;
-    }
-
-    .cause-filter {
-        flex-basis: 100%;
-        margin-left: 0;
-    }
-
-    .cause-help {
-        right: auto;
-        left: 0;
+@media (prefers-reduced-motion: reduce) {
+    .seg-thumb,
+    .cause-seg label {
+        transition: none;
     }
 }

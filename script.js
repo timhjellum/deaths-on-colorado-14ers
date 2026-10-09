@@ -1155,45 +1155,32 @@ function sortValue(r, key) {
 		renderAll();
 	}
 
-	var causeClimbBtn = document.getElementById("causeClimb");
-	var causeAllBtn = document.getElementById("causeAll");
-	var causeInfoBtn = document.getElementById("causeInfo");
 	var causeFilterEl = document.getElementById("causeFilter");
 
 	function setCauseScope(showAll) {
+		var scope = showAll ? "all" : "climb";
+		if (causeFilterEl) {
+			causeFilterEl.dataset.scope = scope;
+			causeFilterEl
+				.querySelectorAll("[data-scope-desc]")
+				.forEach(function (p) {
+					p.hidden = p.getAttribute("data-scope-desc") !== scope;
+				});
+		}
 		if (showAll === showAllCauses) return;
 		showAllCauses = showAll;
-		causeClimbBtn.setAttribute("aria-pressed", showAll ? "false" : "true");
-		causeAllBtn.setAttribute("aria-pressed", showAll ? "true" : "false");
 		applyCauseToggle();
 	}
 
-	if (causeClimbBtn && causeAllBtn) {
-		causeClimbBtn.addEventListener("click", function () {
-			setCauseScope(false);
+	if (causeFilterEl) {
+		causeFilterEl.addEventListener("change", function (e) {
+			if (e.target && e.target.name === "cause") {
+				setCauseScope(e.target.value === "all");
+			}
 		});
-		causeAllBtn.addEventListener("click", function () {
-			setCauseScope(true);
-		});
-	}
-
-	// Help popover: shows on hover/focus via CSS; the "i" button also
-	// toggles it so touch users (no hover) can open it.
-	if (causeInfoBtn && causeFilterEl) {
-		function setHelpOpen(open) {
-			causeFilterEl.classList.toggle("is-open", open);
-			causeInfoBtn.setAttribute("aria-expanded", open ? "true" : "false");
-		}
-		causeInfoBtn.addEventListener("click", function (e) {
-			e.stopPropagation();
-			setHelpOpen(!causeFilterEl.classList.contains("is-open"));
-		});
-		document.addEventListener("click", function (e) {
-			if (!causeFilterEl.contains(e.target)) setHelpOpen(false);
-		});
-		document.addEventListener("keydown", function (e) {
-			if (e.key === "Escape") setHelpOpen(false);
-		});
+		// Browsers can restore a checked radio on back/forward; sync to it.
+		var checkedCause = causeFilterEl.querySelector('input[name="cause"]:checked');
+		if (checkedCause) setCauseScope(checkedCause.value === "all");
 	}
 
 	/* ============ ACTIVE-STATE SYNC ============ */
