@@ -2,6 +2,35 @@
    Content pages built on the register's styles (panels, colours,
    canyon backdrop, day/night toggle). Only loaded by pages.js. */
 
+   body {
+	&:before {
+	content: "";
+	position: fixed;
+	inset: 0;
+	z-index: -1;
+	pointer-events: none;
+	background-image: linear-gradient(rgba(255, 132, 84, 0.2) 1px, transparent 1px),
+		linear-gradient(90deg, rgba(255, 132, 84, 0.2) 1px, transparent 1px);
+	background-size: 40px 40px;
+	-webkit-mask-image: radial-gradient(
+		ellipse 80% 80% at 50% 50%,
+		#000 40%,
+		transparent 100%
+	);
+	mask-image: radial-gradient(
+		ellipse 80% 80% at 50% 50%,
+		#000 40%,
+		transparent 100%
+	);
+	}
+}
+.wrap {
+        background-image: none;
+        //background-repeat: no-repeat;
+        //background-position-x: center;
+        //background-size: contain;
+}
+   
 .doc-hero {
   height: auto;
   max-width: 1360px;
