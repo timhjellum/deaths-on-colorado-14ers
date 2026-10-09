@@ -1721,7 +1721,7 @@ aside {
     letter-spacing: 0.02em;
     color: var(--ink);
 }
-
+/*
 .page-panel input[type="email"],
 .page-panel input[type="text"],
 .page-panel input[type="number"],
@@ -1762,7 +1762,7 @@ aside {
     min-height: 120px;
     resize: vertical;
 }
-
+*/
 .field {
     margin-top: 16px;
 }
