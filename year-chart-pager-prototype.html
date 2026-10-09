@@ -1,0 +1,379 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Year Chart Pager</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:wght@400;600&family=Public+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+/* ---- Site tokens (dark theme, copied from style.css) ---- */
+:root {
+  --ink: #e8e4d8;
+  --ink-soft: #a6a190;
+  --panel-bg: rgba(29, 26, 21, .95);
+  --rust: #cf8100;
+  --line: #3a3d33;
+  --line-strong: #4c5044;
+  --shadow: 0 1px 0 rgba(0, 0, 0, 0.3);
+  --radius-m: 6px;
+  --font-display: "Newsreader", Georgia, serif;
+  --font-body: "Public Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-mono: "IBM Plex Mono", "SFMono-Regular", Consolas, monospace;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: #14130f;
+  color: var(--ink);
+  font-family: var(--font-body);
+  padding: 32px 16px 64px;
+}
+.wrap { max-width: 1100px; margin: 0 auto; }
+.proto-note {
+  font-size: 13px; color: var(--ink-soft); line-height: 1.5; margin: 0 0 20px; max-width: 70ch;
+}
+.proto-note strong { color: var(--ink); font-weight: 600; }
+.proto-tools {
+  display: flex; flex-wrap: wrap; gap: 16px 28px; align-items: center;
+  font-family: var(--font-mono); font-size: 12px; color: var(--ink-soft);
+  margin-bottom: 18px;
+}
+.proto-tools label { display: flex; align-items: center; gap: 10px; }
+.proto-tools input[type=range] { width: 220px; accent-color: var(--rust); }
+.seg { display: inline-flex; border: 1px solid var(--line-strong); border-radius: 999px; overflow: hidden; }
+.seg button {
+  font: inherit; color: var(--ink-soft); background: none; border: 0; padding: 5px 12px; cursor: pointer;
+}
+.seg button[aria-pressed="true"] { background: var(--rust); color: #1b1408; font-weight: 600; }
+
+.panel {
+  border: 1px dashed var(--rust);
+  border-radius: var(--radius-m);
+  background: var(--panel-bg);
+  box-shadow: var(--shadow), 0 0 24px 0 rgba(255, 132, 84, 0.25);
+}
+.panel-title { font-family: var(--font-display); font-weight: 600; font-size: 17px; margin: 0; }
+
+/* ================================================================
+   NEW: year chart pager  (everything below is what goes into style.css)
+   ================================================================ */
+.year-card { padding: 18px 18px 8px; min-width: 0; }
+
+.year-card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.year-pager {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.year-pager-btn {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: 1px solid var(--line-strong);
+  border-radius: 50%;
+  background: transparent;
+  color: var(--ink);
+  cursor: pointer;
+  transition: border-color 0.15s ease, color 0.15s ease, opacity 0.15s ease;
+}
+.year-pager-btn:hover:not(:disabled) { border-color: var(--rust); color: var(--rust); }
+.year-pager-btn:focus-visible { outline: 2px solid var(--rust); outline-offset: 2px; }
+.year-pager-btn:disabled { opacity: 0.3; cursor: default; }
+.year-pager-btn svg { width: 14px; height: 14px; }
+
+.year-pager-range {
+  min-width: 92px;
+  text-align: center;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+  color: var(--ink-soft);
+}
+
+/* The chart becomes a fixed window: no scrollbar, the inner row slides. */
+.year-chart {
+  height: 150px;
+  margin-top: 16px;
+  padding: 0 0 10px;
+  overflow: hidden;
+  touch-action: pan-y;          /* let vertical page scroll through, we handle horizontal swipes */
+  outline: none;
+}
+.year-chart:focus-visible { box-shadow: 0 0 0 2px var(--rust); border-radius: 4px; }
+
+.year-chart-inner {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;                     /* overwritten in JS so a page exactly fills the width */
+  height: 100%;
+  width: max-content;
+  position: relative;
+  transition: transform 0.35s cubic-bezier(0.22, 0.61, 0.36, 1);
+  will-change: transform;
+}
+@media (prefers-reduced-motion: reduce) {
+  .year-chart-inner { transition: none; }
+}
+.year-chart-inner::before {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; bottom: 26px;
+  height: 1px;
+  background: var(--line);
+}
+
+/* ---- existing column styles (unchanged from style.css) ---- */
+.year-col {
+  flex: 0 0 34px;
+  display: flex; flex-direction: column; align-items: center; justify-content: flex-end;
+  height: 100%; gap: 6px; cursor: pointer;
+}
+.year-bar-value { font-family: var(--font-mono); font-size: 12px; font-weight: 600; color: var(--ink-soft); }
+.year-bar {
+  width: 100%; max-width: 22px; background: var(--rust);
+  border-radius: 3px 3px 2px 2px; opacity: 0.85;
+  transition: opacity 0.15s ease, height 0.2s ease;
+}
+.year-col.is-active .year-bar { opacity: 1; }
+.year-col.is-active .year-bar-value { color: var(--rust); }
+.year-col.is-dim .year-bar { opacity: 0.25; }
+.year-label { font-size: 10.5px; color: var(--ink-soft); margin-top: 2px; white-space: nowrap; }
+
+.sr-only {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p class="proto-note">
+    <strong>Year chart pager — prototype.</strong>
+    The chart measures its own width and the width of one year column, works out how many years fit,
+    and shows exactly that many. Use the arrows, the ← → keys (click the chart first), Home / End, or swipe on a phone.
+    It opens on the most recent years. Drag the width slider to see the page size change.
+  </p>
+
+  <div class="proto-tools">
+    <label>Test container width <input type="range" id="widthSlider" min="260" max="1100" value="1100"> <span id="widthOut">1100px</span></label>
+    <span class="seg" role="group" aria-label="Scope">
+      <button type="button" data-scope="climb" aria-pressed="true">14er climbing</button>
+      <button type="button" data-scope="all" aria-pressed="false">All</button>
+    </span>
+  </div>
+
+  <!-- Same markup the site uses, plus the head row with the pager -->
+  <div class="panel year-card" id="yearCard">
+    <div class="year-card-head">
+      <h2 class="panel-title" style="font-size: .8em">Fatalities by Year</h2>
+      <div class="year-pager" id="yearPager" hidden>
+        <button type="button" class="year-pager-btn" id="yearPrev" aria-label="Show earlier years">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 3 5 8l5 5"/></svg>
+        </button>
+        <span class="year-pager-range" id="yearRange" aria-live="polite"></span>
+        <button type="button" class="year-pager-btn" id="yearNext" aria-label="Show later years">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3l5 5-5 5"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="year-chart" id="chartYear" tabindex="0" role="group" aria-label="Fatalities by year. Use the left and right arrow keys to see other years."></div>
+  </div>
+</div>
+
+<script>
+(function () {
+  "use strict";
+
+  /* Snapshot of the live data, Oct 8 2026: [year, 14er climbing count, all count] */
+  var DATA = [[1884,1,1],[1889,0,1],[1899,0,1],[1911,2,2],[1921,1,2],[1922,1,1],[1925,2,2],[1926,1,1],[1929,1,1],[1932,1,1],[1939,1,1],[1946,2,2],[1947,1,1],[1948,1,1],[1949,2,2],[1950,1,1],[1953,1,1],[1956,1,13],[1957,2,2],[1960,3,3],[1961,1,1],[1965,5,5],[1966,2,2],[1967,1,1],[1970,2,2],[1971,2,2],[1972,1,1],[1975,1,1],[1977,0,1],[1979,1,1],[1980,1,1],[1981,2,2],[1982,1,2],[1983,1,1],[1984,2,2],[1986,1,1],[1988,4,4],[1989,1,1],[1991,3,3],[1992,2,2],[1994,2,4],[1995,5,5],[1996,1,1],[1999,1,1],[2000,5,5],[2001,0,1],[2003,6,6],[2004,3,3],[2005,3,4],[2006,3,7],[2007,2,2],[2008,3,3],[2009,3,7],[2010,20,20],[2011,21,21],[2012,13,14],[2013,16,16],[2014,14,15],[2015,8,9],[2016,11,11],[2017,23,23],[2018,6,6],[2019,7,8],[2020,7,7],[2021,5,5],[2022,7,8],[2023,3,3],[2024,4,4],[2025,2,2],[2026,8,8]];
+  var scope = "climb";
+  var activeYear = null;
+
+  /* ---- Stand-in for the site's buildYearChart() (same markup) ---- */
+  function buildYearChart() {
+    var el = document.getElementById("chartYear");
+    el.innerHTML = "";
+    var inner = document.createElement("div");
+    inner.className = "year-chart-inner";
+    var rows = DATA.map(function (d) { return [d[0], scope === "climb" ? d[1] : d[2]]; })
+                   .filter(function (d) { return d[1] > 0; });
+    var max = Math.max.apply(null, rows.map(function (d) { return d[1]; }));
+    rows.forEach(function (d) {
+      var col = document.createElement("div");
+      col.className = "year-col" + (activeYear === d[0] ? " is-active" : activeYear ? " is-dim" : "");
+      col.dataset.value = d[0];
+      col.innerHTML =
+        "<span class='year-bar-value'>" + d[1] + "</span>" +
+        "<span class='year-bar' style='height:" + (max ? (d[1] / max) * 100 : 0) + "%'></span>" +
+        "<span class='year-label'>" + d[0] + "</span>";
+      col.addEventListener("click", function () {
+        activeYear = activeYear === d[0] ? null : d[0];
+        buildYearChart();
+      });
+      inner.appendChild(col);
+    });
+    el.appendChild(inner);
+    yearPager.refresh();          // <-- the only line the site's buildYearChart() needs
+  }
+
+  /* ================================================================
+     NEW: Year chart pager  (drop this into script.js)
+     Pages through #chartYear by however many columns fit.
+     ================================================================ */
+  var yearPager = (function () {
+    var chart = document.getElementById("chartYear");
+    var pager = document.getElementById("yearPager");
+    var prevBtn = document.getElementById("yearPrev");
+    var nextBtn = document.getElementById("yearNext");
+    var rangeEl = document.getElementById("yearRange");
+
+    var BASE_GAP = 8;     // matches .year-chart-inner gap in CSS
+    var start = null;     // index of the first visible column (null = jump to latest)
+    var perPage = 1;
+    var anchorYear = null; // right-most visible year, so a rebuild keeps the same years in view
+
+    function inner() { return chart.querySelector(".year-chart-inner"); }
+    function cols() { var i = inner(); return i ? i.children : []; }
+
+    function measure() {
+      var row = inner(), list = cols();
+      if (!row || !list.length) return false;
+      var colW = list[0].getBoundingClientRect().width;
+      var viewW = chart.clientWidth;
+      // How many columns fit at the normal gap
+      perPage = Math.max(1, Math.floor((viewW + BASE_GAP) / (colW + BASE_GAP)));
+      perPage = Math.min(perPage, list.length);
+      // Spread the leftover width into the gaps so a page fills the chart exactly,
+      // with no half-cut bar on the right edge.
+      var gap = perPage > 1 ? (viewW - perPage * colW) / (perPage - 1) : 0;
+      if (perPage === list.length) gap = BASE_GAP;   // everything fits: keep the normal look
+      row.style.gap = gap + "px";
+      return true;
+    }
+
+    function render(animate) {
+      var row = inner(), list = cols();
+      var n = list.length;
+      var maxStart = Math.max(0, n - perPage);
+      if (start === null || start > maxStart) start = maxStart;   // default: most recent years
+      if (start < 0) start = 0;
+
+      // Slide to the real position of the first visible column (avoids sub-pixel drift)
+      var offset = list[start].getBoundingClientRect().left - row.getBoundingClientRect().left;
+      if (!animate) row.style.transition = "none";
+      row.style.transform = "translateX(" + (-offset) + "px)";
+      if (!animate) { row.offsetWidth; row.style.transition = ""; }   // re-enable after the jump
+
+      var first = list[start], last = list[Math.min(n, start + perPage) - 1];
+      anchorYear = start >= maxStart ? null : +last.dataset.value;   // null = stay on the latest page
+      rangeEl.textContent = first.dataset.value === last.dataset.value
+        ? first.dataset.value
+        : first.dataset.value + "–" + last.dataset.value;
+      prevBtn.disabled = start <= 0;
+      nextBtn.disabled = start >= maxStart;
+      pager.hidden = n <= perPage;                     // no arrows when it all fits
+
+      // Keep off-screen columns out of the tab order / screen-reader flow
+      Array.prototype.forEach.call(list, function (c, i) {
+        var visible = i >= start && i < start + perPage;
+        c.setAttribute("aria-hidden", visible ? "false" : "true");
+      });
+    }
+
+    function go(delta) {
+      start = (start || 0) + delta;
+      var maxStart = Math.max(0, cols().length - perPage);
+      start = Math.max(0, Math.min(maxStart, start));
+      render(true);
+    }
+
+    // Call after the chart is rebuilt (filters, scope toggle). Keeps the same
+    // right-hand year in view, or the nearest earlier one if it's gone.
+    function refresh() {
+      if (!measure()) return;
+      if (anchorYear !== null) {
+        var list = cols(), idx = 0;
+        for (var i = 0; i < list.length; i++) if (+list[i].dataset.value <= anchorYear) idx = i;
+        start = Math.max(0, idx - perPage + 1);
+      } else {
+        start = null;                 // was on the latest page: stay there
+      }
+      render(false);
+    }
+
+    prevBtn.addEventListener("click", function () { go(-perPage); });
+    nextBtn.addEventListener("click", function () { go(perPage); });
+
+    chart.addEventListener("keydown", function (e) {
+      if (e.key === "ArrowLeft") { go(-perPage); e.preventDefault(); }
+      else if (e.key === "ArrowRight") { go(perPage); e.preventDefault(); }
+      else if (e.key === "Home") { start = 0; render(true); e.preventDefault(); }
+      else if (e.key === "End") { start = Infinity; render(true); e.preventDefault(); }
+    });
+
+    // Swipe on touch screens
+    var downX = null;
+    chart.addEventListener("pointerdown", function (e) { downX = e.clientX; });
+    chart.addEventListener("pointerup", function (e) {
+      if (downX === null) return;
+      var dx = e.clientX - downX; downX = null;
+      if (Math.abs(dx) > 40) { chart.dataset.swiped = "1"; go(dx < 0 ? perPage : -perPage); }
+    });
+    chart.addEventListener("pointercancel", function () { downX = null; });
+    // A swipe shouldn't also count as a click on a bar
+    chart.addEventListener("click", function (e) {
+      if (chart.dataset.swiped) { e.stopPropagation(); delete chart.dataset.swiped; }
+    }, true);
+
+    // Re-measure when the container changes size, keeping the right-hand year in view
+    if ("ResizeObserver" in window) {
+      var lastW = 0;
+      new ResizeObserver(function () {
+        if (chart.clientWidth === lastW) return;
+        lastW = chart.clientWidth;
+        var lastIdx = start === null ? null : start + perPage - 1;
+        if (!measure()) return;
+        start = lastIdx === null ? null : Math.max(0, lastIdx - perPage + 1);
+        render(false);
+      }).observe(chart);
+    }
+
+    return { refresh: refresh };
+  })();
+
+  /* ---- Prototype-only controls ---- */
+  var slider = document.getElementById("widthSlider");
+  var widthOut = document.getElementById("widthOut");
+  var card = document.getElementById("yearCard");
+  function setWidth() {
+    card.style.maxWidth = slider.value + "px";
+    widthOut.textContent = slider.value + "px";
+  }
+  slider.addEventListener("input", setWidth);
+  document.querySelectorAll(".seg button").forEach(function (b) {
+    b.addEventListener("click", function () {
+      scope = b.dataset.scope;
+      document.querySelectorAll(".seg button").forEach(function (x) {
+        x.setAttribute("aria-pressed", x === b ? "true" : "false");
+      });
+      buildYearChart();
+    });
+  });
+
+  setWidth();
+  buildYearChart();
+})();
+</script>
+</body>
+</html>

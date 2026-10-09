@@ -15,8 +15,8 @@
         :root {
             --ink: #23261F;
             --ink-soft: #5B5F52;
-            --paper: #EFECE3;
-            --paper-raised: #F7F5EE;
+            --panel: #EFECE3;
+            --panel-bg: #F7F5EE;
             --sky: #1C7DBE;
             --sky-ink: #0E5C8E;
             --rust: #B0532A;
@@ -35,8 +35,8 @@
             :root:not([data-theme="light"]) {
                 --ink: #E8E4D8;
                 --ink-soft: #A6A190;
-                --paper: #1B1D18;
-                --paper-raised: #232720;
+                --panel: #1B1D18;
+                --panel-bg: #232720;
                 --sky: #3E90C9;
                 --sky-ink: #8FC4E8;
                 --rust: #D9773F;
@@ -54,7 +54,7 @@
         body {
             margin: 0;
             min-height: 100vh;
-            background: var(--paper);
+            background: var(--panel);
             color: var(--ink);
             font-family: var(--font-body);
             display: flex;
@@ -66,7 +66,7 @@
         .card {
             width: 100%;
             max-width: 480px;
-            background: var(--paper-raised);
+            background: var(--panel-bg);
             border: 1px solid var(--line);
             border-radius: var(--radius-m);
             box-shadow: var(--shadow);
@@ -104,7 +104,7 @@
             font-family: var(--font-body);
             font-size: 0.95rem;
             color: var(--ink);
-            background: var(--paper);
+            background: var(--panel);
             border: 1px solid var(--line-strong);
             border-radius: var(--radius-s);
         }
@@ -204,7 +204,7 @@
         }
 
         #signOut:hover {
-            background: var(--paper);
+            background: var(--panel);
             color: var(--ink);
         }
 

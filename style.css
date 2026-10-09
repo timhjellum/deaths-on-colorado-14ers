@@ -1,13 +1,12 @@
-@import 'slider.css';
 :root {
     --ink: #23261f;
     --black-ink: #212121;
     /* #010101 */
     ;
     --ink-soft: #5b5f52;
-    --paper: #efece3;
-    --paper-raised: #f7f5ee;
-    --paper-raised: transparent;
+    --panel: #efece3;
+    --panel-bg: #f7f5ee;
+    --panel-bg: transparent;
     --sky: #1c7dbe;
     --sky-ink: #0e5c8e;
     --rust: #b0532a;
@@ -20,7 +19,7 @@
 
     /* Cause tag palette -- fixed-lightness OKLCH swatches, evenly
 		spaced by hue, so they stay legible with dark text in both
-		light and dark theme (unlike --ink/--paper, these don't need
+		light and dark theme (unlike --ink/--panel, these don't need
 		a dark-mode override). One color per cause, assigned in
 		CAUSE_ORDER; "Unclear" intentionally has no swatch and falls
 		back to the neutral .cause-tag style below. */
@@ -57,12 +56,12 @@
 	*/
     --ink: #e8e4d8;
     --ink-soft: #a6a190;
-    --paper: #212121;
-    --paper-raised: #232720;
+    --panel: rgba(29, 26, 21, 1);
+    --panel-bg: rgba(29, 26, 21, .95); /* #232720 */
     --sky: #3e90c9;
     --sky-ink: #8fc4e8;
-    --rust: #d9773f;
-    --rust-soft: #d9773f;
+    --rust: #cf8100; /* #d9773f; */
+    --rust-soft: #4F3100; /* #d9773f; */
     --moss: #86a06e;
     --line: #3a3d33;
     --line-strong: #4c5044;
@@ -75,8 +74,8 @@
 :root[data-theme="dark"] {
     --ink: #e8e4d8;
     --ink-soft: #a6a190;
-    --paper: #1b1d18;
-    --paper-raised: #232720;
+    --panel: #1b1d18;
+    --panel-bg: #232720;
     --sky: #3e90c9;
     --sky-ink: #8fc4e8;
     --rust: #d9773f;
@@ -93,7 +92,7 @@
 
 body {
     margin: 0;
-    background: var(--paper);
+    background: var(--panel);
     color: var(--ink);
     font-family: var(--font-body);
     font-size: 15px;
@@ -104,16 +103,10 @@ body {
     background-position-y: top;
 }
 
-/*
-#map {
-    background-image: url(/images/map-bg.webp);
-    background-repeat: no-repeat;
-    background-size: contain;
-}
-*/
+
 ::selection {
     background: var(--sky);
-    color: var(--paper-raised);
+    color: var(--panel-bg);
 }
 
 a {
@@ -177,161 +170,6 @@ button {
 
 
 
-.vslider__dot {
-    width: 20px;
-    height: 20px;
-    padding: 0;
-    margin: 0;
-    border: 0;
-    background: transparent;
-    cursor: pointer;
-    display: grid;
-    place-items: center;
-}
-
-.vslider__dot::before {
-    content: "";
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: #000;
-    border: 1.5px solid var(--rust);
-    transition: background 150ms ease, border-color 150ms ease, transform 150ms ease;
-}
-
-.vslider__dot:hover::before {
-    transform: scale(1.2);
-}
-
-.vslider__dot.is-active::before {
-    background: var(--rust);
-    border-color: var(--rust);
-}
-
-.vslider__dot:focus-visible::before {
-    outline: 2px solid var(--sky);
-    outline-offset: 2px;
-}
-
-/* ---------- Masthead stats/news slider ---------- */
-.vslider-wrap {
-    display: flex;
-    align-items: stretch;
-}
-
-.vslider {
-    width: 100%;
-    max-width: 532px;
-    height: 316px;
-    padding: 16px;
-    /* box-shadow: inset 0 0 0 1px var(--line); */
-}
-
-.vslider__viewport {
-    height: 100%;
-    overflow: hidden;
-    position: relative;
-    -webkit-mask-image: linear-gradient(to bottom, #000 78%, transparent 100%);
-    mask-image: linear-gradient(to bottom, #000 78%, transparent 100%);
-}
-
-.vslider__track {
-    display: flex;
-    flex-direction: column;
-    will-change: transform;
-}
-
-.vslider__track.is-animating {
-    transition: transform 420ms cubic-bezier(0.22, 0.61, 0.36, 1);
-}
-
-.vslider__track article {
-    flex: 0 0 100px;
-    height: 100px;
-    width: 100%;
-    padding: 8px 0;
-    border-bottom: 1px dotted var(--rust);
-    overflow: hidden;
-}
-
-.vslider__track article p {
-    margin: 0;
-    font-size: 14px;
-    line-height: 20px;
-    color: var(--ink-soft);
-}
-
-.vslider__track article p strong {
-    display: block;
-    margin: 0 0 2px;
-    font-size: 16px;
-    line-height: 20px;
-    font-weight: 650;
-    color: var(--ink);
-}
-
-.vslider__track article p a {
-    color: var(--rust);
-    text-decoration: none;
-}
-
-.vslider__track article p a:hover {
-    text-decoration: underline;
-}
-
-.vslider-wrap {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.vslider__dots {
-    display: flex;
-    gap: 6px;
-    padding-bottom: 6px;
-}
-
-.vslider__dot {
-    width: 20px;
-    height: 20px;
-    padding: 0;
-    margin: 0;
-    border: 0;
-    background: transparent;
-    cursor: pointer;
-    display: grid;
-    place-items: center;
-}
-
-.vslider__dot::before {
-    content: "";
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: #000;
-    border: 1.5px solid var(--rust);
-    transition: background 150ms ease, border-color 150ms ease, transform 150ms ease;
-}
-
-.vslider__dot:hover::before {
-    transform: scale(1.2);
-}
-
-.vslider__dot.is-active::before {
-    background: var(--rust);
-    border-color: var(--rust);
-}
-
-.vslider__dot:focus-visible::before {
-    outline: 2px solid var(--sky);
-    outline-offset: 2px;
-}
-
-
-
-
-
-
 .leaflet-control-zoom.leaflet-bar.leaflet-control a {
 	background-color: var(--rust);
 }
@@ -381,8 +219,52 @@ button {
     margin-top: 3px;
 }
 
+/* Masthead key figures: three database-driven stats stacked in one
+	panel, separated by dotted rules. The panel stretches to the height
+	of the intro panel beside it. */
+.masthead .stat-panel {
+    align-self: stretch;
+}
+
+.stat-list {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    margin: 0;
+    padding: 4px 20px;
+}
+
+.stat-list .stat {
+    flex: 1;
+    display: flex;
+    flex-direction: column-reverse; /* caption (dt) comes first in the markup; show the number above it */
+    justify-content: center;
+    gap: 4px;
+    padding: 16px 0;
+    border-right: none;
+    border-bottom: 1px dotted var(--rust);
+}
+
+.stat-list .stat:last-child {
+    border-bottom: none;
+}
+
+.stat-list dd {
+    margin: 0;
+}
+
+.stat-value--text {
+    font-size: 18px;
+}
+
+.stat-caption {
+    font-size: 14px;
+    line-height: 20px;
+    color: var(--ink-soft);
+}
+
 /* ============ PEAK SIDEBAR ============ */
-.page-shell {
+.neatline {
     display: flex;
     align-items: flex-start;
 }
@@ -395,14 +277,14 @@ button {
     height: 100vh;
     overflow-y: auto;
     border-right: 1px solid var(--line);
-    background: var(--paper-raised);
+    background: var(--panel-bg);
     padding: 20px 14px 24px;
 }
 
 .peak-sidebar-head {
     position: sticky;
     top: 0;
-    background: var(--paper-raised);
+    background: var(--panel-bg);
     padding-bottom: 12px;
 }
 
@@ -421,7 +303,7 @@ button {
 .peak-sort-btn {
     flex: 1;
     border: 1px solid var(--line);
-    background: var(--paper);
+    background: var(--panel);
     color: var(--ink-soft);
     font-family: inherit;
     font-size: 10px;
@@ -472,7 +354,7 @@ button {
 
 .peak-row:hover,
 .peak-row:focus-visible {
-    background: var(--paper);
+    background: var(--panel);
 }
 
 .peak-row.is-active {
@@ -552,7 +434,7 @@ button {
     padding: 10px 12px;
     border: 1px solid var(--line);
     border-radius: var(--radius-s);
-    background: var(--paper-raised);
+    background: var(--panel-bg);
     color: var(--ink);
     font-family: inherit;
     font-size: 13.5px;
@@ -567,9 +449,9 @@ button {
 
 .panel {
     /* border: 1px solid var(--line); */
-    border: 1px dashed #ff8454;
+    border: 1px dashed var(--rust);
     border-radius: var(--radius-m);
-    background: var(--paper-raised);
+    background: var(--panel-bg);
     /* box-shadow: var(--shadow); */
     box-shadow: var(--shadow), 0 0 24px 0 rgba(255, 132, 84, 0.25);
 }
@@ -633,7 +515,7 @@ button {
     width: 15px;
     height: 15px;
     border-radius: 50%;
-    background: var(--paper-raised);
+    background: var(--panel-bg);
     transition: transform 0.15s ease;
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
@@ -668,7 +550,7 @@ svg#map {
 
 .peak-death {
     fill: var(--ink);
-    stroke: var(--paper-raised);
+    stroke: var(--panel-bg);
     stroke-width: 1px;
 }
 
@@ -915,21 +797,88 @@ svg#map {
     min-width: 0;
 }
 
+.year-card-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+/* Year pager: the arrows and range label beside "Fatalities by Year".
+	The chart shows as many years as fit its width; the arrows page
+	through the rest (see yearPager in script.js). */
+.year-pager {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.year-pager[hidden] {
+    display: none;
+}
+
+.year-pager-btn {
+    display: grid;
+    place-items: center;
+    width: 28px;
+    height: 28px;
+    padding: 0;
+    border: 1px solid var(--line-strong);
+    border-radius: 50%;
+    background: transparent;
+    color: var(--ink);
+    cursor: pointer;
+    transition:
+        border-color 0.15s ease,
+        color 0.15s ease,
+        opacity 0.15s ease;
+}
+
+.year-pager-btn:hover:not(:disabled) {
+    border-color: var(--rust);
+    color: var(--rust);
+}
+
+.year-pager-btn:focus-visible {
+    outline: 2px solid var(--rust);
+    outline-offset: 2px;
+}
+
+.year-pager-btn:disabled {
+    opacity: 0.3;
+    cursor: default;
+}
+
+.year-pager-btn svg {
+    width: 14px;
+    height: 14px;
+}
+
+.year-pager-range {
+    min-width: 92px;
+    text-align: center;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    font-variant-numeric: tabular-nums;
+    color: var(--ink-soft);
+}
+
 .year-chart {
     height: 150px;
     margin-top: 16px;
-    padding: 0 4px 10px;
-    /* With 50+ distinct years the bars no longer fit any fixed
-		width -- rather than squeezing every column down to
-		illegibility, give the chart its own horizontal scroller
-		(same pattern as .table-scroll below) and let each column
-		keep a fixed, readable width from mobile through desktop.
-		The actual flex row + baseline live on .year-chart-inner so
-		the baseline scrolls together with the bars instead of
-		staying pinned to the (clipped) outer viewport. */
-    overflow-x: auto;
-    overflow-y: hidden;
-    -webkit-overflow-scrolling: touch;
+    padding: 0 0 10px;
+    /* A fixed window onto the year columns: no scrollbar. The pager
+		slides .year-chart-inner left/right a page at a time, and
+		swipes are handled in JS, so only vertical panning is left to
+		the browser. */
+    overflow: hidden;
+    touch-action: pan-y;
+    outline: none;
+}
+
+.year-chart:focus-visible {
+    box-shadow: 0 0 0 2px var(--rust);
+    border-radius: 4px;
 }
 
 .year-chart-inner {
@@ -939,6 +888,15 @@ svg#map {
     height: 100%;
     width: max-content;
     position: relative;
+    /* gap is overwritten by the pager so a page fills the width exactly */
+    transition: transform 0.35s cubic-bezier(0.22, 0.61, 0.36, 1);
+    will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .year-chart-inner {
+        transition: none;
+    }
 }
 
 .year-chart-inner::before {
@@ -1093,7 +1051,7 @@ table {
 thead th {
     position: sticky;
     top: 0;
-    background: var(--paper-raised);
+    background: var(--panel-bg);
     text-align: left;
     padding: 0;
     border-bottom: 1px solid var(--line-strong);
@@ -1146,7 +1104,7 @@ tbody tr:last-child td {
 }
 
 tbody tr:hover {
-    background: var(--paper);
+    background: var(--panel);
 }
 
 tbody tr.is-match {
@@ -1170,7 +1128,7 @@ td.id-cell {
     font-weight: 600;
     padding: 2px 8px;
     border-radius: 10px;
-    background: var(--paper);
+    background: var(--panel);
     border: 1px solid var(--line);
     color: var(--ink-soft);
     white-space: nowrap;
@@ -1255,7 +1213,7 @@ tr.expanded .chevron {
 
 tr.story-row td {
     padding: 16px 20px 20px;
-    background: var(--paper);
+    background: var(--panel);
     border-bottom: 1px solid var(--line);
 }
 
@@ -1394,7 +1352,7 @@ footer .src {
 html,
 aside {
     scrollbar-color: var(--rust) var(--line);
-    /* var(--paper-raised) */
+    /* var(--panel-bg) */
     scrollbar-width: thin;
 }
 
@@ -1409,9 +1367,9 @@ aside {
 @media (min-width: 320px) {
     .wrap {
         width: 100%;
-        padding: 0 28px 64px;
+        padding: 0 .5em 64px;
         min-width: 320px;
-        background-image: url("./images/bg.png");
+        background-image: url("./images/bg.webp");
         background-repeat: no-repeat;
         background-position-x: center;
         background-size: contain;
@@ -1512,8 +1470,8 @@ aside {
 
 @media (min-width: 1024px) {
     .wrap {
-        max-width: 1180px;
         padding: 0 28px 64px;
+        max-width: 1180px;
     }
 
     h1 img {
@@ -1523,9 +1481,17 @@ aside {
 
 
 /* ============ SCOPE TOGGLE (14er climbing | All) ============ */
+
+
+
+
 .cause-filter {
-    position: relative;
-    display: flex;
+	border: 1px solid red;
+	width: 100%;
+    /*
+	position: relative;
+	*/
+	display: flex;
     align-items: center;
     gap: 8px;
     flex: none;
@@ -1549,7 +1515,7 @@ aside {
 .cause-opt {
     font: inherit;
     letter-spacing: inherit;
-    background: none;
+    background: var(--panel-bg);
     border: 0;
     color: var(--ink-soft);
     padding: 8px 16px;
@@ -1602,7 +1568,7 @@ aside {
     z-index: 30;
     width: min(320px, 85vw);
     padding: 12px 14px;
-    background: var(--paper);
+    background: var(--panel);
     border: 1px solid var(--line-strong);
     border-radius: var(--radius-m);
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
