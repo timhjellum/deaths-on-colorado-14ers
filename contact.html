@@ -11,10 +11,332 @@
     <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
     <meta name="theme-color" content="#1B1D18">
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Public+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
-    <link rel="stylesheet" href="style.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&amp;family=Public+Sans:wght@400;500;600;700&amp;family=IBM+Plex+Mono:wght@400;500;600&amp;display=swap">
+<link rel="stylesheet" href="https://14er-deaths.com/pages.css">
+<script defer="" src="https://14er-deaths.com/pages.js"></script>
+
+    <style>
+:root {
+  interpolate-size: allow-keywords;
+  --font-size: 16px;
+  --ease-out: cubic-bezier(0.76, 0, 0.24, 1);
+  --ease-in: cubic-bezier(0.16, 1, 0.3, 1);
+  --duration: 1s;
+  --no-outline: 0 rgba(0, 0, 0, 0);
+
+	--accent-color-2: oklch(0.67 0.1469 68.13);
+	--form-primary-color: oklch(0.9955 0.1469 68.13);
+  --form-container-width: 100%;
+  --form-container-max-width: 625px;
+  --form-container-padding: 100%;
+  --form-container-blur: 20px;
+  --form-container-border: 1px solid rgba(255, 255, 255, 0.15);
+  --form-container-bg: linear-gradient(145deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%);
+  --form-group-width: 100%;
+  --form-group-padding: 100%;
+  --input-color: var(--accent-color-2);
+  --input-border-width: 1px;
+  --input-border-radius: 6px;
+  --bg-color: #0a0a0a;
+  --input-border-color: hsl(from var(--form-primary-color) h 0% 50% / 0.6);
+  --input-background-color: hsl(from var(--form-primary-color) h s 3% / 1.0);
+  --input-box-shadow-color-1: transparent;
+  --input-box-shadow-color-2: transparent;
+  --input-border-hover-color: hsl(from var(--form-primary-color) h 0% 50% / 0.8);
+  --input-background-hover-color: "";
+  --input-box-shadow-hover-color-1: hsl(from var(--form-primary-color) h 0% 35% / 0.6);
+  --input-box-shadow-hover-color-2: hsl(from var(--form-primary-color) h 0% 35% / 0.6);
+  --input-hover-color: unset;
+  --input-border-focus-color: oklch(50% 50% 250);
+  --input-background-focus-color: hsl(from var(--form-primary-color) h s 4% / 1.0);
+  --input-font-focus-color: hsl(from var(--form-primary-color) h s l / 1.0);
+  --input-box-shadow-focus-color-1: hsl(from var(--form-primary-color) h s 0% / .6);
+  --input-box-shadow-focus-color-2: hsl(from var(--form-primary-color) 180 s l / .5);
+  --input-border-required-color: var(--input-border-color);
+  --input-border-required-focus-color: var(--input-border-focus-color);
+  --input-background-required-color: var(--input-background-color);
+  --input-background-required-focus-color: var(--input-background-color);
+  --input-required-focus-color: var(--input-focus-color);
+  --input-box-shadow-required-focus-color-1: hsl(from var(--form-primary-color) h s 0% / 0.1);
+  --input-box-shadow-required-focus-color-2: hsl(from var(--form-primary-color) h s 0% / 0.1);
+  --input-border-error-color: oklch(50% 50% 50);
+  --input-background-error-color: black;
+  --input-box-shadow-error-color-1: oklch(50% 50% 50);
+  --input-box-shadow-error-color-2: oklch(50% 50% 50);
+  --input-box-shadow-error-hover-color-2: oklch(50% 50% 50);
+  --input-error-color: oklch(50% 50% 50);
+  --input-error-focus-color: oklch(50% 50% 50);
+  --input-border-success-color: oklch(50% 50% 150);
+  --input-border-success-hover-color: oklch(50% 50% 150);
+  --input-background-success-color: white;
+  --input-border-success-focus-color: oklch(50% 50% 150);
+  --input-success-color: oklch(50% 50% 150);
+  --input-success-focus-color: oklch(50% 50% 150);
+  --input-box-shadow-success-color-1: oklch(50% 50% 150);
+  --input-box-shadow-success-color-2: oklch(50% 50% 150);
+  --input-box-shadow-success-hover-color-2: oklch(50% 50% 150);
+  --input-border-disabled-color: oklch(50% 50% 250);
+  --input-disabled-color: oklch(50% 50% 250);
+  --input-background-disabled-color: hsl(from var(--form-primary-color) 200 s 30% / 0);
+  --input-box-shadow-disabled-color-2: hsl(from var(--form-primary-color) 200 s 30% / 0);
+  --input-placeholder-color: oklch(50% 50% 250);
+  --input-placeholder-disabled-color: oklch(50% 50% 250);
+  --placeholder-border-top: var(--input-border-color);
+  --placeholder-border-right: var(--input-border-color);
+  --placeholder-border-bottom: var(--input-border-color);
+  --placeholder-border-left: var(--input-border-color);
+  --placeholder-border-radius: var(--input-border-color);
+  --placeholder-background: var(--input-background-color);
+  --placeholder-border-top-valid: oklch(50% 50% 150);
+  --placeholder-border-right-valid: oklch(50% 50% 150);
+  --placeholder-border-bottom-valid: oklch(50% 50% 150);
+  --placeholder-border-left-valid: oklch(50% 50% 150);
+  --placeholder-background-valid: oklch(50% 50% 150);
+  --placeholder-border-top-invalid: oklch(50% 50% 50);
+  --placeholder-border-right-invalid: oklch(50% 50% 50);
+  --placeholder-border-bottom-invalid: oklch(50% 50% 50);
+  --placeholder-border-left-invalid: oklch(50% 50% 50);
+  --placeholder-background-invalid: oklch(50% 50% 50);
+  --placeholder-border-radius: 10%;
+  --placeholder-filter: blur(20px);
+  --placeholder-glow-color: #00ff00;
+  --button-color: #efeeec;
+  --button-background: #131313;
+  --button-border: 1px solid #131313;
+  --button-border-focus: 1px solid #cbc8c5 --button-outline-focus: #131313;
+  --button-disabled-color: #313131;
+  --button-disabled-background: #131313;
+  --button-disabled-border: 1px solid #000;
+}
+@supports (width: -moz-available) {
+  :root {
+    --stretch: -moz-available;
+  }
+}
+@supports (width: -webkit-fill-available) {
+  :root {
+    --stretch: -webkit-fill-available;
+  }
+}
+@supports (width: stretch) {
+  :root {
+    --stretch: stretch;
+  }
+}
+@layer password-requirements {
+  #create-password-requirements {
+    font-size: 0.9rem;
+    line-height: 1.4;
+    font-weight: 400;
+    color: #ccc;
+    font-family: "Roboto", sans-serif;
+    z-index: 2000;
+  }
+  #create-password-requirements ul {
+    padding: 0;
+  }
+  #create-password-requirements ul li {
+    color: #eee;
+    margin-bottom: 0.25em;
+    list-style: none;
+  }
+  #create-password-requirements ul li:first-child {
+    margin-bottom: 0.45em;
+  }
+  #create-password-requirements ul li.password-requirement {
+    margin-left: 0;
+    list-style: none;
+    color: #eee;
+    display: grid;
+    grid-template-columns: min-content auto;
+    column-gap: 10px;
+    width: 100%;
+    transition: color var(--duration) var(--ease-in);
+  }
+  #create-password-requirements ul li.password-requirement svg {
+    display: flex;
+    width: 16px;
+  }
+  #create-password-requirements ul li.password-requirement.is--valid {
+    color: var(--placeholder-background-valid);
+  }
+  #create-password-requirements ul li.password-requirement.is--valid .is--valid {
+    fill: var(--placeholder-background-valid);
+  }
+  #create-password-requirements ul li.password-requirement.is--valid .is--invalid {
+    display: none;
+  }
+  #create-password-requirements ul li.password-requirement.is--invalid {
+    color: var(--placeholder-background-invalid);
+  }
+  #create-password-requirements ul li.password-requirement.is--invalid .is--invalid {
+    fill: var(--placeholder-background-invalid);
+  }
+  #create-password-requirements ul li.password-requirement.is--invalid .is--valid {
+    display: none;
+  }
+}
+section {
+  display: grid;
+  min-height: 70vh;
+  position: relative;
+  container-type: inline-size;
+}
+.form-container {
+  grid-column-gap: 1.5em;
+  grid-row-gap: 1.5em;
+  flex-flow: column;
+  display: flex;
+  position: relative;
+  z-index: 2;
+  transition: padding 0.3s ease;
+}
+.form-container .form-group {
+  padding: 2em;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+}
+.form-container .form-group:hover {
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
+.form-container .form-group .form {
+  grid-column-gap: 1.5em;
+  grid-row-gap: 1.5em;
+  flex-flow: column;
+  width: 100%;
+  display: flex;
+}
+.form-container .form-field-group {
+  border: none;
+  grid-column-gap: 0.75em;
+  grid-row-gap: 0.75em;
+  flex-flow: column;
+  align-items: flex-start;
+}
+.form-container .form-field-group .form-field {
+  width: 100%;
+  position: relative;
+  background-color: var(--input-background-color);
+  border: var(--input-border-width) solid var(--input-border-color);
+  border-radius: var(--input-border-radius);
+  box-shadow: inset 0 1px 1px var(--input-box-shadow-color-1), 0 0 8px var(--input-box-shadow-color-2);
+  transition: border-color var(--duration) var(--ease-in), box-shadow var(--duration) var(--ease-in);
+}
+.form-container .form-field-group .form-field .form-input {
+  color: var(--input-color);
+  letter-spacing: 0.3em;
+}
+.form-container .form-field-group .form-field .form-input::placeholder {
+  letter-spacing: 0.1em;
+}
+.form-container .form-field-group .form-field:has(input:focus) {
+  background-color: var(--input-background-focus-color);
+  border: 1px solid var(--input-border-focus-color);
+  box-shadow: inset 0 1px 1px var(--input-box-shadow-focus-color-1), 0 0 8px var(--input-box-shadow-focus-color-2);
+  transition: border-color var(--duration) var(--ease-in), box-shadow var(--duration) var(--ease-in);
+  color: var(--input-color-focus);
+}
+.form-container .form-field-group .form-field:hover {
+  border: var(--input-border-width) solid var(--input-border-hover-color);
+  transition: border-color var(--duration) var(--ease-in);
+}
+.form-container .form-field-group .form-field:hover:placeholder {
+  color: var(--input-placeholder-disabled-color);
+}
+.form-container .form-field-group.is--error .form-field {
+  background-color: var(--input-background-error-color);
+  border: var(--form-border-width) solid var(--input-border-error-color);
+  box-shadow: inset 0 1px 1px var(--input-box-shadow-error-color-1), 0 0 8px var(--input-box-shadow-error-color-2);
+  transition: border-color var(--duration) var(--ease-in), box-shadow var(--duration) var(--ease-in);
+  /* &:hover { border: var(--form-border-width) solidvar(--input-box-shadow-error-hover-color)} */
+}
+.form-container .form-field-group.is--filled.is--success .form-field:not(:has(input:focus)) {
+  animation-name: success-off-focus;
+  animation-duration: 1.5s;
+  animation-timing-function: ease-in-out;
+}
+.form-container .form-field-group.is--filled.is--success .form-field:not(:has(input:focus)) .form-field-icon.is--success {
+  animation-name: success-icon-off-focus;
+  animation-duration: 1.5s;
+  animation-timing-function: ease-in-out;
+}
+.form-container .form-field-group.is--filled.is--success .form-field:has(input:focus) {
+  border: var(--form-border-width) solid var(--input-border-success-focus-color);
+  box-shadow: inset 0 1px 1px var(--input-box-shadow-success-color-1), 0 0 8px var(--input-box-shadow-success-color-2);
+  transition: border-color var(--duration) var(--ease-in), box-shadow var(--duration) 2s var(--ease-in);
+}
+.form-container .form-field-group.is--filled.is--success .form-field:has(input:focus) .form-field-icon.is--success {
+  color: var(--input-success-color);
+}
+.form-container .form-field-group.is--disabled .form-field {
+  border-color: var(--input-border-disabled-color);
+  background-color: var(--input-background-disabled-color);
+}
+.form-container .form-field-group.is--disabled .form-field:placeholder {
+  color: var(--input-placeholder-disabled-color);
+}
+@keyframes success-off-focus {
+  from {
+    border: var(--form-border-width) solid var(--input-border-success-focus-color);
+    box-shadow: inset 0 1px 1px var(--input-box-shadow-success-color-1), 0 0 8px var(--input-box-shadow-success-color-2);
+  }
+  to {
+    border: var(--form-border-width) solid var(--input-border-color);
+    box-shadow: inset 0 1px 1px var(--input-box-shadow-color-1), 0 0 8px var(--input-box-shadow-color-2);
+  }
+}
+@keyframes success-icon-off-focus {
+  from {
+    color: var(--input-success-color);
+  }
+  to {
+    color: var(--input-success-color);
+  }
+}
+.form-input {
+  outline-offset: 0px;
+  appearance: none;
+  vertical-align: middle;
+  outline: var(--no-outline);
+  height: auto;
+  margin-bottom: 0;
+  padding: 0.9em 3.5em 0.9em 1em;
+  font-size: 1.125em;
+  font-weight: 500;
+  line-height: 1.2;
+  background-color: transparent;
+  border: unset;
+  box-shadow: unset;
+}
+.form-input::-webkit-autofill {
+  background-color: var(--form-default-color);
+  color: var(--input-placeholder-color);
+}
+.form-input:focus {
+  border-color: unset;
+}
+.form-input:focus::placeholder {
+  color: transparent;
+  background-color: transparent;
+}
+.form-input:has(input:focus-visible) {
+  outline: none;
+  background-color: unset;
+  border: unset;
+  box-shadow: none;
+}
+.form-label {
+  display: none;
+  color: var(--label-color);
+  width: 100%;
+  margin-bottom: 0;
+  font-size: 0.875em;
+  font-weight: 500;
+  line-height: 1;
+}
+    </style>
 </head>
 
 <body class="subpage">
@@ -22,25 +344,36 @@
         <header>
             <a class="site-brand" href="/">
                 <img src="./deaths-on-colorados-fourteeners.svg" alt="">
-                <span>Deaths on Colorado&#x27;s <em>Fourteeners (14er)</em></span>
+                <span>Deaths on Colorado&#x27;s <em>Fourteeners (14er)</em>
+                </span>
             </a>
         </header>
 
         <main class="panel page-panel page-panel--narrow">
             <h1>Contact the Team</h1>
             <p class="page-lede">Corrections, new information about an incident, or questions about the project.</p>
-            <form name="contact" netlify>
-                <div class="field">
-                    <label for="name">Name</label>
-                    <input type="text" id="name" name="name" autocomplete="name">
+            <form name="contact" netlify class="form-container">
+
+                <div class="form-field-group">
+                    <label for="name" class="form-label">Name <span class="form-required">*</span>
+                    </label>
+                    <div class="form-field">
+                        <input type="text" id="name" name="name" autocomplete="name" class="form-input">
+                    </div>
                 </div>
-                <div class="field">
-                    <label for="email">E-mail</label>
-                    <input type="email" id="email" name="email" autocomplete="email">
+                <div class="form-field-group">
+                    <label for="email" class="form-label">E-mail <span class="form-required">*</span>
+                    </label>
+                    <div class="form-field">
+                        <input type="email" id="email" name="email" autocomplete="email" class="form-input">
+                    </div>
                 </div>
-                <div class="field">
-                    <label for="message">Message</label>
-                    <textarea id="message" name="message" rows="6"></textarea>
+                <div class="form-field-group">
+                    <label for="message" class="form-label">Message <span class="form-required">*</span>
+                    </label>
+                    <div class="form-field">
+                        <textarea id="message" name="message" rows="6" class="form-input"></textarea>
+                    </div>
                 </div>
                 <button type="submit">Send</button>
             </form>
