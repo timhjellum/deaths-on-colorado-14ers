@@ -1,0 +1,263 @@
+:root {
+  --aircraft-start: oklch(0.33 0.12 250);
+  --aircraft: oklch(0.5 0.12 250);
+  --aircraft-end: oklch(0.77 0.12 250);
+
+  --fall-start: oklch(0.33 0.15 25);
+  --fall: oklch(0.5 0.15 25);
+  --fall-end: oklch(0.77 0.15 25);
+
+  --intentional-start: oklch(0.33 0.14 305);
+  --intentional: oklch(0.5 0.14 305);
+  --intentional-end: oklch(0.77 0.14 305);
+
+  --heat-start: oklch(0.33 0.14 65);
+  --heat: oklch(0.5 0.14 65);
+  --heat-end: oklch(0.77 0.14 65);
+
+  --drowning-start: oklch(0.33 0.11 205);
+  --drowning: oklch(0.5 0.11 205);
+  --drowning-end: oklch(0.77 0.11 205);
+
+  --medical-start: oklch(0.33 0.09 340);
+  --medical: oklch(0.5 0.09 340);
+  --medical-end: oklch(0.77 0.09 340);
+
+  --flood-start: oklch(0.33 0.1 170);
+  --flood: oklch(0.5 0.1 170);
+  --flood-end: oklch(0.77 0.1 170);
+
+  --exposure-start: oklch(0.33 0.06 230);
+  --exposure: oklch(0.5 0.06 230);
+  --exposure-end: oklch(0.77 0.06 230);
+
+  --rockfall-start: oklch(0.33 0.08 80);
+  --rockfall: oklch(0.5 0.08 80);
+  --rockfall-end: oklch(0.77 0.08 80);
+
+  --lightning-start: oklch(0.33 0.14 100);
+  --lightning: oklch(0.5 0.14 100);
+  --lightning-end: oklch(0.77 0.14 100);
+}
+
+/* Cause palette -- same fixed-lightness OKLCH approach as the 14ers
+   swatches, so dark text stays legible in either theme. "Unknown"
+   and "Other" keep the neutral .cause-tag fallback. */
+.cause-tag[data-cause="Aircraft / vehicle"],
+.cause-tag[data-cause="Fall"],
+.cause-tag[data-cause="Intentional"],
+.cause-tag[data-cause="paneliac / heat"],
+.cause-tag[data-cause="Drowning"],
+.cause-tag[data-cause="Other medical"],
+.cause-tag[data-cause="Flash flood"],
+.cause-tag[data-cause="Exposure"],
+.cause-tag[data-cause="Rockfall"],
+.cause-tag[data-cause="Lightning"] {
+  border-color: transparent;
+  color: #000;
+}
+.cause-tag[data-cause="Aircraft / vehicle"] {
+  background: linear-gradient(
+    0deg,
+    var(--aircraft-start) 0%,
+    var(--aircraft) 5%,
+    var(--aircraft) 95%,
+    var(--aircraft-end) 100%
+  );
+}
+.cause-tag[data-cause="Fall"] {
+  background: linear-gradient(
+    0deg,
+    var(--fall-start) 0%,
+    var(--fall) 5%,
+    var(--fall) 95%,
+    var(--fall-end) 100%
+  );
+}
+.cause-tag[data-cause="Intentional"] {
+  background: linear-gradient(
+    0deg,
+    var(--intentional-start) 0%,
+    var(--intentional) 5%,
+    var(--intentional) 95%,
+    var(--intentional-end) 100%
+  );
+}
+.cause-tag[data-cause="paneliac / heat"] {
+  background: linear-gradient(
+    0deg,
+    var(--heat-start) 0%,
+    var(--heat) 5%,
+    var(--heat) 95%,
+    var(--heat-end) 100%
+  );
+}
+.cause-tag[data-cause="Drowning"] {
+  background: linear-gradient(
+    0deg,
+    var(--drowning-start) 0%,
+    var(--drowning) 5%,
+    var(--drowning) 95%,
+    var(--drowning-end) 100%
+  );
+}
+.cause-tag[data-cause="Other medical"] {
+  background: linear-gradient(
+    0deg,
+    var(--medical-start) 0%,
+    var(--medical) 5%,
+    var(--medical) 95%,
+    var(--medical-end) 100%
+  );
+}
+.cause-tag[data-cause="Flash flood"] {
+  background: linear-gradient(
+    0deg,
+    var(--flood-start) 0%,
+    var(--flood) 5%,
+    var(--flood) 95%,
+    var(--flood-end) 100%
+  );
+}
+.cause-tag[data-cause="Exposure"] {
+  background: linear-gradient(
+    0deg,
+    var(--exposure-start) 0%,
+    var(--exposure) 5%,
+    var(--exposure) 95%,
+    var(--exposure-end) 100%
+  );
+}
+.cause-tag[data-cause="Rockfall"] {
+  background: linear-gradient(
+    0deg,
+    var(--rockfall-start) 0%,
+    var(--rockfall) 5%,
+    var(--rockfall) 95%,
+    var(--rockfall-end) 100%
+  );
+}
+.cause-tag[data-cause="Lightning"] {
+  background: linear-gradient(
+    0deg,
+    var(--lightning-start) 0%,
+    var(--lightning) 5%,
+    var(--lightning) 95%,
+    var(--lightning-end) 100%
+  );
+}
+.cause {
+  .bar-list {
+    button {
+      &:nth-child(1) {
+        .bar-fill {
+          background: linear-gradient(
+            90deg,
+            var(--aircraft-start) 0%,
+            var(--aircraft) 50%,
+            var(--aircraft-end) 100%
+          );
+        }
+      }
+
+      &:nth-child(2) {
+        .bar-fill {
+          background: linear-gradient(
+            90deg,
+            var(--fall-start) 0%,
+            var(--fall) 50%,
+            var(--fall-end) 100%
+          );
+        }
+      }
+
+      &:nth-child(3) {
+        .bar-fill {
+          background: linear-gradient(
+            90deg,
+            var(--intentional-start) 0%,
+            var(--intentional) 50%,
+            var(--intentional-end) 100%
+          );
+        }
+      }
+
+      &:nth-child(4) {
+        .bar-fill {
+          background: linear-gradient(
+            90deg,
+            var(--heat-start) 0%,
+            var(--heat) 50%,
+            var(--heat-end) 100%
+          );
+        }
+      }
+
+      &:nth-child(5) {
+        .bar-fill {
+          background: linear-gradient(
+            90deg,
+            var(--drowning-start) 0%,
+            var(--drowning) 50%,
+            var(--drowning-end) 100%
+          );
+        }
+      }
+
+      &:nth-child(6) {
+        .bar-fill {
+          background: linear-gradient(
+            90deg,
+            var(--medical-start) 0%,
+            var(--medical) 50%,
+            var(--medical-end) 100%
+          );
+        }
+      }
+
+      &:nth-child(7) {
+        .bar-fill {
+          background: linear-gradient(
+            90deg,
+            var(--flood-start) 0%,
+            var(--flood) 50%,
+            var(--flood-end) 100%
+          );
+        }
+      }
+
+      &:nth-child(8) {
+        .bar-fill {
+          background: linear-gradient(
+            90deg,
+            var(--exposure-start) 0%,
+            var(--exposure) 50%,
+            var(--exposure-end) 100%
+          );
+        }
+      }
+
+      &:nth-child(9) {
+        .bar-fill {
+          background: linear-gradient(
+            90deg,
+            var(--rockfall-start) 0%,
+            var(--rockfall) 50%,
+            var(--rockfall-end) 100%
+          );
+        }
+      }
+
+      &:nth-child(10) {
+        .bar-fill {
+          background: linear-gradient(
+            90deg,
+            var(--lightning-start) 0%,
+            var(--lightning) 50%,
+            var(--lightning-end) 100%
+          );
+        }
+      }
+    }
+  }
+}

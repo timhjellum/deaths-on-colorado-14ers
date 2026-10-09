@@ -1,0 +1,94 @@
+:root {
+--male-start: oklch(0.33 0.13 246);
+--male: oklch(0.5 0.13 246);
+--male-end: oklch(0.77 0.13 246);
+
+--female-start: oklch(0.33 0.22 355);
+--female: oklch(0.5 0.22 355);
+--female-end: oklch(0.77 0.22 355);
+
+--unknown-start: oklch(0.33 0 0);
+--unknown: oklch(0.5 0 0);
+--unknown-end: oklch(0.77 0 0);
+}
+
+
+
+
+/*
+.sex-tag[data-value="male"],
+.sex-tag[data-value="female"],
+.sex-tag[data-value="unknown"],
+.sex-tag[data-value="35-44"],
+.sex-tag[data-value="45-54"],
+.sex-tag[data-value="55-64"],
+.sex-tag[data-value="65+"] {
+  border-color: transparent;
+  color: #000;
+}
+.sex-tag[data-value="male"] {
+  background: linear-gradient(
+    0deg,
+    var(--male-start) 0%,
+    var(--male) 5%,
+    var(--male) 95%,
+    var(--male-end) 100%
+  );
+}
+.sex-tag[data-value="female"] {
+  background: linear-gradient(
+    0deg,
+    var(--female-start) 0%,
+    var(--female) 5%,
+    var(--female) 95%,
+    var(--female-end) 100%
+  );
+}
+.sex-tag[data-value="unknown"] {
+  background: linear-gradient(
+    0deg,
+    var(--unknown-start) 0%,
+    var(--unknown) 5%,
+    var(--unknown) 95%,
+    var(--unknown-end) 100%
+  );
+}
+*/
+.sex {
+  .bar-list {
+    button {
+      &:nth-child(1) {
+        .bar-fill {
+          background: linear-gradient(
+            90deg,
+            var(--male-start) 0%,
+            var(--male) 50%,
+            var(--male-end) 100%
+          );
+        }
+      }
+
+      &:nth-child(2) {
+        .bar-fill {
+          background: linear-gradient(
+            90deg,
+            var(--female-start) 0%,
+            var(--female) 50%,
+            var(--female-end) 100%
+          );
+        }
+      }
+
+      &:nth-child(3) {
+        .bar-fill {
+          background: linear-gradient(
+            90deg,
+            var(--unknown-start) 0%,
+            var(--unknown) 50%,
+            var(--unknown-end) 100%
+          );
+        }
+      }
+    }
+  }
+}

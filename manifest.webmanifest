@@ -1,7 +1,7 @@
 {
   "icons": [
     {
-      "src": "/images/icon-192.png",
+      "src": "/icon-192.png",
       "type": "image/png",
       "sizes": "192x192"
     },
@@ -12,7 +12,7 @@
       "purpose": "maskable"
     },
     {
-      "src": "/images/icon-512.png",
+      "src": "/icon-512.png",
       "type": "image/png",
       "sizes": "512x512"
     }

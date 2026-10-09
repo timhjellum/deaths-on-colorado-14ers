@@ -1,0 +1,428 @@
+@layer table {
+
+
+.table-scroll {
+  tbody {
+    tr.has-story {
+      &:hover {
+        td, th {
+          transform: translateY(-1px);
+          background-color: oklch(0.33 0.0164 58.82);
+          transition: background-color 0.25s ease-in;
+        }
+      }
+    }
+  }
+}
+/* ============ LOG TABLE ============ */
+.log {
+  margin-top: 22px;
+}
+
+.log-toolbar {
+  width: 100%;
+  display: flex;
+  flex-wrap: nowrap;
+  flex-direction: row;
+  justify-content: space-between;
+  //gap: 14px;
+  //flex-wrap: wrap;
+  font-family: var(--font-display);
+}
+
+.count-readout {
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  color: var(--ink-soft);
+}
+
+/*
+.liquid-glass-button {
+  cursor: pointer;
+  font-size: 2rem;
+  color: #fff;
+  box-shadow: 0 6px 6px rgba(0, 0, 0, 0.3), 0 0 20px rgba(0, 0, 0, 0.2);
+  border-radius: 2rem;
+  will-change: transform;
+  transition: transform 450ms cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  &:hover {
+transform: translateY(-3px);
+  }
+
+  .clear-btn {
+    border-radius: 2rem;
+    backdrop-filter: blur(3px);
+    padding: 1rem 2rem;
+    box-shadow: inset 2px 2px 1px 0 rgba(255, 255, 255, 0.4),
+      inset -1px -1px 1px 1px rgba(255, 255, 255, 0.4);
+  }
+}
+*/
+.clear-btn {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 12px;
+  letter-spacing: 0.02em;
+  background: var(--rust); // rgba(255, 255, 255, 0.1);
+  border: 0;// solid var(--line-strong);
+  color: #fff;
+  padding: 0.75em 1em;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.12s ease;
+  //border: 1px solid;
+  //text-shadow: 0 0 2px currentColor;
+  //box-shadow: inset 0 0 5px rgba(255, 255, 255, 0.5), 0 0 2px currentColor;
+  //transition: all 0.3s ease;
+  &:not(:disabled):hover {
+    transform: translateY(-3px);
+  }
+  &:disabled {
+    opacity: 0.4;
+    cursor: default;
+    color: #666;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid #666;
+    //text-shadow: 0 0 0px currentColor;
+    //box-shadow: inset 0 0 0 rgba(255, 255, 255, 0.1), 0 0 0 currentColor;
+  }
+}
+
+.submit-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--submit-btn-btn-color); //var(--rust);
+  color: var(--submit-btn-color); // #fff;
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 12.5px;
+  letter-spacing: 0.02em;
+  padding: 8px 16px;
+  border-radius: 20px;
+  border: 1px solid var(--rust);
+  text-decoration: none;
+  cursor: pointer;
+  transition: opacity 0.12s ease;
+}
+
+.submit-btn:hover {
+  opacity: 0.88;
+}
+
+/* pushes the toolbar's copy of the button to the far right, past
+	the title/count/clear-filter group */
+.log-toolbar .submit-btn {
+  margin-left: auto;
+}
+
+.log-footer {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 14px;
+}
+
+.table-scroll {
+  overflow-x: auto;
+  margin-top: 14px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-m);
+  font-family: var(--font-mono); // log cells are mono, as on 14ers
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  min-width: 680px;
+  box-shadow:
+    var(--shadow),
+    0 0 24px 0 rgba(255, 132, 84, 0.25);
+}
+
+thead th {
+  position: sticky;
+  top: 0;
+  background: var(--paper-raised);
+  text-align: left;
+  padding: 0;
+  border-bottom: 1px solid var(--line-strong);
+  z-index: 1;
+}
+
+thead th button {
+  all: unset;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+  padding: 11px 14px;
+  width: 100%;
+  font-weight: 600;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--th-color);
+}
+thead th button:hover {
+  color: var(--th-color-hover);
+}
+
+thead th .arrow {
+  font-size: 9px;
+  opacity: 0;
+  transition: opacity 0.1s ease;
+}
+
+thead th.sorted .arrow {
+  opacity: 1;
+  color: var(--rust);
+}
+
+thead th.sorted button {
+  color: var(--ink);
+}
+
+tbody td,
+tbody th[scope="row"] {
+  padding: 9px 14px;
+  border-bottom: 1px solid var(--line);
+  color: var(--th-color);
+  font-weight: 400;
+  text-align: left;
+}
+
+tbody tr:last-child td,
+tbody tr:last-child th {
+  border-bottom: none;
+}
+
+tbody tr:hover {
+  background: var(--paper);
+}
+
+tbody tr.is-match {
+  background: color-mix(in srgb, var(--rust) 8%, transparent);
+}
+
+td.num,
+th.num {
+  //font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+td.id-cell {
+  color: var(--th-color);
+  //font-family: var(--font-mono);
+  font-size: 12px;
+}
+
+.cause-tag {
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 10px;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  color: var(--ink-soft);
+  white-space: nowrap;
+}
+
+.muted-cell {
+  color: var(--ink-soft);
+  opacity: 0.6;
+}
+
+tbody tr.has-story {
+  cursor: pointer;
+}
+
+.chevron {
+  display: inline-block;
+  font-size: 10px;
+  color: var(--rust);
+  margin-left: 4px;
+  transition: transform 0.15s ease;
+  opacity: 0.75;
+}
+
+tr.expanded .chevron {
+  transform: rotate(90deg);
+}
+
+tr.story-row td {
+  padding: 16px 20px 20px;
+  background: var(--paper);
+  border-bottom: 1px solid var(--line);
+}
+
+.story-body {
+  font-family: var(--font-body);
+  /* max-width: 68ch;*/
+  width: 100%;
+}
+
+.story-headline {
+  //font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 16.5px;
+  margin: 0 0 10px;
+  color: var(--td-color);
+}
+
+.story-body p {
+  margin: 0 0 10px;
+  color: var(--td-color);
+  font-size: 13.5px;
+  line-height: 1.65;
+}
+
+.story-body p:last-child {
+  margin-bottom: 0;
+}
+
+.story-list {
+  margin: 4px 0 0;
+  padding-left: 19px;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.story-list li {
+  color: var(--td-color);
+  font-size: 13.5px;
+  line-height: 1.6;
+}
+
+.story-list li strong {
+  color: var(--td-color);
+}
+
+
+
+
+
+
+
+
+
+}
+
+
+/* ============ RESPONSIVE TABLE ============
+   From the CodePen prototype. Below 768px each record becomes a
+   stacked card: the date (row header) leads, and every other cell
+   shows its column name from data-title. The header row turns into
+   a strip of sort buttons. At 768px and up it's a normal table.
+
+   Kept outside @layer on purpose: style.less is unlayered, and
+   unlayered rules beat layered ones, so these would otherwise
+   lose to rules like td.loc-cell { max-width }. */
+@label-w: 92px;
+
+.responsive-table {
+  // hidden story rows must stay hidden even when rows are display:block
+  tr[hidden] {
+    display: none !important;
+  }
+
+  @media (max-width: 767.98px) {
+    overflow-x: visible;
+
+    table {
+      min-width: 0;
+      display: block;
+    }
+
+    // header row -> wrapping strip of sort buttons
+    thead {
+      display: block;
+    }
+    thead tr {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0 2px;
+      padding: 4px 6px;
+      border-bottom: 1px solid var(--line-strong);
+    }
+    thead th {
+      display: block;
+      position: static;
+      border-bottom: 0;
+      background: transparent;
+    }
+    thead th button {
+      width: auto;
+      padding: 8px 8px;
+      font-size: 10.5px;
+    }
+
+    tbody,
+    tr,
+    th,
+    td {
+      display: block;
+      text-align: left;
+      white-space: normal;
+    }
+
+    // one record = one card
+    tbody tr.has-story {
+      padding: 4px 0 8px;
+      border-top: 1px dashed var(--rust);
+    }
+    tbody tr.has-story:first-child {
+      border-top: 0;
+    }
+
+    tbody th[scope="row"] {
+      padding: 10px 14px 6px;
+      border-bottom: 0;
+      color: var(--th-color);
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    tbody td {
+      position: relative;
+      padding: 6px 14px 6px (@label-w + 14px);
+      border-bottom: 0;
+      max-width: none;
+    }
+    tbody td:nth-child(even) {
+      background-color: rgba(255, 255, 255, 0.025);
+    }
+    tbody td[data-title]::before {
+      content: attr(data-title);
+      position: absolute;
+      left: 14px;
+      top: 6px;
+      width: @label-w;
+      font-size: 10.5px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      line-height: 1.9;
+      color: var(--ink-soft);
+    }
+
+    // no lift-on-hover on touch screens
+    tbody tr.has-story:hover td,
+    tbody tr.has-story:hover th {
+      transform: none;
+    }
+
+    tr.story-row td,
+    .status-row td {
+      padding: 14px 14px 18px;
+    }
+    tr.story-row td {
+      border-bottom: 0;
+    }
+  }
+}
+

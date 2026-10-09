@@ -1,0 +1,291 @@
+/* ============ ABOUT & CONTACT ============
+   Content pages built on the register's styles (panels, colours,
+   canyon backdrop, day/night toggle). Only loaded by pages.js. */
+
+.doc-hero {
+  height: auto;
+  max-width: 1360px;
+  margin: 0 auto;
+  padding: 16px 16px 0;
+
+  a {
+    display: inline-block;
+    transition: transform 0.2s ease;
+    &:hover {
+      transform: translateY(-2px);
+    }
+  }
+  img {
+    display: block;
+    width: 120px;
+    height: auto;
+  }
+}
+
+.doc {
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 8px 16px 64px;
+
+  &.doc--narrow {
+    max-width: 640px;
+  }
+}
+
+.doc-head {
+  /* sits over the canyon artwork, so it gets its own card */
+  margin: 8px 0 22px;
+  padding: 22px 26px 24px;
+  border-radius: var(--radius);
+  background-color: var(--panel-background-color);
+  box-shadow:
+    0px var(--panel-box-shadow-2-y) var(--panel-box-shadow-2-blur)
+      var(--panel-box-shadow-2),
+    0 0 0 1px var(--panel-border-color);
+
+  h1 {
+    display: block; // the site's h1 is flex, which swallows the space before <em>
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: clamp(34px, 6vw, 56px);
+    line-height: 1.02;
+    letter-spacing: -0.01em;
+    color: var(--panel-label-color);
+    margin: 14px 0 10px;
+
+    em {
+      font-style: italic;
+      font-weight: 500;
+      color: var(--rust);
+    }
+  }
+
+  .lede {
+    max-width: 60ch;
+    margin: 0;
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--text-color);
+  }
+}
+
+.back {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--panel-label-color);
+  background: var(--panel-icon-background-color);
+  border: 1px solid var(--panel-border-color);
+  border-radius: 20px;
+  padding: 5px 12px;
+
+  &:hover {
+    color: var(--rust);
+    border-color: var(--rust);
+  }
+}
+
+/* panels on these pages hold prose, so drop the register's tall top padding */
+.doc .panel {
+  position: relative;
+  padding: 24px 26px;
+  margin-bottom: 22px;
+
+  h2 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 23px;
+    line-height: 1.2;
+    color: var(--panel-label-color);
+    margin: 0 0 12px;
+    padding-bottom: 10px;
+    border-bottom: 1px dashed var(--rust);
+  }
+
+  p,
+  li,
+  dd {
+    font-size: 14.5px;
+    line-height: 1.7;
+    color: var(--text-color);
+    max-width: 68ch;
+  }
+  p {
+    margin: 0 0 12px;
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+  span {
+    font-size: inherit;
+    line-height: inherit;
+  }
+  strong {
+    color: var(--panel-label-color);
+    font-weight: 600;
+  }
+  a {
+    color: var(--rust);
+  }
+  ul {
+    margin: 0 0 12px;
+    padding-left: 1.2em;
+  }
+  li {
+    margin-bottom: 6px;
+    &::marker {
+      color: var(--rust);
+    }
+  }
+  dl {
+    margin: 0;
+    display: grid;
+    grid-template-columns: max-content 1fr;
+    gap: 10px 20px;
+  }
+  dt {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--rust);
+    padding-top: 4px;
+  }
+  dd {
+    margin: 0;
+  }
+}
+
+.callout {
+  border-left: 3px solid var(--rust);
+  padding-left: 14px;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 18px !important;
+  line-height: 1.5 !important;
+  color: var(--panel-label-color) !important;
+}
+
+/* ---- contact form ---- */
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 18px;
+
+  label {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--panel-label-color);
+  }
+  .opt {
+    font-weight: 400;
+    text-transform: none;
+    letter-spacing: 0;
+    opacity: 0.7;
+  }
+  input,
+  select,
+  textarea {
+    font: inherit;
+    font-size: 15px;
+    color: var(--panel-label-color);
+    background: var(--panel-icon-background-color);
+    border: 1px solid var(--panel-border-color);
+    border-radius: var(--radius);
+    padding: 10px 12px;
+    width: 100%;
+
+    &:focus {
+      outline: 2px solid var(--rust);
+      outline-offset: 1px;
+      border-color: transparent;
+    }
+  }
+  select option {
+    color: #111;
+  }
+  textarea {
+    min-height: 170px;
+    resize: vertical;
+  }
+}
+
+.hp {
+  position: absolute !important;
+  left: -9999px;
+}
+
+.send-btn {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #fff;
+  background: var(--rust);
+  border: 0;
+  border-radius: 20px;
+  padding: 11px 24px;
+  cursor: pointer;
+  transition: transform 0.12s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+  }
+}
+
+.note {
+  font-size: 13px !important;
+  opacity: 0.8;
+  margin: 16px 0 0 !important;
+}
+
+.thanks {
+  display: none;
+}
+.is-sent {
+  .thanks {
+    display: block;
+  }
+  form {
+    display: none;
+  }
+}
+
+/* footer sits inside the column here */
+.doc footer {
+  margin-top: 40px;
+  color: var(--text-color);
+
+  a {
+    color: inherit;
+  }
+}
+
+@media (max-width: 560px) {
+  .doc-head {
+    padding: 18px 16px 20px;
+  }
+  .doc .panel {
+    padding: 18px 16px;
+
+    dl {
+      grid-template-columns: 1fr;
+      gap: 2px;
+    }
+    dd {
+      margin-bottom: 10px;
+    }
+  }
+  .doc-hero img {
+    width: 92px;
+  }
+}

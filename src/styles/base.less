@@ -1,0 +1,73 @@
+@layer base {
+  html {
+  box-sizing: border-box; // every element inherits this (see * below)
+  -webkit-font-smoothing: antialiased;
+      scroll-behavior: smooth;
+}
+
+* {
+  box-sizing: inherit;
+  &:before,
+  &:after {
+    box-sizing: inherit;
+  }
+}
+
+  body {
+  background: url("../images/grand-canyon--bg.webp");
+  //, linear-gradient(rgba(255, 132, 84, 0.1) 1px, #000 1px, transparent 1px), linear-gradient(90deg, rgba(255, 132, 84, 0.1) 1px, transparent 1px, transparent 1px);
+  background-size: 100vw;
+  background-repeat: no-repeat;
+  background-position: top center;
+  font-family: var(--font-body);
+  background-color: var(--bg-dark);
+  z-index: 50;
+  position: relative;
+  &:before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(rgba(255, 132, 84, 0.1) 1px, #000 1px, transparent 1px),
+      linear-gradient(
+        90deg,
+        rgba(255, 132, 84, 0.1) 1px,
+        transparent 1px,
+        transparent 1px
+      );
+    background-size: 40px 40px;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+  }
+}
+
+
+html {
+
+}
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  * {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+  ::selection {
+  background: var(--sky);
+  color: var(--paper-raised);
+}
+
+a {
+  color: var(--sky-ink);
+}
+
+button {
+  font-family: inherit;
+}
+
+}
