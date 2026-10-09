@@ -1,216 +1,218 @@
-<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
-<title>Colorado Lightning Casualties</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
-<style>
-/* Layout: single reading column, field-guide style — big casualty figures up top, then timing, fourteeners, national rank, caveats, sources */
-:root{
-  --bg:#eef0f2; --surface:#ffffff; --ink:#1c2530; --muted:#5b6672; --rule:#d3d8de;
-  --bolt:#c98a00; --bolt-soft:#f6e7bf; --bar:#7d8b99; --bar-co:#c98a00;
-  --display:"Barlow Condensed","Arial Narrow",system-ui,sans-serif;
-  --body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
-  --mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
-}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
-  --bg:#141a21; --surface:#1c242d; --ink:#e4e8ec; --muted:#98a3ae; --rule:#2f3a45;
-  --bolt:#f2b632; --bolt-soft:#3a2f12; --bar:#5d6b79; --bar-co:#f2b632; color-scheme:dark}}
-:root[data-theme="dark"]{
-  --bg:#141a21; --surface:#1c242d; --ink:#e4e8ec; --muted:#98a3ae; --rule:#2f3a45;
-  --bolt:#f2b632; --bolt-soft:#3a2f12; --bar:#5d6b79; --bar-co:#f2b632; color-scheme:dark}
+<!doctype html>
+<html lang="en">
 
-*{box-sizing:border-box}
-body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.55;padding-inline:16px;padding-block:0 64px}
-main{max-width:760px;margin:0 auto;display:flex;flex-direction:column;gap:48px}
-a{color:inherit;text-decoration-color:var(--bolt);text-underline-offset:3px}
-a:focus-visible{outline:2px solid var(--bolt);outline-offset:2px}
-h1,h2{font-family:var(--display);text-wrap:balance;margin:0;letter-spacing:.01em}
-h2{font-size:1.75rem;font-weight:600;line-height:1.1}
-p{margin:0}
-.eyebrow{font-family:var(--mono);font-size:.75rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
-.mono{font-family:var(--mono);font-variant-numeric:tabular-nums}
-section{display:flex;flex-direction:column;gap:16px}
-.lede{color:var(--muted);max-width:62ch}
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Colorado Lightning Casualties — Deaths on Colorado Fourteeners (14ers)</title>
+    <link rel="icon" href="/favicon.ico" sizes="32x32">
+    <link rel="icon" href="/images/icon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+    <meta name="theme-color" content="#1B1D18">
 
-/* header */
-header{padding-block:48px 8px;display:flex;flex-direction:column;gap:12px;max-width:760px;margin:0 auto}
-header h1{font-size:clamp(2.6rem,8vw,4.2rem);font-weight:700;line-height:.95;text-transform:uppercase}
-header h1 svg{height:.8em;width:auto;vertical-align:-.05em;margin-right:.1em}
-header h1 svg path{fill:var(--bolt)}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Public+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Page-specific pieces of the lightning report, on the site's
+            tokens (style.css). Scoped to .lightning. */
+        .lightning {
+            --bolt: var(--rust);
+            --bolt-soft: var(--rust-soft);
+            --bar: var(--line-strong);
+            display: flex;
+            flex-direction: column;
+            gap: 44px;
+        }
+        .lightning p { margin: 0; }
+        .lightning section { display: flex; flex-direction: column; gap: 14px; }
+        .lightning a { color: var(--sky-ink); text-underline-offset: 3px; }
+        .lt-head .page-lede { margin: 0; }
+        .lt-head h1 svg { height: .8em; width: auto; vertical-align: -.05em; margin-right: .15em; }
+        .lt-head h1 svg path { fill: var(--bolt); }
+        .lt-head { display: flex; flex-direction: column; gap: 10px; }
+        .lt-eyebrow { font-family: var(--font-mono); font-size: 11.5px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-soft); }
+        .lightning .mono { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+        .lightning .note, .lightning .legend { font-size: 13.5px; color: var(--ink-soft); }
 
-/* hero figures */
-.figures{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;background:var(--rule);border:1px solid var(--rule)}
-.fig{background:var(--surface);padding:20px 18px;display:flex;flex-direction:column;gap:4px;min-width:0}
-.fig .n{font-family:var(--display);font-size:clamp(2.6rem,9vw,3.6rem);font-weight:700;line-height:1;font-variant-numeric:tabular-nums}
-.fig.total .n{color:var(--bolt)}
-.fig .l{font-weight:600}
-.fig .s{font-size:.85rem;color:var(--muted)}
-.per-year{display:flex;flex-wrap:wrap;gap:8px 24px;font-size:.95rem}
-.per-year b{font-family:var(--mono);font-weight:500}
+        .figures { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: var(--radius-m); overflow: hidden; }
+        .fig { background: var(--panel); padding: 18px; display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+        .fig .n { font-family: var(--font-mono); font-size: clamp(30px, 6vw, 40px); font-weight: 600; line-height: 1; font-variant-numeric: tabular-nums; }
+        .fig.total .n { color: var(--bolt); }
+        .fig .l { font-weight: 600; }
+        .fig .s { font-size: 13px; color: var(--ink-soft); }
+        .per-year { display: flex; flex-wrap: wrap; gap: 8px 24px; font-size: 15px; }
+        .per-year b { font-family: var(--font-mono); font-weight: 500; }
 
-/* tables */
-.tbl{overflow-x:auto;border:1px solid var(--rule);background:var(--surface)}
-table{border-collapse:collapse;width:100%;font-size:.95rem}
-th,td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--rule);vertical-align:top}
-tr:last-child td{border-bottom:0}
-th{font-family:var(--mono);font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:500}
-td.num{font-family:var(--mono);font-variant-numeric:tabular-nums;white-space:nowrap}
-tr.co td{background:var(--bolt-soft)}
+        .lightning .tbl { overflow-x: auto; border: 1px solid var(--line); border-radius: var(--radius-m); }
+        .lightning table { min-width: 0; font-size: 14px; box-shadow: none; }
+        .lightning th, .lightning td { text-align: left; padding: 10px 14px; vertical-align: top; }
+        .lightning thead th { padding: 10px 14px; font-family: var(--font-mono); font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-soft); font-weight: 500; position: static; }
+        .lightning td.num { white-space: nowrap; }
 
-/* season strip */
-.season{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:3px}
-.mo{display:flex;flex-direction:column;align-items:center;gap:6px}
-.mo .cell{width:100%;height:36px;border-radius:2px;background:var(--rule)}
-.mo.lo .cell{background:var(--rule);opacity:.55}
-.mo.mid .cell{background:var(--bolt);opacity:.35}
-.mo.hi .cell{background:var(--bolt);opacity:.75}
-.mo.peak .cell{background:var(--bolt)}
-.mo span{font-family:var(--mono);font-size:.7rem;color:var(--muted)}
-.legend{font-size:.85rem;color:var(--muted)}
+        .season { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 3px; }
+        .mo { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+        .mo .cell { width: 100%; height: 36px; border-radius: 2px; background: var(--line); }
+        .mo.lo .cell { opacity: .55; }
+        .mo.mid .cell { background: var(--bolt); opacity: .35; }
+        .mo.hi .cell { background: var(--bolt); opacity: .75; }
+        .mo.peak .cell { background: var(--bolt); }
+        .mo span { font-family: var(--font-mono); font-size: 11px; color: var(--ink-soft); }
 
-/* fourteener proportion */
-.prop{display:flex;flex-direction:column;gap:8px}
-.prop-bar{display:flex;height:22px;border:1px solid var(--rule);background:var(--surface)}
-.prop-bar i{display:block;background:var(--bolt)}
-.prop-cap{display:flex;justify-content:space-between;font-size:.85rem;color:var(--muted);gap:12px;flex-wrap:wrap}
+        .prop { display: flex; flex-direction: column; gap: 8px; }
+        .prop-bar { display: flex; height: 22px; border: 1px solid var(--line); background: var(--panel); border-radius: 2px; overflow: hidden; }
+        .prop-bar i { display: block; background: var(--bolt); }
+        .prop-cap { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; font-size: 13.5px; color: var(--ink-soft); }
 
-/* state bars */
-.bars{display:flex;flex-direction:column;gap:6px;background:var(--surface);border:1px solid var(--rule);padding:16px}
-.row{display:grid;grid-template-columns:8.5rem minmax(0,1fr) 2.5rem;align-items:center;gap:10px;font-size:.92rem}
-.row .track{height:14px}
-.row .track i{display:block;height:100%;background:var(--bar)}
-.row.co .track i{background:var(--bar-co)}
-.row.co .name{font-weight:600}
-.row .v{font-family:var(--mono);text-align:right;font-variant-numeric:tabular-nums}
-.note{font-size:.85rem;color:var(--muted)}
+        .bars { display: flex; flex-direction: column; gap: 6px; padding: 16px; border: 1px solid var(--line); border-radius: var(--radius-m); background: var(--panel); }
+        .bars .row { display: grid; grid-template-columns: 8.5rem minmax(0, 1fr) 2.5rem; align-items: center; gap: 10px; font-size: 14.5px; }
+        .bars .track { height: 14px; }
+        .bars .track i { display: block; height: 100%; background: var(--bar); border-radius: 1px; }
+        .bars .row.co .track i { background: var(--bolt); }
+        .bars .row.co .name { font-weight: 600; }
+        .bars .v { font-family: var(--font-mono); text-align: right; font-variant-numeric: tabular-nums; }
 
-/* caveats */
-.caveats{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:14px}
-.caveats li{display:grid;grid-template-columns:auto minmax(0,1fr);gap:12px}
-.caveats li::before{content:"";width:8px;height:8px;margin-top:.55em;background:var(--bolt);transform:rotate(45deg)}
-.caveats b{font-weight:600}
+        .caveats { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 14px; }
+        .caveats li { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 12px; }
+        .caveats li::before { content: ""; width: 8px; height: 8px; margin-top: .55em; background: var(--bolt); transform: rotate(45deg); }
+        .caveats b { font-weight: 600; }
+        .sources { margin: 0; padding-left: 1.2em; display: flex; flex-direction: column; gap: 6px; font-size: 14.5px; }
 
-.sources{margin:0;padding-left:1.2em;display:flex;flex-direction:column;gap:6px;font-size:.92rem}
-footer{max-width:760px;margin:48px auto 0;font-size:.8rem;color:var(--muted);border-top:1px solid var(--rule);padding-top:16px}
+        @media (max-width: 560px) {
+            .figures { grid-template-columns: 1fr; }
+            .bars .row { grid-template-columns: 6.5rem minmax(0, 1fr) 2rem; }
+            .mo span { font-size: 9.5px; }
+        }
+    </style>
+</head>
 
-@media (max-width:560px){
-  .figures{grid-template-columns:1fr}
-  .row{grid-template-columns:6.5rem minmax(0,1fr) 2rem}
-  .mo span{font-size:.6rem}
-}
-</style>
+<body class="subpage">
+    <div class="wrap">
+        <header>
+            <a class="site-brand" href="/">
+                <img src="./images/deaths-on-colorados-fourteeners.svg" alt="">
+                <span>Deaths on Colorado&#x27;s <em>Fourteeners (14er)</em></span>
+            </a>
+        </header>
 
-<header>
-  <span class="eyebrow">National Weather Service records · Colorado</span>
-  <h1><svg viewBox="0 0 24 32" aria-hidden="true"><path d="M14 0 2 18h8l-4 14L22 12h-9l5-12z"/></svg>Colorado Lightning Casualties</h1>
-  <p class="lede">Deaths and injuries from lightning in Colorado since 1980, when it happens, how often it happens on fourteeners, and how the state compares with the rest of the country.</p>
-</header>
+        <main class="panel page-panel lightning">
+            <div class="lt-head">
+                <span class="lt-eyebrow">National Weather Service records · Colorado</span>
+                <h1><svg viewBox="0 0 24 32" aria-hidden="true"><path d="M14 0 2 18h8l-4 14L22 12h-9l5-12z"/></svg>Colorado Lightning Casualties</h1>
+                <p class="page-lede">Deaths and injuries from lightning in Colorado since 1980, when it happens, how often it happens on fourteeners, and how the state compares with the rest of the country.</p>
+            </div>
 
-<main>
+            <section aria-labelledby="totals">
+              <h2 id="totals">Since 1980</h2>
+              <div class="figures">
+                <div class="fig"><span class="n">101</span><span class="l">Deaths</span><span class="s">1980–2024</span></div>
+                <div class="fig"><span class="n">490</span><span class="l">Injuries</span><span class="s">1980–2024</span></div>
+                <div class="fig total"><span class="n">591</span><span class="l">Total casualties</span><span class="s">Deaths + injuries</span></div>
+              </div>
+              <div class="per-year">
+                <span>Per year, on average:</span>
+                <span><b>~2.2</b> deaths</span>
+                <span><b>~10.9</b> injuries</span>
+                <span><b>~13.1</b> casualties</span>
+              </div>
+              <p class="note">The averages divide the 1980–2024 totals by 45 years. The NWS rounds them to 2 deaths and 12 injuries a year. Colorado had no lightning casualties in 2022 or 2023.</p>
+            </section>
 
-  <section aria-labelledby="totals">
-    <h2 id="totals">Since 1980</h2>
-    <div class="figures">
-      <div class="fig"><span class="n">101</span><span class="l">Deaths</span><span class="s">1980–2024</span></div>
-      <div class="fig"><span class="n">490</span><span class="l">Injuries</span><span class="s">1980–2024</span></div>
-      <div class="fig total"><span class="n">591</span><span class="l">Total casualties</span><span class="s">Deaths + injuries</span></div>
+            <section aria-labelledby="when">
+              <h2 id="when">When it happens</h2>
+              <p>July is the most dangerous month, then June. Most deaths come between June and August, in the afternoon, with casualties peaking around 2 PM.</p>
+              <div class="season" role="img" aria-label="Relative lightning risk by month: highest in July, then June and August; near zero November through February">
+                <div class="mo lo"><div class="cell"></div><span>Jan</span></div>
+                <div class="mo lo"><div class="cell"></div><span>Feb</span></div>
+                <div class="mo"><div class="cell"></div><span>Mar</span></div>
+                <div class="mo mid"><div class="cell"></div><span>Apr</span></div>
+                <div class="mo mid"><div class="cell"></div><span>May</span></div>
+                <div class="mo hi"><div class="cell"></div><span>Jun</span></div>
+                <div class="mo peak"><div class="cell"></div><span>Jul</span></div>
+                <div class="mo hi"><div class="cell"></div><span>Aug</span></div>
+                <div class="mo mid"><div class="cell"></div><span>Sep</span></div>
+                <div class="mo"><div class="cell"></div><span>Oct</span></div>
+                <div class="mo lo"><div class="cell"></div><span>Nov</span></div>
+                <div class="mo lo"><div class="cell"></div><span>Dec</span></div>
+              </div>
+              <p class="legend">Relative risk by month, not a count. Peak and high months come from NWS data for 1980–2019. The near-zero winter months come from the NWS monthly chart and should be checked against it before quoting.</p>
+            </section>
+
+            <section aria-labelledby="fourteeners">
+              <h2 id="fourteeners">On the fourteeners</h2>
+              <p>14 of Colorado's 332 lightning casualties from 1980 to 1999 happened on a fourteener, about 4%. Two strikes account for half of them: five hikers injured on Grays Peak in 1990, and three climbers hit near the summit of Capitol Peak in 1994, one fatally.</p>
+              <div class="prop">
+                <div class="prop-bar" role="img" aria-label="14 of 332 casualties, about 4 percent"><i style="width:4.2%"></i></div>
+                <div class="prop-cap"><span class="mono">14 on fourteeners</span><span class="mono">332 total · 1980–1999</span></div>
+              </div>
+              <p class="note">The Colorado Fourteeners Initiative estimated about 200,000 people climbed fourteeners in 2000. The NWS incident logs match the two group strikes, but the original source for the 332 total and the 200,000 estimate still needs to be found.</p>
+            </section>
+
+            <section aria-labelledby="rank">
+              <h2 id="rank">How Colorado compares</h2>
+              <p>Colorado's rank depends on the years being compared, so always cite the period next to it.</p>
+              <div class="tbl">
+                <table>
+                  <thead><tr><th>Period</th><th>Measure</th><th>Colorado</th></tr></thead>
+                  <tbody>
+                    <tr><td class="num">2006–2024</td><td>Deaths</td><td><b>3rd</b> · 25 deaths, behind Florida (88) and Texas (39)</td></tr>
+                    <tr><td class="num">2015–2025</td><td>Deaths</td><td><b>5th</b> · 10 deaths</td></tr>
+                    <tr><td class="num">1959–1994</td><td>Casualties</td><td><b>9th</b> · 394 (95 deaths, 299 injuries)</td></tr>
+                    <tr><td class="num">1959–1994</td><td>Deaths</td><td><b>11th</b></td></tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <span class="lt-eyebrow">Most lightning deaths by state · 2015–2025</span>
+              <div class="bars" role="img" aria-label="Lightning deaths by state 2015 to 2025: Florida 54, Texas 20, Alabama 15, North Carolina 13, Colorado 10, Georgia 8, Missouri 8">
+                <div class="row"><span class="name">Florida</span><span class="track"><i style="width:100%"></i></span><span class="v">54</span></div>
+                <div class="row"><span class="name">Texas</span><span class="track"><i style="width:37.04%"></i></span><span class="v">20</span></div>
+                <div class="row"><span class="name">Alabama</span><span class="track"><i style="width:27.78%"></i></span><span class="v">15</span></div>
+                <div class="row"><span class="name">North Carolina</span><span class="track"><i style="width:24.07%"></i></span><span class="v">13</span></div>
+                <div class="row co"><span class="name">Colorado</span><span class="track"><i style="width:18.52%"></i></span><span class="v">10</span></div>
+                <div class="row"><span class="name">Georgia</span><span class="track"><i style="width:14.81%"></i></span><span class="v">8</span></div>
+                <div class="row"><span class="name">Missouri</span><span class="track"><i style="width:14.81%"></i></span><span class="v">8</span></div>
+              </div>
+
+              <p><b>Fewest deaths.</b> Nevada had the fewest in the long-term record, 18 casualties from 1959 to 1994. In the recent decade, about ten states had a single death each, including Wyoming, Montana, North Dakota and South Dakota.</p>
+            </section>
+
+            <section aria-labelledby="check">
+              <h2 id="check">Check before publishing</h2>
+              <ul class="caveats">
+                <li><span><b>Averages.</b> Use either the computed 2.2 deaths and 10.9 injuries a year or the NWS's rounded 2 and 12, and cite which. The Denver Gazette's 3.5 deaths a year doesn't match its own totals.</span></li>
+                <li><span><b>Rank.</b> Put the date range next to Colorado's rank every time. It ranges from 3rd to 11th depending on the period.</span></li>
+                <li><span><b>Fourteener figures.</b> Find the original source for the 332 total and the 200,000-climber estimate, or drop them.</span></li>
+                <li><span><b>2025.</b> The Colorado totals run through 2024. Add 2025 once the NWS posts it.</span></li>
+              </ul>
+            </section>
+
+            <section aria-labelledby="src">
+              <h2 id="src">Sources</h2>
+              <ul class="sources">
+                <li><a href="https://www.weather.gov/pub/LightningGraphs" target="_blank" rel="noopener">NWS Pueblo – Colorado Lightning Graphs</a></li>
+                <li><a href="https://www.weather.gov/pub/Colorado_ltg_ranking" target="_blank" rel="noopener">NWS Pueblo – Colorado Lightning Ranking</a></li>
+                <li><a href="https://www.weather.gov/pub/lightningCasualtyStatistic" target="_blank" rel="noopener">NWS Pueblo – Lightning Casualty Statistics</a></li>
+                <li><a href="https://weather.gov/pub/lightningStatsDayByDay_80s" target="_blank" rel="noopener">NWS incident log, 1980s</a> and <a href="https://www.weather.gov/pub/lightningStatsDayByDay_90s" target="_blank" rel="noopener">1990s</a></li>
+                <li><a href="https://www.weather.gov/cae/lightningbystate.html" target="_blank" rel="noopener">NWS Columbia – Lightning Casualties by State, 1959–1994</a></li>
+                <li><a href="https://www.weather.gov/media/hazstat/lightning24.pdf" target="_blank" rel="noopener">NWS – 2024 Lightning Fatalities by State</a></li>
+                <li><a href="https://coloradosun.com/2024/05/30/colorado-lightning-deaths/" target="_blank" rel="noopener">Colorado Sun – Colorado has the third-most lightning deaths (2024)</a></li>
+                <li><a href="https://worldpopulationreview.com/state-rankings/lightning-deaths-by-state" target="_blank" rel="noopener">World Population Review – Lightning Deaths by State (NWS data)</a></li>
+                <li><a href="https://www.greenhornvalleyview.com/news-lifestyle/july-most-dangerous-month-lightning-strikes" target="_blank" rel="noopener">Greenhorn Valley View – July most dangerous month</a></li>
+                <li><a href="https://www.axios.com/local/denver/2022/06/25/lightning-colorado-fatalities-statistics" target="_blank" rel="noopener">Axios Denver – Lightning fatalities in Colorado</a></li>
+                <li><a href="https://www.denvergazette.com/2019/07/22/the-numbers-behind-lightning-strikes-and-casualties-in-colorado-fa37ca30-0edf-56ce-a367-8732ca0334dd/" target="_blank" rel="noopener">Denver Gazette – The numbers behind lightning in Colorado</a></li>
+              </ul>
+            </section>
+
+        </main>
+
+        <footer>
+            <span>
+                Deaths on Colorado Fourteeners (14ers) · <a href="/">Home</a> · <a href="submit.html">Submit an incident</a> · <a href="contact.html">Contact</a> · <a href="about.html">About</a>
+            </span>
+        </footer>
     </div>
-    <div class="per-year">
-      <span>Per year, on average:</span>
-      <span><b>~2.2</b> deaths</span>
-      <span><b>~10.9</b> injuries</span>
-      <span><b>~13.1</b> casualties</span>
-    </div>
-    <p class="note">The averages divide the 1980–2024 totals by 45 years. The NWS rounds them to 2 deaths and 12 injuries a year. Colorado had no lightning casualties in 2022 or 2023.</p>
-  </section>
+</body>
 
-  <section aria-labelledby="when">
-    <h2 id="when">When it happens</h2>
-    <p>July is the most dangerous month, then June. Most deaths come between June and August, in the afternoon, with casualties peaking around 2 PM.</p>
-    <div class="season" role="img" aria-label="Relative lightning risk by month: highest in July, then June and August; near zero November through February">
-      <div class="mo lo"><div class="cell"></div><span>Jan</span></div>
-      <div class="mo lo"><div class="cell"></div><span>Feb</span></div>
-      <div class="mo"><div class="cell"></div><span>Mar</span></div>
-      <div class="mo mid"><div class="cell"></div><span>Apr</span></div>
-      <div class="mo mid"><div class="cell"></div><span>May</span></div>
-      <div class="mo hi"><div class="cell"></div><span>Jun</span></div>
-      <div class="mo peak"><div class="cell"></div><span>Jul</span></div>
-      <div class="mo hi"><div class="cell"></div><span>Aug</span></div>
-      <div class="mo mid"><div class="cell"></div><span>Sep</span></div>
-      <div class="mo"><div class="cell"></div><span>Oct</span></div>
-      <div class="mo lo"><div class="cell"></div><span>Nov</span></div>
-      <div class="mo lo"><div class="cell"></div><span>Dec</span></div>
-    </div>
-    <p class="legend">Relative risk by month, not a count. Peak and high months come from NWS data for 1980–2019. The near-zero winter months come from the NWS monthly chart and should be checked against it before quoting.</p>
-  </section>
-
-  <section aria-labelledby="fourteeners">
-    <h2 id="fourteeners">On the fourteeners</h2>
-    <p>14 of Colorado's 332 lightning casualties from 1980 to 1999 happened on a fourteener, about 4%. Two strikes account for half of them: five hikers injured on Grays Peak in 1990, and three climbers hit near the summit of Capitol Peak in 1994, one fatally.</p>
-    <div class="prop">
-      <div class="prop-bar" role="img" aria-label="14 of 332 casualties, about 4 percent"><i style="width:4.2%"></i></div>
-      <div class="prop-cap"><span class="mono">14 on fourteeners</span><span class="mono">332 total · 1980–1999</span></div>
-    </div>
-    <p class="note">The Colorado Fourteeners Initiative estimated about 200,000 people climbed fourteeners in 2000. The NWS incident logs match the two group strikes, but the original source for the 332 total and the 200,000 estimate still needs to be found.</p>
-  </section>
-
-  <section aria-labelledby="rank">
-    <h2 id="rank">How Colorado compares</h2>
-    <p>Colorado's rank depends on the years being compared, so always cite the period next to it.</p>
-    <div class="tbl">
-      <table>
-        <thead><tr><th>Period</th><th>Measure</th><th>Colorado</th></tr></thead>
-        <tbody>
-          <tr><td class="num">2006–2024</td><td>Deaths</td><td><b>3rd</b> · 25 deaths, behind Florida (88) and Texas (39)</td></tr>
-          <tr><td class="num">2015–2025</td><td>Deaths</td><td><b>5th</b> · 10 deaths</td></tr>
-          <tr><td class="num">1959–1994</td><td>Casualties</td><td><b>9th</b> · 394 (95 deaths, 299 injuries)</td></tr>
-          <tr><td class="num">1959–1994</td><td>Deaths</td><td><b>11th</b></td></tr>
-        </tbody>
-      </table>
-    </div>
-
-    <span class="eyebrow">Most lightning deaths by state · 2015–2025</span>
-    <div class="bars" role="img" aria-label="Lightning deaths by state 2015 to 2025: Florida 54, Texas 20, Alabama 15, North Carolina 13, Colorado 10, Georgia 8, Missouri 8">
-      <div class="row"><span class="name">Florida</span><span class="track"><i style="width:100%"></i></span><span class="v">54</span></div>
-      <div class="row"><span class="name">Texas</span><span class="track"><i style="width:37.04%"></i></span><span class="v">20</span></div>
-      <div class="row"><span class="name">Alabama</span><span class="track"><i style="width:27.78%"></i></span><span class="v">15</span></div>
-      <div class="row"><span class="name">North Carolina</span><span class="track"><i style="width:24.07%"></i></span><span class="v">13</span></div>
-      <div class="row co"><span class="name">Colorado</span><span class="track"><i style="width:18.52%"></i></span><span class="v">10</span></div>
-      <div class="row"><span class="name">Georgia</span><span class="track"><i style="width:14.81%"></i></span><span class="v">8</span></div>
-      <div class="row"><span class="name">Missouri</span><span class="track"><i style="width:14.81%"></i></span><span class="v">8</span></div>
-    </div>
-
-    <p><b>Fewest deaths.</b> Nevada had the fewest in the long-term record, 18 casualties from 1959 to 1994. In the recent decade, about ten states had a single death each, including Wyoming, Montana, North Dakota and South Dakota.</p>
-  </section>
-
-  <section aria-labelledby="check">
-    <h2 id="check">Check before publishing</h2>
-    <ul class="caveats">
-      <li><span><b>Averages.</b> Use either the computed 2.2 deaths and 10.9 injuries a year or the NWS's rounded 2 and 12, and cite which. The Denver Gazette's 3.5 deaths a year doesn't match its own totals.</span></li>
-      <li><span><b>Rank.</b> Put the date range next to Colorado's rank every time. It ranges from 3rd to 11th depending on the period.</span></li>
-      <li><span><b>Fourteener figures.</b> Find the original source for the 332 total and the 200,000-climber estimate, or drop them.</span></li>
-      <li><span><b>2025.</b> The Colorado totals run through 2024. Add 2025 once the NWS posts it.</span></li>
-    </ul>
-  </section>
-
-  <section aria-labelledby="src">
-    <h2 id="src">Sources</h2>
-    <ul class="sources">
-      <li><a href="https://www.weather.gov/pub/LightningGraphs" target="_blank" rel="noopener">NWS Pueblo – Colorado Lightning Graphs</a></li>
-      <li><a href="https://www.weather.gov/pub/Colorado_ltg_ranking" target="_blank" rel="noopener">NWS Pueblo – Colorado Lightning Ranking</a></li>
-      <li><a href="https://www.weather.gov/pub/lightningCasualtyStatistic" target="_blank" rel="noopener">NWS Pueblo – Lightning Casualty Statistics</a></li>
-      <li><a href="https://weather.gov/pub/lightningStatsDayByDay_80s" target="_blank" rel="noopener">NWS incident log, 1980s</a> and <a href="https://www.weather.gov/pub/lightningStatsDayByDay_90s" target="_blank" rel="noopener">1990s</a></li>
-      <li><a href="https://www.weather.gov/cae/lightningbystate.html" target="_blank" rel="noopener">NWS Columbia – Lightning Casualties by State, 1959–1994</a></li>
-      <li><a href="https://www.weather.gov/media/hazstat/lightning24.pdf" target="_blank" rel="noopener">NWS – 2024 Lightning Fatalities by State</a></li>
-      <li><a href="https://coloradosun.com/2024/05/30/colorado-lightning-deaths/" target="_blank" rel="noopener">Colorado Sun – Colorado has the third-most lightning deaths (2024)</a></li>
-      <li><a href="https://worldpopulationreview.com/state-rankings/lightning-deaths-by-state" target="_blank" rel="noopener">World Population Review – Lightning Deaths by State (NWS data)</a></li>
-      <li><a href="https://www.greenhornvalleyview.com/news-lifestyle/july-most-dangerous-month-lightning-strikes" target="_blank" rel="noopener">Greenhorn Valley View – July most dangerous month</a></li>
-      <li><a href="https://www.axios.com/local/denver/2022/06/25/lightning-colorado-fatalities-statistics" target="_blank" rel="noopener">Axios Denver – Lightning fatalities in Colorado</a></li>
-      <li><a href="https://www.denvergazette.com/2019/07/22/the-numbers-behind-lightning-strikes-and-casualties-in-colorado-fa37ca30-0edf-56ce-a367-8732ca0334dd/" target="_blank" rel="noopener">Denver Gazette – The numbers behind lightning in Colorado</a></li>
-    </ul>
-  </section>
-
-</main>
-<footer>Compiled October 2026 from National Weather Service data and news reports.</footer>
-
-</body></html>
+</html>

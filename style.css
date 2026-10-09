@@ -1602,3 +1602,275 @@ aside {
         transition: none;
     }
 }
+
+
+/* ============ SUBPAGES (about, contact, submit, lightning) ============ */
+/* These pages share the main page's tokens, background, panels and
+	footer. Everything here is scoped to body.subpage so the main
+	page is unaffected. */
+.subpage .wrap {
+    max-width: 960px;
+    margin: 0 auto;
+}
+
+.site-brand {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 20px 0 28px;
+    color: var(--ink);
+    text-decoration: none;
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: clamp(22px, 4vw, 34px);
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+}
+
+.site-brand img {
+    flex: none;
+    width: clamp(56px, 9vw, 76px);
+    aspect-ratio: 1;
+}
+
+.site-brand em {
+    font-style: italic;
+    font-weight: 500;
+    color: #eee;
+}
+
+.site-brand:hover span {
+    text-decoration: underline;
+    text-decoration-color: var(--rust);
+    text-decoration-thickness: 1px;
+    text-underline-offset: 6px;
+}
+
+.page-panel {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 32px;
+}
+
+.page-panel--narrow {
+    max-width: 560px;
+}
+
+/* the main page's h1 rules lay out the site title; reset them here */
+.subpage .page-panel h1 {
+    display: block;
+    margin: 0 0 6px;
+    font-family: var(--font-display);
+    font-size: clamp(26px, 4.4vw, 38px);
+    font-weight: 600;
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+    text-wrap: balance;
+}
+
+.page-panel h2 {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: 22px;
+    font-weight: 600;
+    line-height: 1.2;
+}
+
+.page-panel p {
+    margin: 0 0 14px;
+}
+
+.page-panel > p:last-child {
+    margin-bottom: 0;
+}
+
+.page-lede {
+    margin: 0 0 24px;
+    padding-bottom: 18px;
+    border-bottom: 1px dotted var(--rust);
+    color: var(--ink-soft);
+    font-size: 14.5px;
+    line-height: 1.5;
+}
+
+.subpage .prose h1 {
+    margin-bottom: 18px;
+}
+
+.prose p {
+    font-size: 16px;
+    line-height: 1.7;
+    text-wrap: pretty;
+}
+
+.subpage footer {
+    max-width: 760px;
+    margin-inline: auto;
+}
+
+/* ---- forms ---- */
+.page-panel label {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    color: var(--ink);
+}
+
+.page-panel input[type="email"],
+.page-panel input[type="text"],
+.page-panel input[type="number"],
+.page-panel select,
+.page-panel textarea {
+    width: 100%;
+    padding: 10px 12px;
+    font-family: var(--font-body);
+    font-size: 15px;
+    color: var(--ink);
+    background: var(--panel);
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius-s);
+    color-scheme: dark;
+}
+
+.page-panel input::placeholder,
+.page-panel textarea::placeholder {
+    color: var(--ink-soft);
+    opacity: 0.8;
+}
+
+.page-panel input:hover,
+.page-panel select:hover,
+.page-panel textarea:hover {
+    border-color: var(--ink-soft);
+}
+
+.page-panel input:focus,
+.page-panel select:focus,
+.page-panel textarea:focus {
+    outline: 2px solid var(--sky);
+    outline-offset: 1px;
+    border-color: var(--line-strong);
+}
+
+.page-panel textarea {
+    min-height: 120px;
+    resize: vertical;
+}
+
+.field {
+    margin-top: 16px;
+}
+
+.field:first-child {
+    margin-top: 0;
+}
+
+.form-row {
+    display: flex;
+    gap: 12px;
+}
+
+.form-row .field {
+    flex: 1;
+    min-width: 0;
+    margin-top: 16px;
+}
+
+.page-panel button {
+    width: 100%;
+    margin-top: 20px;
+    padding: 11px 16px;
+    font-family: var(--font-body);
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    color: #fff;
+    background: var(--rust);
+    border: 1px solid var(--rust);
+    border-radius: 20px;
+    cursor: pointer;
+    transition: opacity 0.12s ease;
+}
+
+.page-panel button:hover {
+    opacity: 0.88;
+}
+
+.page-panel button:disabled {
+    opacity: 0.6;
+    cursor: default;
+}
+
+.page-panel .btn-quiet {
+    color: var(--ink-soft);
+    background: transparent;
+    border-color: var(--line-strong);
+}
+
+.page-panel .btn-quiet:hover {
+    color: var(--ink);
+    border-color: var(--ink-soft);
+    opacity: 1;
+}
+
+.msg {
+    display: none;
+    margin-top: 16px;
+    padding: 10px 12px;
+    border-radius: var(--radius-s);
+    border-left: 3px solid currentColor;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.msg.show {
+    display: block;
+}
+
+.msg.info {
+    background: color-mix(in srgb, var(--sky) 14%, transparent);
+    color: var(--sky-ink);
+}
+
+.msg.error {
+    background: color-mix(in srgb, var(--red-500) 14%, transparent);
+    color: var(--red-500);
+}
+
+.msg.success {
+    background: color-mix(in srgb, var(--moss) 16%, transparent);
+    color: var(--moss);
+}
+
+.signed-in-email {
+    font-family: var(--font-mono);
+    font-size: 13.5px;
+    color: var(--ink);
+}
+
+.form-note {
+    margin: 16px 0 0;
+    color: var(--ink-soft);
+    font-size: 13.5px;
+}
+
+@media (max-width: 520px) {
+    .page-panel {
+        padding: 22px 18px;
+    }
+
+    .form-row {
+        flex-wrap: wrap;
+        gap: 0 12px;
+    }
+
+    .form-row .field {
+        flex-basis: calc(50% - 6px);
+    }
+
+    .form-row .field:first-child:nth-last-child(3) {
+        flex-basis: 100%;
+    }
+}

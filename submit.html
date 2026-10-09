@@ -1,329 +1,202 @@
 <!doctype html>
 <html lang="en">
+
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Submit an Incident — Deaths on Colorado Fourteeners (14ers)</title>
-<meta name="robots" content="noindex">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Submit an Incident — Deaths on Colorado Fourteeners (14ers)</title>
+    <meta name="robots" content="noindex">
+    <link rel="icon" href="/favicon.ico" sizes="32x32">
+    <link rel="icon" href="/images/icon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+    <meta name="theme-color" content="#1B1D18">
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Public+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Public+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+    <link rel="stylesheet" href="style.css">
 
-<!--
-  STEP 1 — fill these in from Supabase: Project Settings -> API
-  The anon key is meant to be public; it goes right here in the browser.
--->
-<script>
-  const SUPABASE_URL = "https://upwnwylhlykrxokvcuhu.supabase.co";
-  const SUPABASE_ANON_KEY = "sb_publishable_c3m71XRj9-VBcnoml2tjVw_2pW4rndB";
-</script>
-
-<style>
-  :root{
-    --ink:#23261F;
-    --ink-soft:#5B5F52;
-    --panel:#EFECE3;
-    --panel-bg:#F7F5EE;
-    --sky:#1C7DBE;
-    --sky-ink:#0E5C8E;
-    --rust:#B0532A;
-    --moss:#5B6E4F;
-    --line:#C9C3B4;
-    --line-strong:#A69E89;
-    --shadow: 0 1px 0 rgba(35,38,31,0.06);
-    --radius-s:3px;
-    --radius-m:6px;
-    --font-display:'Newsreader', Georgia, 'Iowan Old Style', serif;
-    --font-body:'Public Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    --font-mono:'IBM Plex Mono', 'SFMono-Regular', Consolas, monospace;
-  }
-  @media (prefers-color-scheme: dark){
-    :root:not([data-theme="light"]){
-      --ink:#E8E4D8;
-      --ink-soft:#A6A190;
-      --panel:#1B1D18;
-      --panel-bg:#232720;
-      --sky:#3E90C9;
-      --sky-ink:#8FC4E8;
-      --rust:#D9773F;
-      --moss:#86A06E;
-      --line:#3A3D33;
-      --line-strong:#4C5044;
-      --shadow: 0 1px 0 rgba(0,0,0,0.3);
-    }
-  }
-
-  *{ box-sizing:border-box; }
-  body{
-    margin:0;
-    min-height:100vh;
-    background:var(--panel);
-    color:var(--ink);
-    font-family:var(--font-body);
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    padding:24px;
-  }
-  .card{
-    width:100%;
-    max-width:480px;
-    background:var(--panel-bg);
-    border:1px solid var(--line);
-    border-radius:var(--radius-m);
-    box-shadow:var(--shadow);
-    padding:32px;
-  }
-  h1{
-    font-family:var(--font-display);
-    font-size:1.5rem;
-    font-weight:600;
-    margin:0 0 4px;
-  }
-  .sub{
-    color:var(--ink-soft);
-    font-size:0.9rem;
-    margin:0 0 24px;
-    line-height:1.5;
-  }
-  label{
-    display:block;
-    font-size:0.85rem;
-    font-weight:600;
-    margin-bottom:6px;
-  }
-  input[type="email"],
-  input[type="text"],
-  input[type="number"],
-  select,
-  textarea{
-    width:100%;
-    padding:10px 12px;
-    font-family:var(--font-body);
-    font-size:0.95rem;
-    color:var(--ink);
-    background:var(--panel);
-    border:1px solid var(--line-strong);
-    border-radius:var(--radius-s);
-  }
-  textarea{ resize:vertical; }
-  input[type="email"]:focus,
-  input[type="text"]:focus,
-  input[type="number"]:focus,
-  select:focus,
-  textarea:focus{
-    outline:2px solid var(--sky);
-    outline-offset:1px;
-  }
-  .field{ margin-top:16px; }
-  .field:first-of-type{ margin-top:0; }
-  .row{ display:flex; gap:12px; }
-  .row .field{ flex:1; margin-top:16px; }
-  button{
-    width:100%;
-    margin-top:16px;
-    padding:11px 12px;
-    font-family:var(--font-body);
-    font-size:0.95rem;
-    font-weight:600;
-    color:#fff;
-    background:var(--sky);
-    border:none;
-    border-radius:var(--radius-s);
-    cursor:pointer;
-  }
-  button:hover{ background:var(--sky-ink); }
-  button:disabled{ opacity:0.6; cursor:default; }
-  .msg{
-    margin-top:16px;
-    font-size:0.88rem;
-    line-height:1.5;
-    padding:10px 12px;
-    border-radius:var(--radius-s);
-    display:none;
-  }
-  .msg.show{ display:block; }
-  .msg.info{ background:rgba(28,125,190,0.12); color:var(--sky-ink); }
-  .msg.error{ background:rgba(176,83,42,0.12); color:var(--rust); }
-  .msg.success{ background:rgba(91,110,79,0.12); color:var(--moss); }
-  .signed-in-email{ font-family:var(--font-mono); font-size:0.85rem; }
-  #signOut{
-    background:transparent;
-    color:var(--ink-soft);
-    border:1px solid var(--line-strong);
-    margin-top:24px;
-  }
-  #signOut:hover{ background:var(--panel); color:var(--ink); }
-  .placeholder{
-    margin-top:24px;
-    padding:16px;
-    border:1px dashed var(--line-strong);
-    border-radius:var(--radius-s);
-    color:var(--ink-soft);
-    font-size:0.88rem;
-    line-height:1.5;
-  }
-</style>
+    <!--
+      STEP 1 — fill these in from Supabase: Project Settings -> API
+      The anon key is meant to be public; it goes right here in the browser.
+    -->
+    <script>
+      const SUPABASE_URL = "https://upwnwylhlykrxokvcuhu.supabase.co";
+      const SUPABASE_ANON_KEY = "sb_publishable_c3m71XRj9-VBcnoml2tjVw_2pW4rndB";
+    </script>
 </head>
-<body>
 
-<div class="card">
+<body class="subpage">
+    <div class="wrap">
+        <header>
+            <a class="site-brand" href="/">
+                <img src="./images/deaths-on-colorados-fourteeners.svg" alt="">
+                <span>Deaths on Colorado&#x27;s <em>Fourteeners (14er)</em></span>
+            </a>
+        </header>
 
-  <!-- Shown when nobody is logged in -->
-  <div id="loginView">
-    <h1>Report an Incident</h1>
-    <p class="sub">Enter your email and we'll send you a one-time link to sign in. No password needed.</p>
-    <label for="email">Email address</label>
-    <input type="email" id="email" placeholder="you@example.com" autocomplete="email">
-    <button id="sendLink">Send me a login link</button>
-    <div class="msg" id="loginMsg"></div>
-  </div>
+        <main class="panel page-panel page-panel--narrow">
+            <!-- Shown when nobody is logged in -->
+            <div id="loginView">
+                <h1>Report an Incident</h1>
+                <p class="page-lede">Enter your email and we'll send you a one-time link to sign in. No password needed.</p>
+                <div class="field">
+                    <label for="email">Email address</label>
+                    <input type="email" id="email" placeholder="you@example.com" autocomplete="email">
+                </div>
+                <button id="sendLink">Send me a login link</button>
+                <div class="msg" id="loginMsg"></div>
+            </div>
 
-  <!-- Shown after they click the magic link and land back here -->
-  <div id="loggedInView" style="display:none;">
-    <h1>You're signed in</h1>
-    <p class="sub">Signed in as <span class="signed-in-email" id="userEmail"></span></p>
+            <!-- Shown after they click the magic link and land back here -->
+            <div id="loggedInView" style="display:none;">
+                <h1>You're signed in</h1>
+                <p class="page-lede">Signed in as <span class="signed-in-email" id="userEmail"></span></p>
 
-    <form id="incidentForm">
-      <div class="field">
-        <label for="mountain">Mountain</label>
-        <select id="mountain" required>
-          <option value="">Select a mountain…</option>
-          <option value="Blanca Peak">Blanca Peak</option>
-          <option value="Capitol Peak">Capitol Peak</option>
-          <option value="Castle Peak">Castle Peak</option>
-          <option value="Challenger Point">Challenger Point</option>
-          <option value="Conundrum Peak">Conundrum Peak</option>
-          <option value="Crestone Needle">Crestone Needle</option>
-          <option value="Crestone Peak">Crestone Peak</option>
-          <option value="Culebra Peak">Culebra Peak</option>
-          <option value="El Diente Peak">El Diente Peak</option>
-          <option value="Ellingwood Point">Ellingwood Point</option>
-          <option value="Grays Peak">Grays Peak</option>
-          <option value="Handies Peak">Handies Peak</option>
-          <option value="Humboldt Peak">Humboldt Peak</option>
-          <option value="Huron Peak">Huron Peak</option>
-          <option value="Kit Carson Peak">Kit Carson Peak</option>
-          <option value="La Plata Peak">La Plata Peak</option>
-          <option value="Little Bear Peak">Little Bear Peak</option>
-          <option value="Longs Peak">Longs Peak</option>
-          <option value="Maroon Bells">Maroon Bells</option>
-          <option value="Missouri Mountain">Missouri Mountain</option>
-          <option value="Mount Antero">Mount Antero</option>
-          <option value="Mount Belford">Mount Belford</option>
-          <option value="Mount Bierstadt">Mount Bierstadt</option>
-          <option value="Mount Bross">Mount Bross</option>
-          <option value="Mount Cameron">Mount Cameron</option>
-          <option value="Mount Columbia">Mount Columbia</option>
-          <option value="Mount Democrat">Mount Democrat</option>
-          <option value="Mount Elbert">Mount Elbert</option>
-          <option value="Mount Eolus">Mount Eolus</option>
-          <option value="Mount Evans">Mount Evans</option>
-          <option value="Mount Harvard">Mount Harvard</option>
-          <option value="Mount Lincoln">Mount Lincoln</option>
-          <option value="Mount Lindsey">Mount Lindsey</option>
-          <option value="Mount Massive">Mount Massive</option>
-          <option value="Mount of the Holy Cross">Mount of the Holy Cross</option>
-          <option value="Mount Oxford">Mount Oxford</option>
-          <option value="Mount Princeton">Mount Princeton</option>
-          <option value="Mount Shavano">Mount Shavano</option>
-          <option value="Mount Sherman">Mount Sherman</option>
-          <option value="Mount Sneffels">Mount Sneffels</option>
-          <option value="Mount Wilson">Mount Wilson</option>
-          <option value="Mount Yale">Mount Yale</option>
-          <option value="North Eolus">North Eolus</option>
-          <option value="Pikes Peak">Pikes Peak</option>
-          <option value="Pyramid Peak">Pyramid Peak</option>
-          <option value="Quandary Peak">Quandary Peak</option>
-          <option value="Redcloud Peak">Redcloud Peak</option>
-          <option value="San Luis Peak">San Luis Peak</option>
-          <option value="Snowmass Mountain">Snowmass Mountain</option>
-          <option value="Sunlight Peak">Sunlight Peak</option>
-          <option value="Sunshine Peak">Sunshine Peak</option>
-          <option value="Tabeguache Peak">Tabeguache Peak</option>
-          <option value="Torreys Peak">Torreys Peak</option>
-          <option value="Uncompahgre Peak">Uncompahgre Peak</option>
-          <option value="Wetterhorn Peak">Wetterhorn Peak</option>
-          <option value="Wilson Peak">Wilson Peak</option>
-          <option value="Windom Peak">Windom Peak</option>
-        </select>
-      </div>
+                <form id="incidentForm">
+                    <div class="field">
+                        <label for="mountain">Mountain</label>
+                        <select id="mountain" required>
+                            <option value="">Select a mountain…</option>
+                            <option value="Blanca Peak">Blanca Peak</option>
+                            <option value="Capitol Peak">Capitol Peak</option>
+                            <option value="Castle Peak">Castle Peak</option>
+                            <option value="Challenger Point">Challenger Point</option>
+                            <option value="Conundrum Peak">Conundrum Peak</option>
+                            <option value="Crestone Needle">Crestone Needle</option>
+                            <option value="Crestone Peak">Crestone Peak</option>
+                            <option value="Culebra Peak">Culebra Peak</option>
+                            <option value="El Diente Peak">El Diente Peak</option>
+                            <option value="Ellingwood Point">Ellingwood Point</option>
+                            <option value="Grays Peak">Grays Peak</option>
+                            <option value="Handies Peak">Handies Peak</option>
+                            <option value="Humboldt Peak">Humboldt Peak</option>
+                            <option value="Huron Peak">Huron Peak</option>
+                            <option value="Kit Carson Peak">Kit Carson Peak</option>
+                            <option value="La Plata Peak">La Plata Peak</option>
+                            <option value="Little Bear Peak">Little Bear Peak</option>
+                            <option value="Longs Peak">Longs Peak</option>
+                            <option value="Maroon Bells">Maroon Bells</option>
+                            <option value="Missouri Mountain">Missouri Mountain</option>
+                            <option value="Mount Antero">Mount Antero</option>
+                            <option value="Mount Belford">Mount Belford</option>
+                            <option value="Mount Bierstadt">Mount Bierstadt</option>
+                            <option value="Mount Bross">Mount Bross</option>
+                            <option value="Mount Cameron">Mount Cameron</option>
+                            <option value="Mount Columbia">Mount Columbia</option>
+                            <option value="Mount Democrat">Mount Democrat</option>
+                            <option value="Mount Elbert">Mount Elbert</option>
+                            <option value="Mount Eolus">Mount Eolus</option>
+                            <option value="Mount Evans">Mount Evans</option>
+                            <option value="Mount Harvard">Mount Harvard</option>
+                            <option value="Mount Lincoln">Mount Lincoln</option>
+                            <option value="Mount Lindsey">Mount Lindsey</option>
+                            <option value="Mount Massive">Mount Massive</option>
+                            <option value="Mount of the Holy Cross">Mount of the Holy Cross</option>
+                            <option value="Mount Oxford">Mount Oxford</option>
+                            <option value="Mount Princeton">Mount Princeton</option>
+                            <option value="Mount Shavano">Mount Shavano</option>
+                            <option value="Mount Sherman">Mount Sherman</option>
+                            <option value="Mount Sneffels">Mount Sneffels</option>
+                            <option value="Mount Wilson">Mount Wilson</option>
+                            <option value="Mount Yale">Mount Yale</option>
+                            <option value="North Eolus">North Eolus</option>
+                            <option value="Pikes Peak">Pikes Peak</option>
+                            <option value="Pyramid Peak">Pyramid Peak</option>
+                            <option value="Quandary Peak">Quandary Peak</option>
+                            <option value="Redcloud Peak">Redcloud Peak</option>
+                            <option value="San Luis Peak">San Luis Peak</option>
+                            <option value="Snowmass Mountain">Snowmass Mountain</option>
+                            <option value="Sunlight Peak">Sunlight Peak</option>
+                            <option value="Sunshine Peak">Sunshine Peak</option>
+                            <option value="Tabeguache Peak">Tabeguache Peak</option>
+                            <option value="Torreys Peak">Torreys Peak</option>
+                            <option value="Uncompahgre Peak">Uncompahgre Peak</option>
+                            <option value="Wetterhorn Peak">Wetterhorn Peak</option>
+                            <option value="Wilson Peak">Wilson Peak</option>
+                            <option value="Windom Peak">Windom Peak</option>
+                        </select>
+                    </div>
 
-      <div class="row">
-        <div class="field">
-          <label for="year">Year</label>
-          <input type="number" id="year" placeholder="e.g. 2019" min="1800" max="2100" required>
-        </div>
-        <div class="field">
-          <label for="month">Month (optional)</label>
-          <input type="number" id="month" min="1" max="12" placeholder="1–12">
-        </div>
-        <div class="field">
-          <label for="day">Day (optional)</label>
-          <input type="number" id="day" min="1" max="31" placeholder="1–31">
-        </div>
-      </div>
+                    <div class="form-row">
+                        <div class="field">
+                            <label for="year">Year</label>
+                            <input type="number" id="year" placeholder="e.g. 2019" min="1800" max="2100" required>
+                        </div>
+                        <div class="field">
+                            <label for="month">Month (optional)</label>
+                            <input type="number" id="month" min="1" max="12" placeholder="1–12">
+                        </div>
+                        <div class="field">
+                            <label for="day">Day (optional)</label>
+                            <input type="number" id="day" min="1" max="31" placeholder="1–31">
+                        </div>
+                    </div>
 
-      <div class="msg" id="existingNote"></div>
+                    <div class="msg" id="existingNote"></div>
 
-      <div class="field">
-        <label for="cause">Cause</label>
-        <select id="cause" required>
-          <option value="">Select a cause…</option>
-          <option value="Fall">Fall</option>
-          <option value="Falling rock/ice">Falling rock/ice</option>
-          <option value="Avalanche">Avalanche</option>
-          <option value="Cardiac event">Cardiac event</option>
-          <option value="Lightning">Lightning</option>
-          <option value="Unclear">Unclear</option>
-        </select>
-      </div>
+                    <div class="field">
+                        <label for="cause">Cause</label>
+                        <select id="cause" required>
+                            <option value="">Select a cause…</option>
+                            <option value="Fall">Fall</option>
+                            <option value="Falling rock/ice">Falling rock/ice</option>
+                            <option value="Avalanche">Avalanche</option>
+                            <option value="Cardiac event">Cardiac event</option>
+                            <option value="Lightning">Lightning</option>
+                            <option value="Unclear">Unclear</option>
+                        </select>
+                    </div>
 
-      <div class="field">
-        <label for="climberName">Name (optional)</label>
-        <input type="text" id="climberName" placeholder="Leave blank if unknown">
-      </div>
+                    <div class="field">
+                        <label for="climberName">Name (optional)</label>
+                        <input type="text" id="climberName" placeholder="Leave blank if unknown">
+                    </div>
 
-      <div class="row">
-        <div class="field">
-          <label for="gender">Gender (optional)</label>
-          <select id="gender">
-            <option value="M" selected>Male</option>
-            <option value="F">Female</option>
-            <option value="">Unknown</option>
-          </select>
-        </div>
-        <div class="field">
-          <label for="age">Age (optional)</label>
-          <select id="age">
-            <option value="">Unknown</option>
-            <option value="<20">Under 20</option>
-            <option value="20-29">20–29</option>
-            <option value="30-39">30–39</option>
-            <option value="40-49">40–49</option>
-            <option value="50-59">50–59</option>
-            <option value="60+">60+</option>
-          </select>
-        </div>
-      </div>
+                    <div class="form-row">
+                        <div class="field">
+                            <label for="gender">Gender (optional)</label>
+                            <select id="gender">
+                                <option value="M" selected>Male</option>
+                                <option value="F">Female</option>
+                                <option value="">Unknown</option>
+                            </select>
+                        </div>
+                        <div class="field">
+                            <label for="age">Age (optional)</label>
+                            <select id="age">
+                                <option value="">Unknown</option>
+                                <option value="<20">Under 20</option>
+                                <option value="20-29">20–29</option>
+                                <option value="30-39">30–39</option>
+                                <option value="40-49">40–49</option>
+                                <option value="50-59">50–59</option>
+                                <option value="60+">60+</option>
+                            </select>
+                        </div>
+                    </div>
 
-      <div class="field">
-        <label for="details">Additional details (optional)</label>
-        <textarea id="details" rows="4" placeholder="Route, conditions, sourcing — anything else worth noting."></textarea>
-      </div>
+                    <div class="field">
+                        <label for="details">Additional details (optional)</label>
+                        <textarea id="details" rows="4" placeholder="Route, conditions, sourcing — anything else worth noting."></textarea>
+                    </div>
 
-      <button type="submit" id="submitIncident">Submit for review</button>
-      <div class="msg" id="formMsg"></div>
-    </form>
+                    <button type="submit" id="submitIncident">Submit for review</button>
+                    <div class="msg" id="formMsg"></div>
+                </form>
 
-    <p class="sub" style="margin-top:16px;">Submissions are reviewed before anything is published — this doesn't go live automatically.</p>
+                <p class="form-note">Submissions are reviewed before anything is published — this doesn't go live automatically.</p>
 
-    <button id="signOut">Sign out</button>
-  </div>
+                <button id="signOut" class="btn-quiet">Sign out</button>
+            </div>
+        </main>
 
-</div>
-
+        <footer>
+            <span>
+                Deaths on Colorado Fourteeners (14ers) · <a href="/">Home</a> · <a href="submit.html">Submit an incident</a> · <a href="contact.html">Contact</a> · <a href="about.html">About</a>
+            </span>
+        </footer>
+    </div>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 <script>
   const { createClient } = supabase;
@@ -526,4 +399,5 @@ const items = data
 </script>
 
 </body>
+
 </html>
