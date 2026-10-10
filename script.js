@@ -8,6 +8,7 @@ import './src/images/icon-mask.png';
 import './src/images/icon-512.png';
 
 
+import './records.json';
 import './favicon.ico';
 import './src/images/icon.svg';
 import './src/images/apple-touch-icon.png';
