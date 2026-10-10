@@ -1691,7 +1691,7 @@ aside {
 .page-lede {
     margin: 0 0 24px;
     padding-bottom: 18px;
-    border-bottom: 1px dotted var(--rust);
+    /* border-bottom: 1px dotted var(--rust); */
     color: var(--ink-soft);
     font-size: 14.5px;
     line-height: 1.5;
