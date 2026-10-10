@@ -125,65 +125,8 @@
     --stretch: stretch;
   }
 }
-@layer password-requirements {
-  #create-password-requirements {
-    font-size: 0.9rem;
-    line-height: 1.4;
-    font-weight: 400;
-    color: #ccc;
-    font-family: "Roboto", sans-serif;
-    z-index: 2000;
-  }
-  #create-password-requirements ul {
-    padding: 0;
-  }
-  #create-password-requirements ul li {
-    color: #eee;
-    margin-bottom: 0.25em;
-    list-style: none;
-  }
-  #create-password-requirements ul li:first-child {
-    margin-bottom: 0.45em;
-  }
-  #create-password-requirements ul li.password-requirement {
-    margin-left: 0;
-    list-style: none;
-    color: #eee;
-    display: grid;
-    grid-template-columns: min-content auto;
-    column-gap: 10px;
-    width: 100%;
-    transition: color var(--duration) var(--ease-in);
-  }
-  #create-password-requirements ul li.password-requirement svg {
-    display: flex;
-    width: 16px;
-  }
-  #create-password-requirements ul li.password-requirement.is--valid {
-    color: var(--placeholder-background-valid);
-  }
-  #create-password-requirements ul li.password-requirement.is--valid .is--valid {
-    fill: var(--placeholder-background-valid);
-  }
-  #create-password-requirements ul li.password-requirement.is--valid .is--invalid {
-    display: none;
-  }
-  #create-password-requirements ul li.password-requirement.is--invalid {
-    color: var(--placeholder-background-invalid);
-  }
-  #create-password-requirements ul li.password-requirement.is--invalid .is--invalid {
-    fill: var(--placeholder-background-invalid);
-  }
-  #create-password-requirements ul li.password-requirement.is--invalid .is--valid {
-    display: none;
-  }
-}
-section {
-  display: grid;
-  min-height: 70vh;
-  position: relative;
-  container-type: inline-size;
-}
+
+
 .form-container {
   grid-column-gap: 1.5em;
   grid-row-gap: 1.5em;
