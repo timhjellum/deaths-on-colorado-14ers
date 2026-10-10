@@ -37,6 +37,11 @@ const config = {
 			chunks: ['pages'],
 		}),
 		new HtmlWebpackPlugin({
+			template: 'submit.html',
+			filename: 'submit.html',
+			chunks: ['pages'],
+		}),
+		new HtmlWebpackPlugin({
 			template: 'map.html',
 			filename: 'map.html',
 		}),
