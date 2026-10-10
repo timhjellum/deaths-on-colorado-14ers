@@ -117,12 +117,11 @@ button {
     font-family: inherit;
 }
 
-:focus-visible {
+/*
+{
     outline: 2px solid var(--sky);
     outline-offset: 2px;
 }
-
-/*
 .wrap {
     max-width: 1180px;
     margin: 0 auto;
