@@ -370,7 +370,9 @@ function formatDate(r) {
 		// Footer used to hardcode "2010–2017" -- drive it off the
 		// same span the Span stat shows instead, so it can't drift
 		// out of date as more years of records get added.
-		document.getElementById("footerSpan").textContent = spanText;
+		// The footer span is optional -- skip it if the footer no longer has one.
+		var footerSpan = document.getElementById("footerSpan");
+		if (footerSpan) footerSpan.textContent = spanText;
 		// Length of the covered period itself (inclusive of both end
 		// years), not how many of those years actually have a
 		// recorded death -- e.g. 1884-2026 is a 143-year span even
