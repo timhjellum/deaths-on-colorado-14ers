@@ -1,4 +1,21 @@
+
+
+@import 'styles/footer.less';
+/*
+@import "styles/chart-cause.less";
+@import "styles/chart-sex.less";
+@import "styles/chart-age.less";
+@import "styles/header.less";
+*/
+@import "styles/base.less";
+/*
+@import "styles/table.less";
+@import "styles/style.less";
+*/
+
 :root {
+	
+	--max-main-width--non-mobile: 1180;
     --ink: #23261f;
     --black-ink: #212121;
     /* #010101 */
@@ -86,36 +103,7 @@
     --shadow: 0 1px 0 rgba(0, 0, 0, 0.3);
 }
 */
-* {
-    box-sizing: border-box;
-}
 
-body {
-    margin: 0;
-    background: var(--panel);
-    color: var(--ink);
-    font-family: var(--font-body);
-    font-size: 15px;
-    line-height: 1.55;
-    -webkit-font-smoothing: antialiased;
-    background-repeat: no-repeat;
-    background-size: contain;
-    background-position-y: top;
-}
-
-
-::selection {
-    background: var(--sky);
-    color: var(--panel-bg);
-}
-
-a {
-    color: var(--sky-ink);
-}
-
-button {
-    font-family: inherit;
-}
 
 /*
 {
@@ -123,7 +111,7 @@ button {
     outline-offset: 2px;
 }
 .wrap {
-    max-width: 1180px;
+    max-width: var(--max-main-width--non-mobile);
     margin: 0 auto;
     padding: 0 28px 64px;
     min-width: 0;
@@ -1474,7 +1462,7 @@ aside {
 @media (min-width: 1024px) {
     .wrap {
         padding: 0 28px 64px;
-        max-width: 1180px;
+        max-width: var(--max-main-width--non-mobile);
     }
 
     h1 img {
@@ -1611,9 +1599,12 @@ aside {
 /* These pages share the main page's tokens, background, panels and
 	footer. Everything here is scoped to body.subpage so the main
 	page is unaffected. */
-.subpage .wrap {
-    max-width: 960px;
-    margin: 0 auto;
+.subpage {
+	.wrap {
+		width: 100%;
+		max-width: calc((252 + var(--max-main-width--non-mobile)) * 1px);
+    	margin: 0 auto;
+	}
 }
 
 .site-brand {

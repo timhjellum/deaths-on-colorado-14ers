@@ -1,0 +1,128 @@
+
+  .footer-container {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    margin: 0 auto;
+    padding: 16px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+//    gap: 40px;
+//gap: 40px;
+    justify-items: center;
+    align-items: end;
+  }
+
+  a {
+	font-family: var(--font-mono);
+	font-style: normal;
+	font-weight: 500;
+  }
+
+
+
+  .coords {
+    margin-top: 16px;
+    font: 400 11px/1.4 var(--mono);
+    color: rgba(143,179,196,.6);
+    display: flex; align-items: center; gap: 8px;
+  }
+  .coords svg { width: 14px; height: 14px; stroke: var(--alpen); }
+
+
+
+  .badge {
+    font: 500 9px/1 var(--mono);
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    padding: 4px 6px;
+    border-radius: 5px;
+    background: rgba(255,179,138,.15);
+    color: var(--alpen);
+    border: 1px solid rgba(255,179,138,.35);
+  }
+  
+  .sar {
+    grid-column: ~"1 / -1";
+    grid-row: 2;
+    margin-top: 22px;
+    padding: 0 16px;
+	font-family: var(--font-mono);
+	font-style: normal;
+	font-weight: 500;
+    font-size: .85rem;
+    color: var(--muted);
+    display: flex; gap: 12px; align-items: flex-start;
+  }
+  .sar svg { width: 22px; height: 22px; flex: none; stroke: var(--alpen); margin-top: 2px; }
+  .sar strong { font-weight: 600; }
+
+  /* ---------- BOTTOM BAR ---------- */
+  .footer-bottom {
+    position: relative; z-index: 1;
+    border-top: 1px solid var(--line);
+    max-width: 1100px; margin: 0 auto;
+    padding: 0 0 16px 0;
+    display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap;
+    font-size: .85rem;
+    color: var(--muted);
+  }
+  //.footer-bottom .meta { font: 400 11px/1 var(--mono); color: rgba(143,179,196,.55); display: flex; gap: 14px; align-items: center; }
+  //.footer-bottom .meta span { display: inline-flex; align-items: center; gap: 6px; }
+  //.footer-bottom .meta svg { width: 12px; height: 12px; stroke: currentColor; }
+
+  /* ---------- BACK TO TOP ---------- */
+  .to-top {
+    position: fixed; right: 22px; bottom: 22px; z-index: 50;
+    width: 52px; height: 52px;
+    border: none; border-radius: 50%;
+    background: rgba(7,26,51,.85);
+    backdrop-filter: blur(8px);
+    cursor: pointer;
+    display: grid; place-items: center;
+    opacity: 0; transform: translateY(16px) scale(.9);
+    pointer-events: none;
+    transition: opacity .3s, transform .3s;
+    box-shadow: 0 10px 30px -10px rgba(0,0,0,.6);
+  }
+  .to-top.show { opacity: 1; transform: none; pointer-events: auto; }
+  .to-top .ring { position: absolute; inset: 0; transform: rotate(-90deg); }
+  .to-top .ring circle { fill: none; stroke-width: 2.5; }
+  .to-top .ring .track { stroke: var(--line); }
+  .to-top .ring .bar { stroke: var(--rust); stroke-linecap: round; transition: stroke-dashoffset .1s linear; }
+  .to-top .chev { width: 20px; height: 20px; stroke: var(--ice); transition: transform .25s; }
+  .to-top:hover .chev { transform: translateY(-3px); }
+  .to-top:focus-visible { outline: 2px solid var(--rust); outline-offset: 3px; }
+
+  /* ---------- TOAST ---------- */
+  .toast {
+    position: fixed; left: 50%; bottom: 28px; z-index: 60;
+    transform: translate(-50%, 30px);
+    padding: 10px 16px;
+    border-radius: 999px;
+    background: var(--ice); color: var(--night);
+    font: 500 13px/1 var(--mono);
+    display: flex; align-items: center; gap: 8px;
+    opacity: 0; pointer-events: none;
+    transition: opacity .3s, transform .35s cubic-bezier(.3,1.5,.5,1);
+  }
+  .toast svg { width: 16px; height: 16px; stroke: #0a8f5a; }
+  .toast.show { opacity: 1; transform: translate(-50%, 0); }
+
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width: 900px) {
+    .footer-container { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 560px) {
+    .site-footer { padding-top: 48px; }
+    .footer-container { grid-template-columns: 1fr; gap: 34px; padding: 0 16px 36px; }
+    .footer-bottom { padding: 0 16px 90px; flex-direction: column; align-items: flex-start; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+    .reveal { opacity: 1; transform: none; }
+  }
+
+

@@ -1,5 +1,6 @@
 import './src/style.css';
 import "./src/scripts/script.js";
+//import "./src/scripts/footer.js";
 
 import './src/images/deaths-on-colorados-fourteeners.svg';
 import './src/images/bg.webp';
