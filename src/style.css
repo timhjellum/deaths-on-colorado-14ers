@@ -1,5 +1,6 @@
 
 
+@import "styles/fonts.less"; /* self-hosted fonts (src/fonts) */
 @import 'styles/footer.less';
 /*
 @import "styles/chart-cause.less";
