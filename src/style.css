@@ -955,6 +955,7 @@ svg#map {
     align-items: center;
     gap: 14px;
     flex-wrap: wrap;
+	padding: 1em 1em 0 1em;
 }
 
 .count-readout {
@@ -1019,6 +1020,7 @@ svg#map {
     display: flex;
     justify-content: flex-end;
     margin-top: 14px;
+		padding: 0 1em 1em 1em;
 }
 
 .table-scroll {
@@ -1699,7 +1701,9 @@ aside {
 }
 
 .subpage footer {
-    max-width: 760px;
+    /*
+	max-width: 760px;
+	*/
     margin-inline: auto;
 }
 
