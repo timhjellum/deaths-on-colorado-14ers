@@ -16,7 +16,9 @@
 
 :root {
 	
-	--max-main-width--non-mobile: 1180;
+	/* Widest the site gets; the page is centred inside it. On the main page
+		this includes the 252px peak sidebar. */
+	--max-page-width: 1280px;
     --ink: #23261f;
     --black-ink: #212121;
     /* #010101 */
@@ -112,7 +114,7 @@
     outline-offset: 2px;
 }
 .wrap {
-    max-width: var(--max-main-width--non-mobile);
+    max-width: var(--max-page-width);
     margin: 0 auto;
     padding: 0 28px 64px;
     min-width: 0;
@@ -255,6 +257,14 @@
 .neatline {
     display: flex;
     align-items: flex-start;
+    /* sidebar + content, never wider than --max-page-width, centred */
+    max-width: var(--max-page-width);
+    margin: 0 auto;
+}
+
+.neatline > .wrap {
+    flex: 1;
+    min-width: 0;
 }
 
 .peak-sidebar {
@@ -1465,7 +1475,6 @@ aside {
 @media (min-width: 1024px) {
     .wrap {
         padding: 0 28px 64px;
-        max-width: var(--max-main-width--non-mobile);
     }
 
     h1 img {
@@ -1605,7 +1614,7 @@ aside {
 .subpage {
 	.wrap {
 		width: 100%;
-		max-width: calc((252 + var(--max-main-width--non-mobile)) * 1px);
+		max-width: var(--max-page-width);
     	margin: 0 auto;
 	}
 }
