@@ -1,6 +1,40 @@
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const fs = require('fs')
+
+// Shared HTML partials. A page template uses one with <%= footer %>.
+// They are re-read on every build, and WatchPartials makes the dev
+// server rebuild when one is edited.
+const PARTIALS = {
+	footer: path.resolve(__dirname, 'src/partials/footer.html'),
+};
+
+function readPartials() {
+	const out = {};
+	for (const [name, file] of Object.entries(PARTIALS)) {
+		out[name] = fs.readFileSync(file, 'utf8');
+	}
+	return out;
+}
+
+// Keeps html-webpack-plugin's own template variables and adds the partials.
+function withPartials(compilation, assets, assetTags, options) {
+	return {
+		compilation,
+		webpackConfig: compilation.options,
+		htmlWebpackPlugin: { tags: assetTags, files: assets, options },
+		...readPartials(),
+	};
+}
+
+class WatchPartials {
+	apply(compiler) {
+		compiler.hooks.afterCompile.tap('WatchPartials', (compilation) => {
+			Object.values(PARTIALS).forEach((file) => compilation.fileDependencies.add(file));
+		});
+	}
+}
 
 const isProduction = process.env.NODE_ENV == 'production';
 
@@ -21,24 +55,29 @@ const config = {
 		hot: true,
 	},
 	plugins: [
+		new WatchPartials(),
 		new HtmlWebpackPlugin({
 			template: 'index.html',
 			filename: 'index.html',
+			templateParameters: withPartials,
 			chunks: ['main'],
 		}),
 		new HtmlWebpackPlugin({
 			template: 'about.html',
 			filename: 'about.html',
+			templateParameters: withPartials,
 			chunks: ['pages'],
 		}),
 		new HtmlWebpackPlugin({
 			template: 'contact.html',
 			filename: 'contact.html',
+			templateParameters: withPartials,
 			chunks: ['pages'],
 		}),
 		new HtmlWebpackPlugin({
 			template: 'submit.html',
 			filename: 'submit.html',
+			templateParameters: withPartials,
 			chunks: ['pages'],
 		}),
 		new HtmlWebpackPlugin({

@@ -14,10 +14,17 @@
   const typed = document.getElementById("typed");
   if (typed) {
     const roles = [
-      "User Experience (UX)",
-      "User Interface (UI)",
-      "Ski Instructor",
-      "❤️ Animals"
+		"❤️ Turtles",
+		"❤️ User Experience (UX)",
+		"❤️ dayta and datta",
+		"I know HTML",
+		"❤️ User Interface (UI)",
+		"I'm the Best Skier on the mountain",
+		"❤️ Animals",
+		"I'm a Navy Veteran",
+		"I almost won a Pac Man tournament",
+		"Lancia Stratos is my dream car",
+		"❤️ 95% of most statistics",
     ];
     if (reduce) {
       typed.textContent = roles[0];
