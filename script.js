@@ -13,6 +13,7 @@ import './records.json';
 import './favicon.ico';
 import './src/images/icon.svg';
 import './src/images/apple-touch-icon.png';
+import './src/images/og-image.jpg';
 import './manifest.webmanifest';
 import './robots.txt';
 import './sitemap.xml';
